@@ -1,0 +1,93 @@
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
+.skillsSection {
+    background-color: rgba($color-primary, 0.1); // Subtle background tint
+}
+
+.contentWrapper {
+   @include section-padding; // Apply padding and max-width
+}
+
+.intro {
+   text-align: center;
+   color: $color-text-dark;
+   margin-bottom: 3rem;
+   font-size: 1.1rem;
+}
+
+.skillsGrid {
+    display: grid;
+    // Responsive grid: 1 column on small, 2 on medium, potentially 3 on large
+    grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+    gap: 2.5rem;
+}
+
+.category {
+    background: linear-gradient(145deg, rgba($color-background, 0.3), rgba($color-primary, 0.2));
+    border: 1px solid rgba($color-accent1, 0.15);
+    padding: 2rem 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: transform $transition-speed ease, box-shadow $transition-speed ease;
+
+    &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba($color-accent1, 0.1);
+        border-color: rgba($color-accent1, 0.3);
+    }
+
+    h3 {
+        color: $color-accent2; // Gold category titles
+        margin-bottom: 1.5rem;
+        text-align: center;
+        font-size: 1.3rem;
+         @include apply-glow($color-accent2, 0.5);
+    }
+
+    ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    li {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.8rem;
+        color: $color-text-medium;
+        font-size: 0.95rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px dashed rgba($color-text-dark, 0.2);
+
+        &:last-child {
+            border-bottom: none;
+        }
+    }
+}
+
+.dots {
+   display: flex;
+   gap: 3px; // Space between dots
+   margin-left: 10px; // Space between name and dots
+}
+
+.dotFilled {
+   color: $color-accent1; // Cyan filled dots
+   text-shadow: $glow-cyan;
+   font-size: 1.1em;
+}
+
+.dotEmpty {
+   color: rgba($color-text-dark, 0.5); // Dim empty dots
+    font-size: 1.1em;
+}
+
+.placeholder {
+  text-align: center;
+  margin-top: 4rem;
+  color: $color-text-dark;
+  font-style: italic;
+  font-size: 0.9rem;
+}

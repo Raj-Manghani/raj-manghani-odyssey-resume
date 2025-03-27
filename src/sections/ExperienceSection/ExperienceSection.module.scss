@@ -1,0 +1,113 @@
+// src/sections/ExperienceSection/ExperienceSection.module.scss
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
+.experienceSection {
+  // Optional: Add a slightly different background if desired
+  // background-color: lighten($color-background, 5%);
+}
+
+.contentWrapper {
+  @include section-padding;
+  position: relative; // Needed for the timeline pseudo-element
+}
+
+.timeline {
+  position: relative;
+  margin-top: 3rem;
+  padding-left: 40px; // Space for the timeline line and markers
+
+  // The vertical timeline bar
+  &::before {
+    content: '';
+    position: absolute;
+    left: 10px; // Position the line
+    top: 10px;
+    bottom: 10px;
+    width: 3px;
+    background: linear-gradient(to bottom, rgba($color-accent1, 0), rgba($color-accent1, 0.5), rgba($color-accent1, 0));
+    border-radius: 2px;
+  }
+}
+
+.timelineItem {
+  position: relative; // For positioning the marker relative to this item
+  margin-bottom: 4rem; // Space between job entries
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.timelineMarker {
+    content: '';
+    position: absolute;
+    left: -36px; // Adjust to center on the timeline line (-padding-left + half-line-width - half-marker-width)
+    top: 8px; // Align vertically with the date/heading start
+    width: 15px;
+    height: 15px;
+    background-color: $color-accent2; // Gold marker
+    border-radius: 50%;
+    border: 3px solid $color-background; // Makes it look like it sits on the line
+    box-shadow: 0 0 10px $color-shadow-gold;
+}
+
+
+.timelineDate {
+  font-family: $font-heading;
+  color: $color-text-dark;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+  letter-spacing: 1px;
+}
+
+.timelineContent {
+  background-color: rgba($color-primary, 0.1);
+  border-left: 4px solid $color-accent1; // Accent border
+  padding: 1.5rem 2rem;
+  border-radius: 0 8px 8px 0; // Rounded corners on one side
+  box-shadow: 0 2px 10px rgba(0,0,0, 0.15);
+
+  h3 {
+    color: $color-accent1; // Cyan title
+    margin-bottom: 0.5rem;
+    font-size: 1.4rem;
+    @include apply-glow($color-accent1, 0.6);
+  }
+
+  .company {
+    color: $color-text-dark;
+    font-style: italic;
+    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
+  }
+
+  ul {
+    list-style: none; // Remove default bullets
+    padding-left: 0;
+  }
+
+  li {
+    color: $color-text-medium;
+    margin-bottom: 0.75rem;
+    line-height: 1.7;
+    position: relative;
+    padding-left: 20px; // Space for custom bullet
+
+    // Custom bullet point (like a small energy pulse)
+    &::before {
+        content: '◇'; // Diamond or use '>'; '»'; '●';
+        position: absolute;
+        left: 0;
+        top: 1px;
+        color: $color-accent2; // Gold bullet
+        font-size: 0.9em;
+        text-shadow: $glow-gold;
+    }
+
+    strong {
+        color: $color-text-light; // Make keywords stand out more
+        font-weight: 700;
+    }
+  }
+}

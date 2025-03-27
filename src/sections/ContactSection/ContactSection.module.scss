@@ -1,0 +1,184 @@
+// src/sections/ContactSection/ContactSection.module.scss
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
+.contactSection {
+    background: linear-gradient(to bottom, rgba($color-background, 0.9), $color-background),
+                radial-gradient(circle at 50% 100%, rgba($color-primary, 0.3), transparent 70%);
+    padding-bottom: $section-padding-vertical * 1.5; // Extra space at the bottom
+}
+
+.contentWrapper {
+  @include section-padding;
+}
+
+.intro {
+   text-align: center;
+   color: $color-text-dark;
+   margin-bottom: 4rem;
+   font-size: 1.1rem;
+   max-width: 700px;
+   margin-left: auto;
+   margin-right: auto;
+}
+
+.contactGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 3rem;
+    align-items: start; // Align items to the top of the grid cells
+}
+
+// Contact Info Styles
+.contactInfo {
+    h3 { // If adding a heading above info items
+       color: $color-accent2;
+       margin-bottom: 1.5rem;
+    }
+}
+
+.infoItem {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    font-size: 1.05rem; // Slightly larger contact info
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+
+    .infoIcon {
+        font-size: 1.6rem;
+        margin-right: 1rem;
+        color: $color-accent1;
+        text-shadow: $glow-cyan;
+        min-width: 30px; // Ensure icons align nicely
+        text-align: center;
+    }
+
+    span:not(.infoIcon) { // The text part
+       color: $color-text-medium;
+    }
+
+    a {
+        color: $color-accent2; // Gold links
+        word-break: break-word; // Prevent long links overflowing
+
+        &:hover {
+            text-decoration: underline;
+            color: lighten($color-accent2, 10%);
+        }
+    }
+}
+
+
+// Form Styles
+.formContainer {
+     background-color: rgba($color-primary, 0.1);
+     border: 1px solid rgba($color-accent1, 0.15);
+     padding: 2rem;
+     border-radius: 8px;
+     box-shadow: 0 4px 15px rgba(0,0,0, 0.2);
+
+     h3 {
+         color: $color-accent2;
+         text-align: center;
+         margin-bottom: 1.5rem;
+         @include apply-glow($color-accent2, 0.5);
+     }
+}
+
+.contactForm {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem; // Space between form groups
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+
+    label {
+        color: $color-text-dark;
+        margin-bottom: 0.5rem;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    input, textarea {
+        background-color: rgba($color-background, 0.5);
+        border: 1px solid rgba($color-text-dark, 0.3);
+        padding: 0.8rem 1rem;
+        border-radius: 4px;
+        color: $color-text-light;
+        font-family: $font-primary;
+        font-size: 1rem;
+        transition: border-color $transition-speed ease, box-shadow $transition-speed ease;
+
+        &:focus {
+            outline: none;
+            border-color: $color-accent1;
+            box-shadow: 0 0 0 2px rgba($color-accent1, 0.3), $glow-cyan;
+        }
+
+         &::placeholder {
+            color: rgba($color-text-dark, 0.7);
+        }
+    }
+
+    textarea {
+        resize: vertical; // Allow vertical resize only
+        min-height: 100px;
+    }
+}
+
+// Submit Button (Warp Core Style)
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 5px $color-accent2, 0 0 10px $color-accent2; opacity: 0.7; }
+  50% { box-shadow: 0 0 10px $color-accent2, 0 0 20px $color-accent2, 0 0 30px $color-accent2; opacity: 1; }
+}
+
+.submitButton {
+    background: linear-gradient(45deg, $color-accent2, darken($color-accent2, 15%));
+    color: $color-background; // Dark text on bright button
+    border: none;
+    padding: 0.9rem 1.8rem;
+    font-family: $font-heading;
+    font-size: 1.1rem;
+    font-weight: 700;
+    border-radius: 5px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: transform $transition-speed-fast ease, box-shadow $transition-speed-fast ease;
+    margin-top: 1rem; // Space above button
+    align-self: center; // Center button
+
+    .buttonGlow { // Pseudo-element for pulse
+        content: '';
+        position: absolute;
+        inset: 0; // Cover entire button
+        border-radius: 5px;
+        box-shadow: 0 0 5px $color-accent2, 0 0 10px $color-accent2;
+        animation: pulseGlow 2.5s infinite ease-in-out;
+        z-index: 1;
+        opacity: 0.7;
+    }
+
+    // Button text needs to be above the glow
+    span:not(.buttonGlow), &::before, &::after { // Target button text content
+       position: relative;
+       z-index: 2;
+    }
+
+
+    &:hover {
+        transform: scale(1.05);
+        box-shadow: 0 5px 15px rgba($color-accent2, 0.4);
+    }
+
+    &:active {
+       transform: scale(1.02);
+    }
+}

@@ -1,0 +1,98 @@
+// src/sections/ProjectsCertsSection/ProjectsCertsSection.module.scss
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
+.projectsCertsSection {
+   background-color: rgba($color-primary, 0.1); // Subtle background tint
+}
+
+.contentWrapper {
+  @include section-padding;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); // Responsive columns
+    gap: 3rem; // Space between columns
+    margin-top: 3rem;
+}
+
+.column {
+    background: linear-gradient(145deg, rgba($color-background, 0.2), rgba($color-primary, 0.15));
+    border: 1px solid rgba($color-accent1, 0.1);
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 3px 12px rgba(0,0,0, 0.15);
+
+    h3 {
+        color: $color-accent2; // Gold heading for columns
+        margin-bottom: 1.5rem;
+        text-align: center;
+        border-bottom: 1px solid rgba($color-accent2, 0.3);
+        padding-bottom: 0.5rem;
+        @include apply-glow($color-accent2, 0.5);
+    }
+}
+
+// Certifications List
+.certList, .projectList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.certItem, .projectItem, .educationInfo {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.2rem;
+    padding-bottom: 0.8rem;
+    border-bottom: 1px dashed rgba($color-text-dark, 0.2);
+    color: $color-text-medium;
+
+    &:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+        padding-bottom: 0;
+    }
+}
+
+.certIcon, .projectIcon, .eduIcon {
+    font-size: 1.5rem; // Adjust icon size
+    margin-right: 1rem;
+    color: $color-accent1; // Cyan icons
+    text-shadow: $glow-cyan;
+}
+
+.certName, .projectLink {
+    flex-grow: 1; // Allow name/link to take up space
+    margin-right: 0.5rem;
+}
+
+.projectLink {
+    color: $color-accent2; // Ensure links are gold
+    font-weight: 600;
+    &:hover {
+        color: lighten($color-accent2, 10%);
+        text-decoration: underline;
+    }
+}
+
+.certYear {
+    color: $color-text-dark;
+    font-size: 0.9em;
+}
+
+// Education specific
+.educationHeading {
+    margin-top: 2.5rem; // Space above Education heading
+}
+
+.educationInfo {
+    p {
+        margin: 0; // Remove default paragraph margin
+        line-height: 1.4;
+    }
+    strong {
+       color: $color-text-light;
+    }
+}
