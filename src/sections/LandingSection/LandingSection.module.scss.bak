@@ -1,0 +1,39 @@
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
+.landingSection {
+  min-height: 100vh; // Full viewport height
+  @include flex-center; // Vertically and horizontally center content
+  text-align: center;
+  padding: 20px $section-padding-horizontal; // Adjust padding
+  opacity: 0; // Start hidden (handled by App.jsx and component useEffect)
+}
+
+.contentWrapper {
+  max-width: 800px; // Limit content width
+}
+
+.name {
+  color: $color-accent1;
+  margin-bottom: 0.75rem;
+  @include apply-glow($color-accent1, 1.2); // Stronger glow for name
+  // Add more complex holographic styles later if desired
+}
+
+.tagline {
+  color: $color-accent2;
+  margin-bottom: 2.5rem;
+  font-size: clamp(1.1rem, 3vw, 1.6rem);
+  font-weight: 400;
+  letter-spacing: 1.5px;
+  @include apply-glow($color-accent2, 0.8);
+}
+
+.summary {
+  color: $color-text-medium;
+  font-size: clamp(1rem, 2.5vw, 1.15rem);
+  line-height: 1.7;
+  max-width: 650px; // Slightly narrower summary
+  margin-left: auto;
+  margin-right: auto;
+}

@@ -2,38 +2,92 @@
 @import '../../styles/mixins';
 
 .landingSection {
-  min-height: 100vh; // Full viewport height
-  @include flex-center; // Vertically and horizontally center content
-  text-align: center;
-  padding: 20px $section-padding-horizontal; // Adjust padding
-  opacity: 0; // Start hidden (handled by App.jsx and component useEffect)
+  min-height: 80vh; // Adjust if needed, less strict than 100vh now
+  @include flex-center;
+  padding-top: $section-padding-vertical * 0.8; // Adjust top padding if navbar exists later
+  padding-bottom: $section-padding-vertical * 0.8;
+  // opacity: 0; // Initial hide handled by App.jsx ScrollTrigger
+  width: 100%; // Ensure section takes full width
+}
+
+// Flex container for Pic + Text
+.introContainer {
+    @include flex-center($direction: column); // Default: stack on small screens
+    gap: 2rem; // Space between pic and text when stacked
+    width: 90%; // Control width
+    max-width: $max-content-width; // Max width from variables
+    margin: 0 auto; // Center container
+
+    @media (min-width: 768px) { // Side-by-side on medium screens and up
+        flex-direction: row;
+        align-items: center; // Align items vertically center
+        gap: 3rem; // More space when side-by-side
+    }
+}
+
+
+.profilePicContainer {
+    flex-shrink: 0; // Prevent image container from shrinking
+    opacity: 0; // Start hidden for GSAP animation
+    transform: translateY(30px); // Start slightly down for GSAP
+
+     @media (min-width: 768px) {
+        order: -1; // Optional: Put picture on the left on wider screens
+    }
+}
+
+.profilePic {
+  display: block;
+  width: 180px; // Adjust size as needed
+  height: 180px;
+  border-radius: 50%; // Make it circular
+  object-fit: cover; // Ensure image covers the area nicely
+  border: 3px solid $color-accent1; // Cyan border
+  box-shadow: 0 0 15px $color-shadow-cyan, 0 0 25px $color-shadow-cyan; // Enhanced glow
+  filter: brightness(1.1) contrast(1.05); // Slightly enhance image
 }
 
 .contentWrapper {
-  max-width: 800px; // Limit content width
+  text-align: center; // Center text when stacked
+  opacity: 0; // Start hidden for GSAP animation
+  transform: translateY(30px); // Start slightly down for GSAP
+
+  @media (min-width: 768px) {
+      text-align: left; // Align left when side-by-side
+  }
 }
 
 .name {
   color: $color-accent1;
-  margin-bottom: 0.75rem;
-  @include apply-glow($color-accent1, 1.2); // Stronger glow for name
-  // Add more complex holographic styles later if desired
+  margin-bottom: 0.5rem; // Reduced margin
+  @include apply-glow($color-accent1, 1);
+  opacity: 0; // Start hidden for sub-animation
+  transform: translateY(20px); // Start slightly down
 }
 
 .tagline {
   color: $color-accent2;
-  margin-bottom: 2.5rem;
-  font-size: clamp(1.1rem, 3vw, 1.6rem);
+  margin-bottom: 1.5rem; // Reduced margin
+  font-size: clamp(1rem, 3vw, 1.4rem);
   font-weight: 400;
-  letter-spacing: 1.5px;
-  @include apply-glow($color-accent2, 0.8);
+  letter-spacing: 1px;
+  @include apply-glow($color-accent2, 0.6);
+   opacity: 0; // Start hidden for sub-animation
+   transform: translateY(20px); // Start slightly down
 }
 
 .summary {
   color: $color-text-medium;
-  font-size: clamp(1rem, 2.5vw, 1.15rem);
-  line-height: 1.7;
-  max-width: 650px; // Slightly narrower summary
-  margin-left: auto;
+  font-size: clamp(0.95rem, 2.5vw, 1.1rem);
+  line-height: 1.6;
+  max-width: 600px; // Limit summary width
+  margin-left: auto; // Center summary text when stacked
   margin-right: auto;
+   opacity: 0; // Start hidden for sub-animation
+   transform: translateY(20px); // Start slightly down
+
+  @media (min-width: 768px) {
+      margin-left: 0; // Align left when side-by-side
+      margin-right: 0;
+  }
 }
