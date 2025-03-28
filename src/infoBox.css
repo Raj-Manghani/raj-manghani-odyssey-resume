@@ -1,0 +1,54 @@
+/* src/infoBox.css */
+
+/* --- Info Box (On Click) --- */
+.infoBox {
+    background-color: rgba(10, 15, 30, 0.85);
+    color: #F0F8FF;
+    padding: 12px 18px;
+    border-radius: 8px;
+    border: 1px solid rgba(0, 255, 255, 0.2);
+    width: 250px;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    backdrop-filter: blur(4px);
+    /* Prevent clicks on info box itself from closing it if needed */
+    /* pointer-events: auto; */
+  }
+  
+  .infoBox h3 {
+    color: #FFD700; font-size: 1.1em; margin-bottom: 8px;
+    border-bottom: 1px solid rgba(255, 215, 0, 0.3); padding-bottom: 4px; text-align: center;
+  }
+  .infoBox p { margin-bottom: 6px; color: #a8b2d1; }
+  .infoBox p:last-child { margin-bottom: 0; }
+  .infoBox strong { color: #00FFFF; }
+  .infoBox em { color: #cccccc; }
+  
+  
+  /* --- Name Label (On Hover) --- */
+  .nameLabel {
+    pointer-events: none; /* Don't block hover-off */
+    white-space: nowrap;
+  }
+  
+  .nameLabel div {
+    background-color: rgba(20, 30, 50, 0.8);
+    color: #00FFFF; /* Cyan name */
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    border: 1px solid rgba(0, 255, 255, 0.3);
+    backdrop-filter: blur(2px);
+    text-align: center; /* Center align content */
+  }
+  
+  /* --- Click Prompt Styling --- */
+  .clickPrompt {
+      display: block; /* Put prompt on a new line */
+      font-size: 0.7em; /* Smaller font size */
+      font-weight: normal; /* Normal weight */
+      color: #FFD700; /* Gold color */
+      margin-top: 2px; /* Small space above */
+      opacity: 0.8; /* Slightly faded */
+  }

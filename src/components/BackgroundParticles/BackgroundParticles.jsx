@@ -27,10 +27,10 @@ const BackgroundParticles = () => {
     fpsLimit: 60, // Keep animations smooth but not excessively resource-intensive
     interactivity: {
       events: {
-        // onClick: { // Example: Add particles on click
-        //   enable: true,
-        //   mode: "push",
-        // },
+        onClick: { // Example: Add particles on click
+          enable: true,
+          mode: "push",
+        },
         onHover: { // Make particles react to hover
           enable: true,
           mode: "bubble", // or "repulse"
@@ -47,7 +47,7 @@ const BackgroundParticles = () => {
         },
          bubble: { // Make particles slightly bigger/brighter on hover
             distance: 200,
-            size: 6,
+            size: 10,
             duration: 2,
             opacity: 0.8,
         },
@@ -80,9 +80,9 @@ const BackgroundParticles = () => {
       number: {
         density: {
           enable: true,
-          area: 1000, // Adjust density
+          area: 800, // Adjust density
         },
-        value: 100, // Number of particles
+        value: 200, // Number of particles
       },
       opacity: {
         value: { min: 0.1, max: 0.6 }, // Random opacity for twinkling effect
@@ -97,10 +97,10 @@ const BackgroundParticles = () => {
         type: "circle",
       },
       size: {
-        value: { min: 0.5, max: 2.5 }, // Random sizes for depth
+        value: { min: 1.5, max: 4.5 }, // Random sizes for depth
         animation: { // Subtle size animation (optional)
             enable: true,
-            speed: 1,
+            speed: 0.01,
             minimumValue: 0.3,
             sync: false,
         },
