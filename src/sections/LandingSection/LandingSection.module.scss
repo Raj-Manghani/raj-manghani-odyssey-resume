@@ -1,93 +1,75 @@
+// src/sections/LandingSection/LandingSection.module.scss
 @import '../../styles/variables';
 @import '../../styles/mixins';
 
 .landingSection {
-  min-height: 80vh; // Adjust if needed, less strict than 100vh now
+  min-height: 100vh;
   @include flex-center;
-  padding-top: $section-padding-vertical * 0.8; // Adjust top padding if navbar exists later
-  padding-bottom: $section-padding-vertical * 0.8;
-  // opacity: 0; // Initial hide handled by App.jsx ScrollTrigger
-  width: 100%; // Ensure section takes full width
+  flex-direction: column;
+  text-align: center;
+  padding-top: 2vh;
+  padding-bottom: 30px;
 }
 
-// Flex container for Pic + Text
-.introContainer {
-    @include flex-center($direction: column); // Default: stack on small screens
-    gap: 2rem; // Space between pic and text when stacked
-    width: 90%; // Control width
-    max-width: $max-content-width; // Max width from variables
-    margin: 0 auto; // Center container
-
-    @media (min-width: 768px) { // Side-by-side on medium screens and up
-        flex-direction: row;
-        align-items: center; // Align items vertically center
-        gap: 3rem; // More space when side-by-side
-    }
-}
-
-
-.profilePicContainer {
-    flex-shrink: 0; // Prevent image container from shrinking
-    opacity: 0; // Start hidden for GSAP animation
-    transform: translateY(30px); // Start slightly down for GSAP
-
-     @media (min-width: 768px) {
-        order: -1; // Optional: Put picture on the left on wider screens
-    }
-}
-
+// Profile Picture Styles
+.profilePicContainer { margin-bottom: 1rem; }
 .profilePic {
-  display: block;
-  width: 180px; // Adjust size as needed
-  height: 180px;
-  border-radius: 50%; // Make it circular
-  object-fit: cover; // Ensure image covers the area nicely
-  border: 3px solid $color-accent1; // Cyan border
-  box-shadow: 0 0 15px $color-shadow-cyan, 0 0 25px $color-shadow-cyan; // Enhanced glow
-  filter: brightness(1.1) contrast(1.05); // Slightly enhance image
-}
-
-.contentWrapper {
-  text-align: center; // Center text when stacked
-  opacity: 0; // Start hidden for GSAP animation
-  transform: translateY(30px); // Start slightly down for GSAP
-
-  @media (min-width: 768px) {
-      text-align: left; // Align left when side-by-side
-  }
+    display: block; width: 225px; height: 225px; border-radius: 50%;
+    object-fit: cover; margin: 0 auto; border: 3px solid rgba($color-accent1, 0.5);
+    box-shadow: 0 0 15px 3px rgba($color-accent1, 0.3);
 }
 
 .name {
-  color: $color-accent1;
-  margin-bottom: 0.5rem; // Reduced margin
-  @include apply-glow($color-accent1, 1);
-  opacity: 0; // Start hidden for sub-animation
-  transform: translateY(20px); // Start slightly down
+  font-size: clamp(2.5rem, 8vw, 4.5rem); color: $color-accent1; margin-bottom: 0.5rem;
+  letter-spacing: 2px; text-shadow: 0 0 10px $color-accent1, 0 0 20px $color-accent1;
 }
 
 .tagline {
-  color: $color-accent2;
-  margin-bottom: 1.5rem; // Reduced margin
-  font-size: clamp(1rem, 3vw, 1.4rem);
-  font-weight: 400;
-  letter-spacing: 1px;
-  @include apply-glow($color-accent2, 0.6);
-   opacity: 0; // Start hidden for sub-animation
-   transform: translateY(20px); // Start slightly down
+  font-size: clamp(1rem, 3vw, 1.5rem); color: $color-accent2; margin-bottom: 1.5rem;
+  font-weight: 300; letter-spacing: 1px; text-shadow: 0 0 5px $color-accent2;
 }
 
-.summary {
-  color: $color-text-medium;
-  font-size: clamp(0.95rem, 2.5vw, 1.1rem);
-  line-height: 1.6;
-  max-width: 600px; // Limit summary width
-  margin-left: auto; // Center summary text when stacked
-  margin-right: auto;
-   opacity: 0; // Start hidden for sub-animation
-   transform: translateY(20px); // Start slightly down
+// Profile Label Container Styles
+.profileLabelContainer {
+    max-width: 600px; width: 90%; margin: 1.5rem auto 0.5rem auto; text-align: left;
+    padding-top: 0; position: relative;
 
-  @media (min-width: 768px) {
-      margin-left: 0; // Align left when side-by-side
-      margin-right: 0;
-  }
+    // Stamp Styling using ::before
+    &.stampRelative::before {
+        --stamp-scale: 2.2; // Stamp Size
+        content: "[PROFESSIONAL PROFILE\A //LEVEL-RMM\A ACCESS GRANTED]";
+        position: absolute; left: 0; top: -625px; // Your updated position
+        transform-origin: top left; transform: scale(var(--stamp-scale)) rotate(-8deg);
+        font-size: 0.6em;
+        // --- Color Change ---
+        color: lighten(red, 10%);                 // <<< RED text color
+        background-color: rgba($color-background, 0.85); // <<< Original dark background
+        border: 1px solid lighten(red, 15%);      // <<< RED border
+        // --- End Color Change ---
+        font-weight: bold; font-family: $font-heading; opacity: 0.9; white-space: pre-wrap;
+        line-height: 1.4; letter-spacing: 1px; border-radius: 3px; text-align: left;
+        z-index: 1;
+         // Optional red glow
+          text-shadow: 0 0 20px rgba(red, 15.0);
+    }
+}
+
+// Label Text Style
+.profileLabel {
+    display: inline-block; font-family: $font-heading; font-size: clamp(1rem, 2.5vw, 1.2rem);
+    color: $color-accent2; letter-spacing: 1px; margin-right: 0.5em;
+}
+
+// Blinking Cursor Style
+.cursor {
+    display: inline-block; font-family: $font-heading; font-size: clamp(1rem, 2.5vw, 1.2rem);
+    color: $color-accent1; animation: blink 1s step-end infinite;
+}
+
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+// Summary Style
+.summary {
+   max-width: 600px; color: $color-text-medium; font-size: 1.1rem;
+   line-height: 1.7; margin: 0.8rem auto 0 auto; text-align: left;
 }

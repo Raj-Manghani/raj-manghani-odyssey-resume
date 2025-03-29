@@ -1,48 +1,48 @@
+// src/sections/SkillsSection/SkillsSection.module.scss
 @import '../../styles/variables';
 @import '../../styles/mixins';
 
 .skillsSection {
-    background-color: rgba($color-primary, 0.1); // Subtle background tint
+    h2 {
+        text-align: center;
+        margin-bottom: 2rem; // Original margin
+    }
 }
 
-.contentWrapper {
-   @include section-padding; // Apply padding and max-width
-}
-
-.intro {
-   text-align: center;
-   color: $color-text-dark;
-   margin-bottom: 3rem;
-   font-size: 1.1rem;
-}
-
+// --- Revert to Grid Layout ---
 .skillsGrid {
     display: grid;
-    // Responsive grid: 1 column on small, 2 on medium, potentially 3 on large
-    grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
-    gap: 2.5rem;
+    // Adjust minmax for desired column width with potentially more columns now
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); // Slightly larger base width maybe?
+    gap: 2rem; // Original gap
+    margin-top: 2rem;
 }
 
+// --- Category Box (Original Grid Item Style) ---
 .category {
-    background: linear-gradient(145deg, rgba($color-background, 0.3), rgba($color-primary, 0.2));
-    border: 1px solid rgba($color-accent1, 0.15);
-    padding: 2rem 1.5rem;
-    border-radius: 8px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    transition: transform $transition-speed ease, box-shadow $transition-speed ease;
+    background-color: rgba($color-primary, 0.1); // Original background
+    border: 1px solid rgba($color-accent1, 0.2); // Original border
+    padding: 1.5rem; // Original padding
+    border-radius: 8px; // Original radius
+    transition: background-color $transition-speed ease, border-color $transition-speed ease;
 
     &:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 25px rgba($color-accent1, 0.1);
-        border-color: rgba($color-accent1, 0.3);
+        background-color: rgba($color-primary, 0.2);
+        border-color: rgba($color-accent1, 0.5);
+        // Remove transform/box-shadow from flex version if desired
+        // transform: translateY(-5px);
+        // box-shadow: 0 6px 20px rgba($color-accent1, 0.15);
     }
 
-    h3 {
-        color: $color-accent2; // Gold category titles
-        margin-bottom: 1.5rem;
-        text-align: center;
-        font-size: 1.3rem;
-         @include apply-glow($color-accent2, 0.5);
+    h3 { // Category Title
+        color: $color-accent2;
+        margin-bottom: 1rem; // Original margin
+        font-size: clamp(1.2rem, 3vw, 1.4rem); // Original smaller H3 size
+        text-shadow: none;
+        // Remove flex alignment from title if not needed
+        // display: flex;
+        // align-items: center;
+        // gap: 0.6rem;
     }
 
     ul {
@@ -52,42 +52,52 @@
     }
 
     li {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 0.8rem;
+        // Revert li layout if flexbox was added previously
+        // display: flex;
+        // justify-content: space-between;
+        // align-items: center;
+        // gap: 1rem;
+        margin-bottom: 0.8rem; // Keep space for meter
         color: $color-text-medium;
-        font-size: 0.95rem;
-        padding-bottom: 0.5rem;
-        border-bottom: 1px dashed rgba($color-text-dark, 0.2);
-
-        &:last-child {
-            border-bottom: none;
-        }
+        font-size: 0.9rem; // Original font size
     }
 }
 
-.dots {
-   display: flex;
-   gap: 3px; // Space between dots
-   margin-left: 10px; // Space between name and dots
+.skillName {
+    display: block; // Ensure name takes its own line if not using flex on li
+    margin-bottom: 0.3rem; // Add space between name and meter
 }
 
-.dotFilled {
-   color: $color-accent1; // Cyan filled dots
-   text-shadow: $glow-cyan;
-   font-size: 1.1em;
+// --- Meter Styling (Keep this part) ---
+.meterContainer {
+    // No flex needed if li is not flex
+    height: 8px;
+    background-color: rgba($color-text-dark, 0.2);
+    border-radius: 4px;
+    overflow: hidden;
+    border: 1px solid rgba($color-text-dark, 0.3);
+    position: relative;
 }
 
-.dotEmpty {
-   color: rgba($color-text-dark, 0.5); // Dim empty dots
-    font-size: 1.1em;
+.meterBar {
+    height: 100%;
+    border-radius: 4px;
+    box-shadow: 0 0 6px 1px rgba($color-accent1, 0.4);
+    transition: width 0.5s ease-out, background 0.5s ease-out;
+
+    &.low {
+        background: linear-gradient(90deg, $color-accent1 0%, lighten(desaturate($color-accent1, 10%), 15%) 100%);
+        box-shadow: 0 0 6px 1px rgba($color-accent1, 0.6);
+    }
+    &.medium {
+        background: linear-gradient(90deg, $color-accent1 0%, $color-accent2 100%);
+        box-shadow: 0 0 7px 1px rgba($color-accent2, 0.5);
+    }
+    &.high {
+        background: linear-gradient(90deg, lighten($color-accent1, 5%) 0%, $color-accent2 75%, orangered 100%);
+        box-shadow: 0 0 8px 1px rgba(orangered, 0.5);
+    }
 }
 
-.placeholder {
-  text-align: center;
-  margin-top: 4rem;
-  color: $color-text-dark;
-  font-style: italic;
-  font-size: 0.9rem;
-}
+// No media query needed if grid handles responsiveness
+// @media (max-width: 600px) { /* ... */ }

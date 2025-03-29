@@ -1,39 +1,36 @@
 // src/components/PlanetSystem/Rings.jsx
 import React from 'react';
 import { useTexture } from '@react-three/drei';
-import * as THREE from 'three'; // Import THREE for DoubleSide
+import * as THREE from 'three';
 
 const Rings = ({
-    textureUrl = null,
-    innerRadius = 3, // Example default inner radius
-    outerRadius = 5, // Example default outer radius
-    tilt = 0 // Default no tilt
+    textureUrl = null, innerRadius = 3, outerRadius = 5,
+    // Removed tilt prop
 }) => {
 
-    // Load ring texture
-    const safeTextureUrl = textureUrl || '/invalid-texture-path.jpg';
-    const texture = useTexture(safeTextureUrl);
-    const textureLoaded = textureUrl && texture;
+    // --- Load Texture Unconditionally using Placeholder ---
+    const safeTextureUrl = textureUrl || '/textures/placeholder.png';
+    const loadedTexture = useTexture(safeTextureUrl);
+    const useLoadedTexture = textureUrl && loadedTexture && loadedTexture.image;
+    const hasTransparency = useLoadedTexture && textureUrl.toLowerCase().endsWith('.png');
 
-    // Check if texture actually loaded and has alpha (transparency)
-    const hasTransparency = textureLoaded // && texture.format === THREE.RGBAFormat; // More precise check if needed
+    // Simple X rotation to make it flat on XZ plane
+    const initialTiltX = Math.PI / 2;
 
     return (
-        <mesh rotation={[tilt, 0, 0]} receiveShadow> {/* Apply tilt, receive shadow */}
-            {/* RingGeometry: innerRadius, outerRadius, thetaSegments */}
+        <mesh rotation={[initialTiltX, 0, 0]} receiveShadow>
             <ringGeometry args={[innerRadius, outerRadius, 64]} />
             <meshStandardMaterial
-                map={textureLoaded ? texture : undefined}
-                color={textureLoaded ? '#FFFFFF' : 'lightgrey'} // Fallback color
-                side={THREE.DoubleSide} // Make visible from both sides
-                transparent={hasTransparency} // Enable transparency if texture likely has it
-                alphaTest={hasTransparency ? 0.1 : 0} // Avoid rendering fully transparent pixels (adjust threshold if needed)
-                opacity={hasTransparency ? 0.9 : 1.0} // Slight opacity adjustment if transparent
+                map={useLoadedTexture ? loadedTexture : undefined}
+                color={useLoadedTexture ? '#FFFFFF' : 'lightgrey'}
+                side={THREE.DoubleSide}
+                transparent={hasTransparency}
+                alphaTest={hasTransparency ? 0.1 : 0}
+                opacity={1.0}
                 roughness={0.8}
                 metalness={0.2}
             />
         </mesh>
     );
 };
-
 export default Rings;

@@ -1,9 +1,11 @@
 .
 ├── add_stars_component.sh
+├── debug.sh
 ├── dir_tree.txt
 ├── eslint.config.js
 ├── .git
 │   ├── branches
+│   ├── COMMIT_EDITMSG
 │   ├── config
 │   ├── description
 │   ├── HEAD
@@ -32,8 +34,108 @@
 │   │       │   └── main
 │   │       └── remotes
 │   │           └── origin
-│   │               └── HEAD
+│   │               ├── HEAD
+│   │               └── main
 │   ├── objects
+│   │   ├── 03
+│   │   │   └── d0094c362598f727b55e60a2ddd90ab5150f66
+│   │   ├── 06
+│   │   │   └── 11d47041ed17edbab7f107048b4fb44673a8f2
+│   │   ├── 09
+│   │   │   └── a804b519686ab695364cd1eba3475bf3353923
+│   │   ├── 10
+│   │   │   └── 19e23fb772125d41e67273333760abd2836a1b
+│   │   ├── 15
+│   │   │   └── 493388f870f5471c69c95fe61212122b3fb0c2
+│   │   ├── 16
+│   │   │   └── 86ae98cd9ee807092137e508c8be1e0886215d
+│   │   ├── 19
+│   │   │   └── 051fcb20a7b9869025252daf9c317c384d0359
+│   │   ├── 1d
+│   │   │   └── 1463a97bb84a2f89118c92e7ab73014363a56b
+│   │   ├── 29
+│   │   │   └── 371a714eead7ff6d4963b3c472784fd394314a
+│   │   ├── 30
+│   │   │   └── e7ac5540e5afb7d997034f5c51bc44a0d8d321
+│   │   ├── 34
+│   │   │   └── edb46ea398d5239aa854bbdd4ee942ca1fc82d
+│   │   ├── 38
+│   │   │   └── 0902c0c55b3f0b2254952b05d0a358b5568337
+│   │   ├── 4a
+│   │   │   └── f0b40bb981c7b74f736ab66585980587c74900
+│   │   ├── 50
+│   │   │   └── 6502ccbb12fc5aa3cd5b66544f4161de634923
+│   │   ├── 53
+│   │   │   └── 2e811aec82f94c67af5cf30e38bf0939ee7348
+│   │   ├── 58
+│   │   │   └── ed9ca069327155f5ea336aacfadb2fae336df1
+│   │   ├── 5d
+│   │   │   └── c930544f34ec24fc8a8063cb06768a71c4d180
+│   │   ├── 5f
+│   │   │   ├── 3289cf395ac02b80b4d591ae4eac54518335d5
+│   │   │   └── a41c7fb001157f997ef958a7e53f5ca85f353a
+│   │   ├── 66
+│   │   │   └── c23b9cd83d9d4143aa008f37b37b3384dfd65a
+│   │   ├── 6c
+│   │   │   └── dcffea631a25e344e4ed68f3028fef1e554870
+│   │   ├── 73
+│   │   │   ├── c03fb912e507d50751347447e438cd83e0d4cb
+│   │   │   └── cb9692f96aa4b687d069ccff87f5704a673b48
+│   │   ├── 76
+│   │   │   └── e12a4cbf8afb9f16c943b0834c75419b394982
+│   │   ├── 7d
+│   │   │   └── 5e852b8dfde92718e8e1186486cab10651b806
+│   │   ├── 81
+│   │   │   └── a8a02837cf124efab761c3929c94911be5e141
+│   │   ├── 8a
+│   │   │   ├── 1de866732c0ca71d082e7a0c40bd111c9d0f56
+│   │   │   └── 84271221fa3f66db9e9cb747b6cd3734a14b43
+│   │   ├── 96
+│   │   │   └── b0afb2b0b6c3d062aa6c569c463dfb6c37f543
+│   │   ├── 9d
+│   │   │   └── 787d85bb457aa5d6f1e4cacbd09bb187907e53
+│   │   ├── 9f
+│   │   │   └── 8a99d9d0029ca2164a9b1136a8fd006e1c7638
+│   │   ├── a0
+│   │   │   └── a56e9546830d67025e1f065ca9bb0839cfe5fe
+│   │   ├── a4
+│   │   │   └── 5fa26511f7a2e0a4eddff53933734a924712e5
+│   │   ├── a9
+│   │   │   └── 7f5d7264ff08dca02ecd46b9996d91b4158c1d
+│   │   ├── b0
+│   │   │   └── 774f9df473ade647a593d9294e93801e8a1fa0
+│   │   ├── bf
+│   │   │   └── 2cdade62df0b00342b820100ba2ee377e54328
+│   │   ├── c1
+│   │   │   └── f16164f9d589d12f1ebb252259f635ea6e18ec
+│   │   ├── c7
+│   │   │   └── 4b7e47660f5b3f4488ef85693046a3d07718d1
+│   │   ├── cb
+│   │   │   └── e2d27dec800e5f686ff8403051c9a2cf72f027
+│   │   ├── ce
+│   │   │   └── c3a238ccb4badb24ce62f9b38bfc29972a26e9
+│   │   ├── d0
+│   │   │   ├── abf4c1c95315a3168f5342712a8dfd3357160d
+│   │   │   └── c3cf2115c548903a0b056a2388d7b35be50615
+│   │   ├── d3
+│   │   │   └── 05f302d057c8d0cb213370d5257e844c2ffada
+│   │   ├── d4
+│   │   │   └── 9645ea94f7f3274d56b13324aaed0ee4bba43f
+│   │   ├── dc
+│   │   │   └── 5b9ea804a838ebcc57148c45f3d4f2c8c12608
+│   │   ├── de
+│   │   │   └── d3679ebccdb97d064ed2e7532d36b683fabe77
+│   │   ├── e1
+│   │   │   ├── 7a0cb33d7683bf4b8029e221d898779bbe2328
+│   │   │   └── c00bc9ab4458477d8e6bf15f7b91f11e5efc7f
+│   │   ├── e8
+│   │   │   └── 232bcf62b4d37f3e81e0793c2899e4669e76ed
+│   │   ├── ea
+│   │   │   └── e1418893ebd251bce627089a86f465477d30e6
+│   │   ├── f1
+│   │   │   └── d7d54f55bbe4cb99bf0f768959a6a0be431449
+│   │   ├── f3
+│   │   │   └── 94c941bdb5d360dcdfba6ff43b27fdd2e284e8
 │   │   ├── info
 │   │   └── pack
 │   │       ├── pack-87bd7555572f7f5cc196116a9f234d0b621191ba.idx
@@ -45,8 +147,10 @@
 │       │   └── main
 │       ├── remotes
 │       │   └── origin
-│       │       └── HEAD
+│       │       ├── HEAD
+│       │       └── main
 │       └── tags
+│           └── v0.2.0
 ├── .gitignore
 ├── index.html
 ├── LICENSE
@@ -2505,12 +2609,7 @@
 │   │   │   │       ├── win_utils.cc
 │   │   │   │       └── win_utils.hh
 │   │   │   └── wrapper.js
-│   │   ├── watcher-linux-x64-glibc
-│   │   │   ├── LICENSE
-│   │   │   ├── package.json
-│   │   │   ├── README.md
-│   │   │   └── watcher.node
-│   │   └── watcher-linux-x64-musl
+│   │   └── watcher-linux-x64-glibc
 │   │       ├── LICENSE
 │   │       ├── package.json
 │   │       ├── README.md
@@ -2714,6 +2813,24 @@
 │   │   ├── client.react-server.js
 │   │   ├── index.js
 │   │   ├── LICENSE
+│   │   ├── node_modules
+│   │   │   └── scheduler
+│   │   │       ├── cjs
+│   │   │       │   ├── scheduler.development.js
+│   │   │       │   ├── scheduler.native.development.js
+│   │   │       │   ├── scheduler.native.production.js
+│   │   │       │   ├── scheduler.production.js
+│   │   │       │   ├── scheduler-unstable_mock.development.js
+│   │   │       │   ├── scheduler-unstable_mock.production.js
+│   │   │       │   ├── scheduler-unstable_post_task.development.js
+│   │   │       │   └── scheduler-unstable_post_task.production.js
+│   │   │       ├── index.js
+│   │   │       ├── index.native.js
+│   │   │       ├── LICENSE
+│   │   │       ├── package.json
+│   │   │       ├── README.md
+│   │   │       ├── unstable_mock.js
+│   │   │       └── unstable_post_task.js
 │   │   ├── package.json
 │   │   ├── profiling.js
 │   │   ├── profiling.react-server.js
@@ -3355,14 +3472,10 @@
 │   │   ├── package.json
 │   │   └── readme.md
 │   ├── @rollup
-│   │   ├── rollup-linux-x64-gnu
-│   │   │   ├── package.json
-│   │   │   ├── README.md
-│   │   │   └── rollup.linux-x64-gnu.node
-│   │   └── rollup-linux-x64-musl
+│   │   └── rollup-linux-x64-gnu
 │   │       ├── package.json
 │   │       ├── README.md
-│   │       └── rollup.linux-x64-musl.node
+│   │       └── rollup.linux-x64-gnu.node
 │   ├── rollup
 │   │   ├── dist
 │   │   │   ├── bin
@@ -3394,14 +3507,6 @@
 │   │   │       ├── watch-cli.js
 │   │   │       └── watch.js
 │   │   ├── LICENSE.md
-│   │   ├── node_modules
-│   │   │   └── @types
-│   │   │       └── estree
-│   │   │           ├── flow.d.ts
-│   │   │           ├── index.d.ts
-│   │   │           ├── LICENSE
-│   │   │           ├── package.json
-│   │   │           └── README.md
 │   │   ├── package.json
 │   │   └── README.md
 │   ├── sass
@@ -4733,10 +4838,6 @@
 │   │   │   ├── package.json
 │   │   │   ├── README.md
 │   │   │   └── swc.linux-x64-gnu.node
-│   │   ├── core-linux-x64-musl
-│   │   │   ├── package.json
-│   │   │   ├── README.md
-│   │   │   └── swc.linux-x64-musl.node
 │   │   ├── counter
 │   │   │   ├── CHANGELOG.md
 │   │   │   ├── index.js
@@ -10819,7 +10920,7 @@
 │   │   │   │       │   ├── BoxLineGeometry.d.ts
 │   │   │   │       │   ├── ConvexGeometry.d.ts
 │   │   │   │       │   ├── DecalGeometry.d.ts
-│   │   │   │       │   ├── ParametricGeometries.d.ts
+│   │   │   │       │   ├── ParametricFunctions.d.ts
 │   │   │   │       │   ├── ParametricGeometry.d.ts
 │   │   │   │       │   ├── RoundedBoxGeometry.d.ts
 │   │   │   │       │   ├── TeapotGeometry.d.ts
@@ -11550,6 +11651,7 @@
 │   │   │       │       ├── ArrayElementNode.d.ts
 │   │   │       │       ├── ConvertNode.d.ts
 │   │   │       │       ├── CubeMapNode.d.ts
+│   │   │       │       ├── DebugNode.d.ts
 │   │   │       │       ├── Discard.d.ts
 │   │   │       │       ├── EquirectUVNode.d.ts
 │   │   │       │       ├── FunctionOverloadingNode.d.ts
@@ -11983,26 +12085,18 @@
 │   │   └── deps
 │   │       ├── chunk-2OLFQOK4.js
 │   │       ├── chunk-2OLFQOK4.js.map
+│   │       ├── chunk-5VIJIO5P.js
+│   │       ├── chunk-5VIJIO5P.js.map
 │   │       ├── chunk-G3PMV62Z.js
 │   │       ├── chunk-G3PMV62Z.js.map
-│   │       ├── chunk-HADTWQBZ.js
-│   │       ├── chunk-HADTWQBZ.js.map
-│   │       ├── chunk-LJ7ACCLW.js
-│   │       ├── chunk-LJ7ACCLW.js.map
-│   │       ├── chunk-LZQLY3ZQ.js
-│   │       ├── chunk-LZQLY3ZQ.js.map
-│   │       ├── chunk-Q5B56BVT.js
-│   │       ├── chunk-Q5B56BVT.js.map
+│   │       ├── chunk-MJNCUEZK.js
+│   │       ├── chunk-MJNCUEZK.js.map
+│   │       ├── chunk-R3FYTUUQ.js
+│   │       ├── chunk-R3FYTUUQ.js.map
+│   │       ├── chunk-UGC3UZ7L.js
+│   │       ├── chunk-UGC3UZ7L.js.map
 │   │       ├── chunk-WT3DKMOI.js
 │   │       ├── chunk-WT3DKMOI.js.map
-│   │       ├── chunk-YAO5MN6X.js
-│   │       ├── chunk-YAO5MN6X.js.map
-│   │       ├── chunk-YJYY6GXC.js
-│   │       ├── chunk-YJYY6GXC.js.map
-│   │       ├── gsap.js
-│   │       ├── gsap.js.map
-│   │       ├── gsap_ScrollTrigger.js
-│   │       ├── gsap_ScrollTrigger.js.map
 │   │       ├── hls-D24WAOWI.js
 │   │       ├── hls-D24WAOWI.js.map
 │   │       ├── _metadata.json
@@ -12019,12 +12113,8 @@
 │   │       ├── @react-three_drei.js.map
 │   │       ├── @react-three_fiber.js
 │   │       ├── @react-three_fiber.js.map
-│   │       ├── react-tsparticles.js
-│   │       ├── react-tsparticles.js.map
 │   │       ├── three.js
 │   │       ├── three.js.map
-│   │       ├── tsparticles-slim.js
-│   │       ├── tsparticles-slim.js.map
 │   │       ├── vision_bundle-OMLDC4S3.js
 │   │       └── vision_bundle-OMLDC4S3.js.map
 │   ├── vite
@@ -12220,6 +12310,10 @@
 ├── src
 │   ├── App.jsx
 │   ├── App.jsx.bak
+│   ├── App.jsx.bak.1743195691
+│   ├── App.jsx.bak.restore_minimal.1743277532
+│   ├── App.jsx.bak.test_skybox.1743277363
+│   ├── App.jsx.bak.test_skybox_only.1743277771
 │   ├── assets
 │   │   └── profile-pic.jpg
 │   ├── components
@@ -12266,6 +12360,7 @@
 │       ├── mixins.scss
 │       └── _variables.scss
 ├── update_resume_v2.sh
-└── vite.config.js
+├── vite.config.js
+└── z-script.sh
 
-1619 directories, 10650 files
+1663 directories, 10701 files

@@ -1,0 +1,102 @@
+// src/App.jsx
+import React, { useEffect, Suspense, useRef, useState, useMemo } from 'react';
+import { Canvas } from '@react-three/fiber';
+import { OrbitControls } from '@react-three/drei'; // Keep controls
+import * as THREE from 'three';
+
+// --- REMOVED ALL 3D COMPONENT IMPORTS (except OrbitControls) ---
+// import TwinklingStars from './components/TwinklingStars/TwinklingStars';
+// import PlanetSystem from './components/PlanetSystem/PlanetSystem';
+// import FlyingObjects from './components/FlyingObjects/FlyingObjects';
+// import AsteroidField from './components/AsteroidField/AsteroidField';
+// import Skybox component definition removed
+
+// --- Section Imports - KEEP THESE ---
+import LandingSection from './sections/LandingSection/LandingSection';
+import SkillsSection from './sections/SkillsSection/SkillsSection';
+import ExperienceSection from './sections/ExperienceSection/ExperienceSection';
+import ProjectsCertsSection from './sections/ProjectsCertsSection/ProjectsCertsSection';
+import TechExpertiseSection from './sections/TechExpertiseSection/TechExpertiseSection';
+import ContactSection from './sections/ContactSection/ContactSection';
+
+import './infoBox.css'; // Keep CSS import
+
+// --- REMOVED planetData ---
+
+// --- Main App Component ---
+function App() {
+  const [showResume, setShowResume] = useState(true); // Start visible
+
+  // Simplified Menu click handler
+  const handleMenuClick = (e) => {
+    const targetId = e.target.getAttribute('href');
+    const targetElement = document.querySelector(targetId);
+    if (!targetElement) return;
+    if (!showResume) { setShowResume(true); e.preventDefault(); requestAnimationFrame(() => { setTimeout(() => { targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 50); }); }
+  };
+
+  console.log("Rendering App (Minimal) - showResume:", showResume);
+
+  return (
+    <div className="app-container">
+        {/* --- Header --- */}
+        <header className="app-header">
+            <nav>
+                <a href="#about" onClick={handleMenuClick}>About</a>
+                <a href="#skills" onClick={handleMenuClick}>Skills</a>
+                <a href="#experience" onClick={handleMenuClick}>Experience</a>
+                <a href="#projects" onClick={handleMenuClick}>Projects</a>
+                <a href="#expertise" onClick={handleMenuClick}>Expertise</a>
+                <a href="#contact" onClick={handleMenuClick}>Contact</a>
+            </nav>
+        </header>
+
+        {/* --- Toggle Button --- */}
+        <button
+            className="toggle-view-button"
+            onClick={() => setShowResume(!showResume)}
+        >
+            {showResume ? 'Explore Solar System' : 'Show Resume'}
+        </button>
+
+        {/* --- Controls Info (Conditional) --- */}
+        {!showResume && (
+            <div className="controls-info">
+                 {/* Content removed - just check visibility */}
+            </div>
+        )}
+
+        {/* --- R3F Canvas (Minimal Content) --- */}
+        <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', zIndex: 0 }}>
+            <Canvas shadows camera={{ position: [0, 10, 20], fov: 60 }}>
+                {/* Keep controls */}
+                <OrbitControls enableDamping dampingFactor={0.1} />
+
+                {/* Keep basic lighting ONLY */}
+                <ambientLight intensity={0.7} />
+                <directionalLight position={[10, 10, 5]} intensity={1.0} />
+
+                {/* --- NO 3D components rendered inside Canvas for this test --- */}
+                <Suspense fallback={null}><Skybox /></Suspense>
+                {/* <Suspense fallback={null}> ... Stars/Asteroids/Planets ... </Suspense> */}
+
+            </Canvas>
+        </div>
+        {/* --- End R3F Canvas --- */}
+
+        {/* --- Conditionally Rendered Resume Content --- */}
+        {showResume && (
+            <main>
+                <LandingSection id="about" />
+                <SkillsSection id="skills" />
+                <TechExpertiseSection id="expertise" />
+                <ExperienceSection id="experience" />
+                <ProjectsCertsSection id="projects" />
+                <ContactSection id="contact" />
+            </main>
+        )}
+        {/* --- End Resume Content --- */}
+    </div>
+  );
+}
+export default App;

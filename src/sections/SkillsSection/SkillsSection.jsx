@@ -1,78 +1,62 @@
+// src/sections/SkillsSection/SkillsSection.jsx
 import React from 'react';
-import styles from './SkillsSection.module.scss';
+import styles from './SkillsSection.module.scss'; // Will point to the Grid CSS version
 
-// Data - move this to a separate file later if it grows
-const skillCategories = [
-  {
-    title: 'Cloud/AI',
-    skills: [
-      { name: 'AI (Copilot/Grok)', level: 5 }, { name: 'Ollama', level: 4 },
-      { name: 'AWS', level: 4 }, { name: 'Azure', level: 3 }, { name: 'GCP', level: 3 },
-    ]
-  },
-  {
-    title: 'Platforms/App Highlights',
-    skills: [
-      { name: 'Linux', level: 5 }, { name: 'Windows 7/10/11', level: 5 },
-      { name: 'Docker', level: 5 }, { name: 'GitHub', level: 5 },
-      { name: 'MS Office Suite', level: 5 }, { name: 'iOS', level: 5 },
-      { name: 'VMware vSphere', level: 5 }, { name: 'Proxmox', level: 5 },
-      { name: 'Apache', level: 4 }, { name: 'Wordpress', level: 4 },
-      { name: 'Quickbase CRM', level: 5 }, { name: 'Windows Server 20XX', level: 4 },
-      { name: 'MacOS', level: 4 }, { name: 'Kubernetes', level: 3 },
-    ]
-  },
-  {
-    title: 'Scripting/Automation',
-    skills: [
-        { name: 'Ansible', level: 5 }, { name: 'Terraform', level: 4 },
-        { name: 'Bash', level: 5 }, { name: 'Python', level: 4 },
-        { name: 'yaml/json/php/xml', level: 5 }, { name: 'Powershell', level: 4 },
-        { name: 'API debug', level: 4 },
-    ]
-  },
-  {
-    title: 'Networking/Security/Monitoring',
-    skills: [
-       { name: 'TCP/IP/DNS', level: 5 }, { name: 'Encryption/Certificates', level: 5 },
-       { name: 'Firewalls', level: 5 }, { name: 'SELinux/AppArmor', level: 5 },
-       { name: 'ACLs/Perm', level: 5 }, { name: 'Active Directory/GPO', level: 5 },
-       { name: 'ELK Stack', level: 3 }, { name: 'Prometheus', level: 5 },
-    ]
-  }
-];
+// Helper function to parse skill level from dot string
+const parseSkillLevel = (dotString) => {
+  if (!dotString) return 0;
+  const filledDots = (dotString.match(/●/g) || []).length;
+  return (filledDots / 5) * 100;
+};
 
-// Simple component for rendering proficiency dots
-const ProficiencyDots = ({ level }) => (
-  <span className={styles.dots}>
-    {[...Array(5)].map((_, i) => (
-      <span key={i} className={i < level ? styles.dotFilled : styles.dotEmpty}>●</span>
-    ))}
-  </span>
-);
+// Helper function to get meter class based on percentage
+const getMeterClass = (percentage) => {
+    if (percentage <= 40) { return styles.low; }
+    else if (percentage <= 75) { return styles.medium; }
+    else { return styles.high; }
+};
 
 const SkillsSection = ({ id }) => {
+  // Data structure includes your updated Cloud/AI list
+  const skillsData = {
+    cloudAI: { title: "Cloud / AI", items: [ "Gemini AI Studio ●●●●●", "Copilot ●●●●●", "Grok ●●●●●", "Perplexity ●●●●●", "Ollama ●●●●○", "AWS ●●●●○", "Azure ●●●○○", "GCP ●●●○○", "Anthropic ●●●○○", "Render ●●●○○", "Cloudflare ●●●○○", "Digital Ocean ●●●○○", "Linode ●●●○○", ] },
+    platforms: { title: "Platforms / Apps", items: [ "Linux ●●●●●", "Windows 7/10/11 ●●●●●", "Docker ●●●●●", "GitHub ●●●●●", "MS Office Suite ●●●●●", "iOS ●●●●●", "VMware vSphere ●●●●●", "Proxmox ●●●●●", "Quickbase CRM ●●●●●", "Wordpress ●●●●○", "Apache ●●●○○",  "Windows Server 20XX ●●●○○", "MacOS ●●●○○", "Kubernetes ●●●○○", ] },
+    scripting: { title: "Coding / Automation", items: [ "Ansible ●●●●●", "Yaml/json/php/xml ●●●●●", "Terraform ●●●●●", "Bash ●●●●●", "Python ●●●●●", "Powershell ●●●●●", "JupyterLab/Notebook ●●●●●", "API debug ●●●○○", ] },
+    networking: { title: "Networking / Security / Monitoring", items: [ "TCP/IP/DNS ●●●●●", "Encryption/Certificates ●●●●●", "Firewalls ●●●●●", "SELinux/AppArmor ●●●●●", "ACLs/Perm ●●●●●", "Active Directory/GPO ●●●●●", "Prometheus ●●●●○", "ELK Stack ●●●○○"] }
+  };
+
   return (
-    <section id={id} className={`${styles.skillsSection} section-fade-in`}>
-      <div className={styles.contentWrapper}>
-        <h2>Skills Matrix</h2>
-        <p className={styles.intro}>Exploring the technical constellations of my expertise.</p>
-         <div className={styles.skillsGrid}>
-          {skillCategories.map(category => (
-            <div key={category.title} className={styles.category}>
-              <h3>{category.title}</h3>
-              <ul>
-                {category.skills.map(skill => (
-                  <li key={skill.name}>
-                    <span>{skill.name}</span>
-                    <ProficiencyDots level={skill.level} />
+    <section id={id} className={styles.skillsSection}>
+      <h2>Core Systems & Modules: Skill Matrix</h2>
+      {/* Revert container class name if needed, or keep if CSS targets it */}
+      <div className={styles.skillsGrid}> {/* Using skillsGrid class name */}
+        {Object.values(skillsData).map((category) => (
+          <div key={category.title} className={styles.category}>
+            <h3>{category.title}</h3>
+            <ul>
+              {category.items.map((itemString, index) => {
+                const parts = itemString.split('●')[0].split('○')[0].trim();
+                const skillName = parts || itemString;
+                const dots = itemString.substring(skillName.length).trim();
+                const levelPercentage = parseSkillLevel(dots);
+                const meterClass = getMeterClass(levelPercentage);
+
+                return (
+                  // Structure within li remains the same (name + meter)
+                  <li key={index}>
+                    <span className={styles.skillName}>{skillName}</span>
+                    <div className={styles.meterContainer}>
+                      <div
+                        className={`${styles.meterBar} ${meterClass}`}
+                        style={{ width: `${levelPercentage}%` }}
+                      ></div>
+                    </div>
                   </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-        <p className={styles.placeholder}>[Interactive 3D visualization planned for future iteration]</p>
+                );
+              })}
+            </ul>
+          </div>
+        ))}
       </div>
     </section>
   );

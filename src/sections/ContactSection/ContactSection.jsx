@@ -59,6 +59,10 @@ const ContactSection = ({ id }) => {
                      <span className={styles.infoIcon}>🔗</span>
                     <a href="https://www.linkedin.com/in/raj-manghani/" target="_blank" rel="noopener noreferrer">linkedin.com/in/raj-manghani</a>
                  </div>
+                 <div className={styles.infoItem}>
+                     <span className={styles.infoIcon}>🔗</span>
+                    <a href="https://github.com/Raj-Manghani" target="_blank" rel="noopener noreferrer">github.com/Raj-Manghani</a>
+                 </div>
             </div>
 
             {/* Contact Form Placeholder */}

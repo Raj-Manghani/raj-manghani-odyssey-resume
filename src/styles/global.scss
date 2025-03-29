@@ -1,46 +1,52 @@
 // src/styles/global.scss
 
+// <<< ENSURE IMPORTS ARE AT THE VERY TOP >>>
+@import 'variables'; // Defines $color-background etc.
+@import 'mixins';    // Defines @include apply-glow etc.
+
+// Import Google Fonts (can come after SCSS imports)
 @import url('https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;700&family=Orbitron:wght@400;700&display=swap');
-@import 'variables';
-@import 'mixins';
+
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; font-size: 16px; }
 
 body {
-  background-color: $color-background; color: $color-text-light; font-family: $font-primary;
+  background-color: $color-background; // Use variable AFTER import
+  color: $color-text-light;
+  font-family: $font-primary;
   line-height: 1.6; overflow-y: auto; overflow-x: hidden;
-  -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; background: $color-background;
+  -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+  background: $color-background; // Fallback
 }
 
-// Main Content Container
 main {
-  position: relative;
-  z-index: 1000; // <<< HIGH Z-INDEX
-  pointer-events: none; // <<< Let clicks through container
-  width: 100%; max-width: 850px;
-  margin: 10vh auto 5vh auto; padding: 0 1rem;
+  position: relative; z-index: 1000 !important; pointer-events: auto !important;
+  width: 100%; max-width: 850px; margin: 10vh auto 5vh auto; padding: 0 1rem;
 }
-
-// Particle Background Styling (If used)
-#tsparticles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
 
 // Typography
-h1, h2, h3, h4, h5, h6 { font-family: $font-heading; color: $color-accent1; margin-bottom: 1rem; font-weight: 700; @include apply-glow($color-accent1, 0.5); }
-h1 { font-size: clamp(2.2rem, 5vw, 3.5rem); } h2 { font-size: clamp(1.6rem, 4vw, 2.5rem); } h3 { font-size: clamp(1.3rem, 3vw, 1.8rem); }
+h1, h2, h3, h4, h5, h6 {
+    font-family: $font-heading; color: $color-accent1; margin-bottom: 1rem;
+    font-weight: 700; @include apply-glow($color-accent1, 0.5); // Use mixin AFTER import
+}
+h1 { font-size: clamp(2.2rem, 5vw, 3.5rem); }
+h2 { font-size: clamp(1.6rem, 4vw, 2.5rem); }
+h3 { font-size: clamp(1.3rem, 3vw, 1.8rem); }
+
 p { margin-bottom: 1rem; color: $color-text-medium; max-width: 75ch; }
 a { color: $color-accent2; text-decoration: none; position: relative; transition: color $transition-speed ease; &:hover { color: lighten($color-accent2, 15%); text-shadow: $glow-gold; } }
 ul, ol { list-style-position: inside; padding-left: 1.2em; margin-bottom: 1rem; }
 li { margin-bottom: 0.5rem; color: $color-text-medium; }
 
-// Base Section Styling
+// Section Styling
 section {
-  pointer-events: auto; // <<< Allow interaction with section content
-  margin-bottom: 2rem; background-color: rgba(darken($color-background, 5%), 0.75);
+  pointer-events: auto !important; margin-bottom: 2rem;
+  // Use variable AFTER import
+  background-color: rgba(darken($color-background, 5%), 0.75);
   border: 1px solid rgba($color-accent1, 0.08); border-radius: 6px;
   padding: $section-padding-vertical * 0.5 $section-padding-horizontal * 0.8; min-height: auto;
-  position: relative; // <<< Ensure stacking context if needed
-  z-index: 1; // <<< Above main background
+  position: relative; z-index: 1;
   &:last-of-type { margin-bottom: 0; }
 }
 
@@ -48,37 +54,32 @@ section {
 .app-header {
     position: fixed; top: 0; left: 0; width: 100%; padding: 0.8rem 1.5rem;
     background: linear-gradient(to bottom, rgba($color-background, 0.95), rgba($color-background, 0.8) 80%, transparent);
-    z-index: 1001; // <<< HIGHER Z-INDEX
-    pointer-events: auto; // <<< Allow clicks
-    text-align: center; min-height: 50px; display: flex; justify-content: center; align-items: center;
+    z-index: 1001 !important; pointer-events: auto !important; text-align: center; min-height: 50px;
+    display: flex; justify-content: center; align-items: center;
 
-    nav { display: flex; justify-content: center; gap: 1.2rem; position: relative; z-index: 1; /* Above gradient */}
+    nav { display: flex; justify-content: center; gap: 1.2rem; position: relative; z-index: 1; pointer-events: auto !important; }
     a {
         font-family: $font-heading; font-size: 0.85rem; color: $color-text-light; padding: 0.3rem 0.6rem;
-        border-radius: 4px; transition: color 0.3s ease, background-color 0.3s ease;
-        text-transform: uppercase; letter-spacing: 1px; display: inline-block; line-height: normal;
-        position: relative; z-index: 2; // <<< Above nav background
-        pointer-events: auto; // <<< Ensure clickable
+        border-radius: 4px; transition: color 0.3s ease, background-color 0.3s ease; text-transform: uppercase;
+        letter-spacing: 1px; display: inline-block; line-height: normal; position: relative; z-index: 2;
+        pointer-events: auto !important;
         &:hover { color: $color-accent1; background-color: rgba($color-accent1, 0.1); text-shadow: $glow-cyan; }
     }
 }
 
 // Toggle Button Styling
 .toggle-view-button {
-    position: fixed; top: 70px; right: 15px;
-    z-index: 1002; // <<< HIGHEST Z-INDEX
-    padding: 0.5rem 1rem; font-family: $font-heading; font-size: 0.85rem; color: $color-background;
-    background-color: $color-accent2; border: none; border-radius: 5px; cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease; box-shadow: 0 2px 8px rgba(0,0,0,0.4);
-    pointer-events: auto; // <<< Ensure clickable
+    position: fixed; top: 70px; right: 15px; z-index: 1002 !important; padding: 0.5rem 1rem;
+    font-family: $font-heading; font-size: 0.85rem; color: $color-background; background-color: $color-accent2;
+    border: none; border-radius: 5px; cursor: pointer; transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.4); pointer-events: auto !important;
     &:hover { background-color: lighten($color-accent2, 10%); transform: translateY(-2px); }
     &:active { transform: translateY(0); }
 }
 
 // Controls Info Overlay
 .controls-info {
-    position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
-    z-index: 999; // <<< Above canvas, below button/header
+    position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 999;
     background-color: rgba(darken($color-background, 10%), 0.8); color: $color-text-medium;
     padding: 0.8rem 1.5rem; border-radius: 6px; font-size: 0.85rem; text-align: center;
     pointer-events: none; backdrop-filter: blur(3px); border: 1px solid rgba($color-accent1, 0.1);
@@ -87,12 +88,11 @@ section {
 }
 
 // Info Box CSS
-.infoBoxContainer { pointer-events: none; /* Let clicks pass through container */}
+.infoBoxContainer { pointer-events: none; }
 .infoBox {
     background-color: rgba(10, 15, 30, 0.85); color: #F0F8FF; padding: 12px 18px;
     border-radius: 8px; border: 1px solid rgba(0, 255, 255, 0.2); width: 250px;
-    font-size: 0.85rem; line-height: 1.5; backdrop-filter: blur(4px);
-    pointer-events: auto; /* <<< Allow interaction with info box content if needed */
+    font-size: 0.85rem; line-height: 1.5; backdrop-filter: blur(4px); pointer-events: auto;
 }
 .infoBox h3 { color: #FFD700; font-size: 1.1em; margin-bottom: 8px; border-bottom: 1px solid rgba(255, 215, 0, 0.3); padding-bottom: 4px; text-align: center; }
 .infoBox p { margin-bottom: 6px; color: #a8b2d1; }
@@ -109,3 +109,6 @@ section {
 }
 // Click Prompt Styling
 .clickPrompt { display: block; font-size: 0.7em; font-weight: normal; color: #FFD700; margin-top: 2px; opacity: 0.8; }
+
+// Animation definitions
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
