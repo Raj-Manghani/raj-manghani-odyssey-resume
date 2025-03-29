@@ -1,28 +1,25 @@
 // src/components/PlanetSystem/Rings.jsx
-import React from 'react';
+import React, { useRef } from 'react'; // Added useRef
 import { useTexture } from '@react-three/drei';
 import * as THREE from 'three';
 
-const Rings = ({
-    textureUrl = null, innerRadius = 3, outerRadius = 5,
-    // Removed tilt prop
-}) => {
+const Rings = ({ textureUrl = null, innerRadius = 3, outerRadius = 5 }) => {
 
-    // --- Load Texture Unconditionally using Placeholder ---
-    const safeTextureUrl = textureUrl || '/textures/placeholder.png';
-    const loadedTexture = useTexture(safeTextureUrl);
-    const useLoadedTexture = textureUrl && loadedTexture && loadedTexture.image;
-    const hasTransparency = useLoadedTexture && textureUrl.toLowerCase().endsWith('.png');
+    // --- Unconditional Hook Call First ---
+    const meshRef = useRef(); // Example placeholder hook
 
-    // Simple X rotation to make it flat on XZ plane
+    // --- Conditionally load texture *after* other hooks ---
+    const texture = textureUrl ? useTexture(textureUrl) : null;
+    const textureLoaded = texture; // Simpler check
+    const hasTransparency = textureLoaded && textureUrl.toLowerCase().endsWith('.png');
     const initialTiltX = Math.PI / 2;
 
     return (
-        <mesh rotation={[initialTiltX, 0, 0]} receiveShadow>
+        <mesh ref={meshRef} rotation={[initialTiltX, 0, 0]} receiveShadow>
             <ringGeometry args={[innerRadius, outerRadius, 64]} />
             <meshStandardMaterial
-                map={useLoadedTexture ? loadedTexture : undefined}
-                color={useLoadedTexture ? '#FFFFFF' : 'lightgrey'}
+                map={textureLoaded ? texture : undefined}
+                color={textureLoaded ? '#FFFFFF' : 'lightgrey'}
                 side={THREE.DoubleSide}
                 transparent={hasTransparency}
                 alphaTest={hasTransparency ? 0.1 : 0}
