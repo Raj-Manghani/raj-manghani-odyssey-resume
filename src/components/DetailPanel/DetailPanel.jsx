@@ -1,23 +1,21 @@
 // /home/tao/projects/online-resume/raj-manghani-odyssey/src/components/DetailPanel/DetailPanel.jsx
 import React from 'react';
-import './DetailPanel.css';
+// import './DetailPanel.css'; // To be replaced
+import styles from './DetailPanel.module.scss'; // Use SCSS module
 
 const DetailPanel = ({ data, onClose }) => {
-  // --- ADD LOGGING HERE ---
-  console.log("[DetailPanel] Received data:", data);
-  // --- END LOGGING ---
+  // Removed console logs
 
   if (!data) {
-    console.log("[DetailPanel] Rendering null (no data)");
     return null;
   }
 
   const { name, vitals, description, funFact } = data;
-  console.log(`[DetailPanel] Rendering panel for: ${name}`);
 
   return (
-    <div className="detailPanel">
-      <button className="closeButton" onClick={onClose}>×</button>
+    // Use styles object
+    <div className={styles.detailPanel}>
+      <button className={styles.closeButton} onClick={onClose}>×</button>
       {name && <h3>{name}</h3>}
       {vitals && <p><strong>Vitals:</strong> {vitals}</p>}
       {description && <p>{description}</p>}

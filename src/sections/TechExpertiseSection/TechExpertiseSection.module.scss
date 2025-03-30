@@ -1,18 +1,18 @@
 // src/sections/TechExpertiseSection/TechExpertiseSection.module.scss
-@import '../../styles/variables';
-@import '../../styles/mixins';
+@use '../../styles/variables' as var;
+@use '../../styles/mixins' as mix;
 
 .techExpertiseSection {
   // Optional background
 }
 
 .contentWrapper {
-  @include section-padding;
+  @include mix.section-padding;
 }
 
 .intro {
    text-align: center;
-   color: $color-text-dark;
+   color: var.$color-text-dark;
    margin-bottom: 3rem;
    font-size: 1.1rem;
 }
@@ -24,28 +24,28 @@
 }
 
 .expertiseItem {
-  background: linear-gradient(160deg, rgba($color-background, 0.3), rgba($color-primary, 0.25));
-  border: 1px solid rgba($color-accent1, 0.2);
+  background: linear-gradient(160deg, rgba(var.$color-background, 0.3), rgba(var.$color-primary, 0.25));
+  border: 1px solid rgba(var.$color-accent1, 0.2);
   padding: 2rem 1.5rem;
   border-radius: 10px;
   box-shadow: 0 5px 15px rgba(0,0,0, 0.2);
   position: relative; // For overlay and potential icons
   overflow: hidden; // Keep overlays contained
-  transition: transform $transition-speed ease, box-shadow $transition-speed ease, border-color $transition-speed ease;
+  transition: transform var.$transition-speed ease, box-shadow var.$transition-speed ease, border-color var.$transition-speed ease;
   cursor: pointer; // Indicate interactivity later
 
   h3 {
-    color: $color-accent1; // Cyan title
+    color: var.$color-accent1; // Cyan title
     margin-bottom: 1rem;
     text-align: center;
     font-size: 1.3rem;
     position: relative; // Keep title above overlay
     z-index: 2;
-    @include apply-glow($color-accent1, 0.6);
+    @include mix.apply-glow(var.$color-accent1, 0.6);
   }
 
   p {
-    color: $color-text-medium;
+    color: var.$color-text-medium;
     font-size: 0.95rem;
     line-height: 1.6;
     position: relative; // Keep text above overlay
@@ -60,17 +60,17 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: radial-gradient(circle at top left, rgba($color-accent2, 0.05), transparent 60%);
+    background: radial-gradient(circle at top left, rgba(var.$color-accent2, 0.05), transparent 60%);
     opacity: 0;
-    transition: opacity $transition-speed ease;
+    transition: opacity var.$transition-speed ease;
     z-index: 1;
   }
 
 
   &:hover {
     transform: translateY(-8px) scale(1.02);
-    box-shadow: 0 10px 25px rgba($color-accent1, 0.15);
-    border-color: rgba($color-accent1, 0.4);
+    box-shadow: 0 10px 25px rgba(var.$color-accent1, 0.15);
+    border-color: rgba(var.$color-accent1, 0.4);
 
     .itemOverlay {
        opacity: 1;

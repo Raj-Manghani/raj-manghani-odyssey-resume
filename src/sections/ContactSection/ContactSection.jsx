@@ -1,37 +1,11 @@
 // src/sections/ContactSection/ContactSection.jsx
 import React from 'react';
 import styles from './ContactSection.module.scss';
+import ContactForm from '../../components/ContactForm/ContactForm'; // Import the extracted form
 
-// Basic Form Placeholder - Functionality to be added later
-const ContactForm = () => {
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        // TODO: Implement form submission logic (e.g., using EmailJS, Netlify Forms, or a backend)
-        alert('Form submission functionality not yet implemented.');
-    }
+// Removed inline ContactForm definition
 
-    return (
-        <form className={styles.contactForm} onSubmit={handleSubmit}>
-            <div className={styles.formGroup}>
-                <label htmlFor="name">Name</label>
-                <input type="text" id="name" name="name" required placeholder="Your Name" />
-            </div>
-            <div className={styles.formGroup}>
-                <label htmlFor="email">Email</label>
-                <input type="email" id="email" name="email" required placeholder="Your Email Address" />
-            </div>
-            <div className={styles.formGroup}>
-                <label htmlFor="message">Message</label>
-                <textarea id="message" name="message" rows="5" required placeholder="Your Message"></textarea>
-            </div>
-            <button type="submit" className={styles.submitButton}>
-                Send Transmission
-                <span className={styles.buttonGlow}></span> {/* For pulse effect */}
-            </button>
-        </form>
-    );
-}
-
+// Optional: Extract contact details to data file later if desired
 
 const ContactSection = ({ id }) => {
   return (
@@ -65,7 +39,7 @@ const ContactSection = ({ id }) => {
                  </div>
             </div>
 
-            {/* Contact Form Placeholder */}
+            {/* Use imported Contact Form */}
             <div className={styles.formContainer}>
                  <h3>Direct Message</h3>
                  <ContactForm />

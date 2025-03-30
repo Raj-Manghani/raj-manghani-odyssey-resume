@@ -27,9 +27,6 @@ main {
   z-index: 10;
   pointer-events: none;
   width: 100%;
-  max-width: 850px;
-  margin: 5vh auto;
-  padding: 0 1rem;
 }
 
 // --- Particle Background Styling (If used) ---
@@ -55,8 +52,14 @@ p {
 }
 
 a {
-  color: $color-accent2; text-decoration: none; position: relative; transition: color $transition-speed ease;
-  &:hover { color: lighten($color-accent2, 15%); text-shadow: $glow-gold; }
+  color: $color-accent2;
+  text-decoration: none;
+  position: relative;
+  transition: color $transition-speed ease;
+  &:hover {
+    color: lighten($color-accent2, 15%);
+    text-shadow: $glow-gold;
+  }
 }
 
 ul, ol {
@@ -113,7 +116,10 @@ section {
     border: none; border-radius: 5px; cursor: pointer; transition: background-color 0.3s ease, transform 0.2s ease;
     box-shadow: 0 2px 8px rgba(0,0,0,0.4); pointer-events: auto;
 
-    &:hover { background-color: lighten($color-accent2, 10%); transform: translateY(-2px); }
+    &:hover {
+        background-color: lighten($color-accent2, 10%);
+        transform: translateY(-2px);
+    }
     &:active { transform: translateY(0); }
 }
 

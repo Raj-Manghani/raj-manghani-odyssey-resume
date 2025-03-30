@@ -9,7 +9,6 @@ import Rings from './Rings';
 const PlanetSystem = ({
   position = [0, 0, 0],
   planetSize = 1,
-  planetColor = 'blue',
   planetTextureUrl = null,
   planetAxialTilt = 0,
   moons = [],
@@ -21,12 +20,9 @@ const PlanetSystem = ({
   ringOuterRadius = null,
   ringTilt = Math.PI * 0.4,
   // Info Props
-  name,        // Still used for display label
-  planetKey,   // *** ADDED: The lowercase key for data lookup ***
-  vitals,
-  description,
-  funFact,
-  showInfo,    // No longer used directly here
+  name,        // Used for display label
+  planetKey,   // Key for click handler
+  showInfo,    // Keep: Used by SolarSystemGroup to determine active state
   onPlanetClick
 }) => {
   const planetRef = useRef();
@@ -75,7 +71,7 @@ const PlanetSystem = ({
   return (
     <group position={position}>
       <group
-        onClick={(e) => handleBodyClick(e, planetKey)} // *** Pass planetKey here ***
+        onClick={(e) => handleBodyClick(e, planetKey)}
         onPointerOver={handlePointerOver}
         onPointerOut={handlePointerOut}
       >
@@ -83,7 +79,6 @@ const PlanetSystem = ({
           rotationRef={planetRef}
           size={planetSize}
           textureUrl={planetTextureUrl}
-          color={planetColor}
           emissiveColor={emissiveColor}
           emissiveIntensity={emissiveIntensity}
           axialTilt={planetAxialTilt}

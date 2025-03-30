@@ -1,17 +1,17 @@
-@import '../../styles/variables';
-@import '../../styles/mixins';
+@use '../../styles/variables' as var;
+@use '../../styles/mixins' as mix;
 
 .skillsSection {
-    background-color: rgba($color-primary, 0.1); // Subtle background tint
+    background-color: rgba(var.$color-primary, 0.1); // Subtle background tint
 }
 
 .contentWrapper {
-   @include section-padding; // Apply padding and max-width
+   @include mix.section-padding; // Apply padding and max-width
 }
 
 .intro {
    text-align: center;
-   color: $color-text-dark;
+   color: var.$color-text-dark;
    margin-bottom: 3rem;
    font-size: 1.1rem;
 }
@@ -24,25 +24,25 @@
 }
 
 .category {
-    background: linear-gradient(145deg, rgba($color-background, 0.3), rgba($color-primary, 0.2));
-    border: 1px solid rgba($color-accent1, 0.15);
+    background: linear-gradient(145deg, rgba(var.$color-background, 0.3), rgba(var.$color-primary, 0.2));
+    border: 1px solid rgba(var.$color-accent1, 0.15);
     padding: 2rem 1.5rem;
     border-radius: 8px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    transition: transform $transition-speed ease, box-shadow $transition-speed ease;
+    transition: transform var.$transition-speed ease, box-shadow var.$transition-speed ease;
 
     &:hover {
         transform: translateY(-5px);
-        box-shadow: 0 8px 25px rgba($color-accent1, 0.1);
-        border-color: rgba($color-accent1, 0.3);
+        box-shadow: 0 8px 25px rgba(var.$color-accent1, 0.1);
+        border-color: rgba(var.$color-accent1, 0.3);
     }
 
     h3 {
-        color: $color-accent2; // Gold category titles
+        color: var.$color-accent2; // Gold category titles
         margin-bottom: 1.5rem;
         text-align: center;
         font-size: 1.3rem;
-         @include apply-glow($color-accent2, 0.5);
+         @include mix.apply-glow(var.$color-accent2, 0.5);
     }
 
     ul {
@@ -56,10 +56,10 @@
         justify-content: space-between;
         align-items: center;
         margin-bottom: 0.8rem;
-        color: $color-text-medium;
+        color: var.$color-text-medium;
         font-size: 0.95rem;
         padding-bottom: 0.5rem;
-        border-bottom: 1px dashed rgba($color-text-dark, 0.2);
+        border-bottom: 1px dashed rgba(var.$color-text-dark, 0.2);
 
         &:last-child {
             border-bottom: none;
@@ -74,20 +74,20 @@
 }
 
 .dotFilled {
-   color: $color-accent1; // Cyan filled dots
-   text-shadow: $glow-cyan;
+   color: var.$color-accent1; // Cyan filled dots
+   text-shadow: var.$glow-cyan;
    font-size: 1.1em;
 }
 
 .dotEmpty {
-   color: rgba($color-text-dark, 0.5); // Dim empty dots
+   color: rgba(var.$color-text-dark, 0.5); // Dim empty dots
     font-size: 1.1em;
 }
 
 .placeholder {
   text-align: center;
   margin-top: 4rem;
-  color: $color-text-dark;
+  color: var.$color-text-dark;
   font-style: italic;
   font-size: 0.9rem;
 }

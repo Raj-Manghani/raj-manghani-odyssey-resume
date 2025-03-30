@@ -69,7 +69,7 @@
 }
 
 .projectLink {
-    color: $color-accent2; // Ensure links are gold
+    color: $color-accent2;
     font-weight: 600;
     &:hover {
         color: lighten($color-accent2, 10%);

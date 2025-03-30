@@ -1,0 +1,106 @@
+// /home/tao/projects/online-resume/raj-manghani-odyssey/src/components/DetailPanel/DetailPanel.module.scss
+
+// Import shared variables if needed (assuming they exist)
+// @import '../../styles/variables';
+// @import '../../styles/mixins';
+
+$panel-bg-color: rgba(10, 15, 30, 0.9);
+$panel-text-color: #F0F8FF; // AliceBlue
+$panel-border-color: rgba(0, 255, 255, 0.3); // Cyan border
+$heading-color: #FFD700; // Gold
+$subtle-text-color: #a8b2d1; // Light slate
+$strong-text-color: #00FFFF; // Cyan
+$em-text-color: #cccccc; // Lighter grey
+$close-btn-bg: rgba(255, 255, 255, 0.1);
+$close-btn-border: rgba(255, 255, 255, 0.3);
+$close-btn-hover-bg: rgba(255, 255, 255, 0.3);
+
+.detailPanel {
+    position: fixed; /* Position relative to the viewport */
+    top: 0;
+    right: 0;
+    width: 25%; /* 1/4 of the viewport width */
+    height: 100vh; /* Full viewport height */
+    background-color: $panel-bg-color;
+    color: $panel-text-color;
+    border-left: 1px solid $panel-border-color;
+    backdrop-filter: blur(5px);
+    padding: 60px 25px 25px 25px; /* Add top padding for header/close button */
+    box-sizing: border-box; /* Include padding in width/height */
+    overflow-y: auto; /* Allow scrolling if content overflows */
+    z-index: 100; /* Ensure it's above the canvas */
+    font-size: 0.9rem;
+    line-height: 1.6;
+    display: flex; /* Use flexbox for centering (optional) */
+    flex-direction: column; /* Stack content vertically */
+    align-items: center; /* Center horizontally */
+    text-align: center; /* Center text */
+    transition: transform 0.3s ease-in-out; /* Optional: Add slide-in animation */
+
+    h3 {
+        color: $heading-color;
+        font-size: 1.4em;
+        margin-bottom: 15px;
+        border-bottom: 1px solid rgba($heading-color, 0.4);
+        padding-bottom: 8px;
+        width: 100%; /* Make underline span full width */
+    }
+
+    p {
+        margin-bottom: 10px;
+        color: $subtle-text-color;
+        width: 100%; /* Ensure paragraphs take full width */
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+
+    strong {
+        color: $strong-text-color;
+    }
+
+    em {
+        color: $em-text-color;
+        font-style: italic;
+    }
+
+    // Optional Placeholder Styling
+    &.placeholder {
+        justify-content: center; /* Center placeholder text */
+        align-items: center;
+        font-style: italic;
+        color: $subtle-text-color;
+    }
+}
+
+/* Separate rule for close button for clarity */
+.closeButton {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: $close-btn-bg;
+    border: 1px solid $close-btn-border;
+    color: #fff;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    font-size: 20px;
+    line-height: 28px; /* Adjust for vertical centering */
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    padding: 0;
+
+    &:hover {
+        background: $close-btn-hover-bg;
+    }
+}
+
+
+/* Optional: Add animation for panel appearing/disappearing */
+/*
+.detailPanel.hidden {
+  transform: translateX(100%);
+}
+*/ 
