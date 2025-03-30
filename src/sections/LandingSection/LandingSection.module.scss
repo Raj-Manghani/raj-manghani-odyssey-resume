@@ -1,21 +1,21 @@
-@import '../../styles/variables';
-@import '../../styles/mixins';
+@use '../../styles/variables' as var;
+@use '../../styles/mixins' as mix;
 
 .landingSection {
   min-height: 80vh; // Adjust if needed, less strict than 100vh now
-  @include flex-center;
-  padding-top: $section-padding-vertical * 0.8; // Adjust top padding if navbar exists later
-  padding-bottom: $section-padding-vertical * 0.8;
+  @include mix.flex-center;
+  padding-top: var.$section-padding-vertical * 0.8; // Adjust top padding if navbar exists later
+  padding-bottom: var.$section-padding-vertical * 0.8;
   // opacity: 0; // Initial hide handled by App.jsx ScrollTrigger
   width: 100%; // Ensure section takes full width
 }
 
 // Flex container for Pic + Text
 .introContainer {
-    @include flex-center($direction: column); // Default: stack on small screens
+    @include mix.flex-center($direction: column); // Default: stack on small screens
     gap: 2rem; // Space between pic and text when stacked
     width: 90%; // Control width
-    max-width: $max-content-width; // Max width from variables
+    max-width: var.$max-content-width; // Max width from variables
     margin: 0 auto; // Center container
 
     @media (min-width: 768px) { // Side-by-side on medium screens and up
@@ -42,8 +42,8 @@
   height: 180px;
   border-radius: 50%; // Make it circular
   object-fit: cover; // Ensure image covers the area nicely
-  border: 3px solid $color-accent1; // Cyan border
-  box-shadow: 0 0 15px $color-shadow-cyan, 0 0 25px $color-shadow-cyan; // Enhanced glow
+  border: 3px solid var.$color-accent1; // Cyan border
+  box-shadow: 0 0 15px var.$color-shadow-cyan, 0 0 25px var.$color-shadow-cyan; // Enhanced glow
   filter: brightness(1.1) contrast(1.05); // Slightly enhance image
 }
 
@@ -58,26 +58,26 @@
 }
 
 .name {
-  color: $color-accent1;
+  color: var.$color-accent1;
   margin-bottom: 0.5rem; // Reduced margin
-  @include apply-glow($color-accent1, 1);
+  @include mix.apply-glow(var.$color-accent1, 1);
   opacity: 0; // Start hidden for sub-animation
   transform: translateY(20px); // Start slightly down
 }
 
 .tagline {
-  color: $color-accent2;
+  color: var.$color-accent2;
   margin-bottom: 1.5rem; // Reduced margin
   font-size: clamp(1rem, 3vw, 1.4rem);
   font-weight: 400;
   letter-spacing: 1px;
-  @include apply-glow($color-accent2, 0.6);
+  @include mix.apply-glow(var.$color-accent2, 0.6);
    opacity: 0; // Start hidden for sub-animation
    transform: translateY(20px); // Start slightly down
 }
 
 .summary {
-  color: $color-text-medium;
+  color: var.$color-text-medium;
   font-size: clamp(0.95rem, 2.5vw, 1.1rem);
   line-height: 1.6;
   max-width: 600px; // Limit summary width

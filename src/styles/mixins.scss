@@ -1,5 +1,5 @@
 // src/styles/mixins.scss
-@import 'variables';
+@use 'variables' as var;
 
 @mixin flex-center($direction: row) {
   display: flex;
@@ -9,14 +9,14 @@
 }
 
 @mixin section-padding {
-    padding: $section-padding-vertical $section-padding-horizontal;
+    padding: var.$section-padding-vertical var.$section-padding-horizontal;
     width: 100%; // Use full width, control content with max-width container inside
-    max-width: $max-content-width;
+    max-width: var.$max-content-width;
     margin: 0 auto; // Center the content area
 }
 
 // Example glow mixin - can be expanded
-@mixin apply-glow($color: $color-accent1, $intensity: 1) {
+@mixin apply-glow($color: var.$color-accent1, $intensity: 1) {
    text-shadow: 0 0 (5px * $intensity) rgba($color, 0.7),
                 0 0 (10px * $intensity) rgba($color, 0.5),
                 0 0 (15px * $intensity) rgba($color, 0.3);

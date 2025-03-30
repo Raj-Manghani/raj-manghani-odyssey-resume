@@ -1,21 +1,23 @@
 // src/styles/global.scss
 
+@use 'variables' as var;
+@use 'mixins' as mix;
+@use "sass:color";
+
 @import url('https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;700&family=Orbitron:wght@400;700&display=swap');
-@import 'variables';
-@import 'mixins';
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; font-size: 16px; }
 
 body {
-  background-color: $color-background;
-  color: $color-text-light;
-  font-family: $font-primary;
+  background-color: var.$color-background;
+  color: var.$color-text-light;
+  font-family: var.$font-primary;
   line-height: 1.6;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: $color-background;
+  background: var.$color-background;
 }
 
 // --- Canvas Container Styling (z-index: 0 in App.jsx) ---
@@ -34,12 +36,12 @@ main {
 
 // --- Typography ---
 h1, h2, h3, h4, h5, h6 {
-  font-family: $font-heading;
-  color: $color-accent1;
+  font-family: var.$font-heading;
+  color: var.$color-accent1;
   margin-bottom: 1.5rem;
   font-weight: 700;
   letter-spacing: 1px;
-  @include apply-glow($color-accent1, 0.7);
+  @include mix.apply-glow(var.$color-accent1, 0.7);
 }
 h1 { font-size: clamp(2.5rem, 6vw, 4rem); }
 h2 { font-size: clamp(1.8rem, 5vw, 2.8rem); }
@@ -47,18 +49,18 @@ h3 { font-size: clamp(1.4rem, 4vw, 2rem); }
 
 p {
   margin-bottom: 1rem;
-  color: $color-text-medium;
+  color: var.$color-text-medium;
   max-width: 75ch;
 }
 
 a {
-  color: $color-accent2;
+  color: var.$color-accent2;
   text-decoration: none;
   position: relative;
-  transition: color $transition-speed ease;
+  transition: color var.$transition-speed ease;
   &:hover {
-    color: lighten($color-accent2, 15%);
-    text-shadow: $glow-gold;
+    color: color.adjust(var.$color-accent2, $lightness: 15%);
+    text-shadow: var.$glow-gold;
   }
 }
 
@@ -69,17 +71,17 @@ ul, ol {
 }
 li {
   margin-bottom: 0.5rem;
-  color: $color-text-medium;
+  color: var.$color-text-medium;
 }
 
 // --- Base Section Styling ---
 section {
   pointer-events: auto;
   margin-bottom: 3rem;
-  background-color: rgba(darken($color-background, 5%), 0.75);
-  border: 1px solid rgba($color-accent1, 0.08);
+  background-color: rgba(color.adjust(var.$color-background, $lightness: -5%), 0.75);
+  border: 1px solid rgba(var.$color-accent1, 0.08);
   border-radius: 6px;
-  padding: $section-padding-vertical * 0.5 $section-padding-horizontal * 0.8;
+  padding: var.$section-padding-vertical * 0.5 var.$section-padding-horizontal * 0.8;
   min-height: auto;
   overflow: hidden;
   position: relative;
@@ -90,34 +92,34 @@ section {
 .section-fade-in { opacity: 0; transform: translateY(30px); }
 
 // --- Utility Classes ---
-.text-cyan { color: $color-accent1; }
-.text-gold { color: $color-accent2; }
+.text-cyan { color: var.$color-accent1; }
+.text-gold { color: var.$color-accent2; }
 // Add .text-light, .text-medium, .text-dark if you actually use them elsewhere
 
 // --- App Header / Menu ---
 .app-header {
     position: fixed; top: 0; left: 0; width: 100%; padding: 1rem 2rem;
-    background: linear-gradient(to bottom, rgba($color-background, 0.9), rgba($color-background, 0.7) 80%, transparent);
+    background: linear-gradient(to bottom, rgba(var.$color-background, 0.9), rgba(var.$color-background, 0.7) 80%, transparent);
     z-index: 50; pointer-events: auto; text-align: center;
 
     nav { display: flex; justify-content: center; gap: 1.5rem; }
     a {
-        font-family: $font-heading; font-size: 0.9rem; color: $color-text-medium;
+        font-family: var.$font-heading; font-size: 0.9rem; color: var.$color-text-medium;
         padding: 0.3rem 0.6rem; border-radius: 4px; transition: color 0.3s ease, background-color 0.3s ease;
         text-transform: uppercase; letter-spacing: 1px;
-        &:hover { color: $color-accent1; background-color: rgba($color-accent1, 0.1); text-shadow: $glow-cyan; }
+        &:hover { color: var.$color-accent1; background-color: rgba(var.$color-accent1, 0.1); text-shadow: var.$glow-cyan; }
     }
 }
 
 // --- Toggle Button Styling ---
 .toggle-view-button {
     position: fixed; top: 75px; right: 20px; z-index: 100; padding: 0.6rem 1.2rem;
-    font-family: $font-heading; font-size: 0.9rem; color: $color-background; background-color: $color-accent2;
+    font-family: var.$font-heading; font-size: 0.9rem; color: var.$color-background; background-color: var.$color-accent2;
     border: none; border-radius: 5px; cursor: pointer; transition: background-color 0.3s ease, transform 0.2s ease;
     box-shadow: 0 2px 8px rgba(0,0,0,0.4); pointer-events: auto;
 
     &:hover {
-        background-color: lighten($color-accent2, 10%);
+        background-color: color.adjust(var.$color-accent2, $lightness: 10%);
         transform: translateY(-2px);
     }
     &:active { transform: translateY(0); }
@@ -126,10 +128,10 @@ section {
 // --- Controls Info Overlay ---
 .controls-info {
     position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 50;
-    background-color: rgba(darken($color-background, 10%), 0.8); color: $color-text-medium;
+    background-color: rgba(color.adjust(var.$color-background, $lightness: -10%), 0.8); color: var.$color-text-medium;
     padding: 0.8rem 1.5rem; border-radius: 6px; font-size: 0.85rem; text-align: center;
-    pointer-events: none; backdrop-filter: blur(3px); border: 1px solid rgba($color-accent1, 0.1);
+    pointer-events: none; backdrop-filter: blur(3px); border: 1px solid rgba(var.$color-accent1, 0.1);
 
     p { margin: 0; line-height: 1.4; }
-    span { color: $color-accent2; font-weight: bold; margin: 0 0.2em; }
+    span { color: var.$color-accent2; font-weight: bold; margin: 0 0.2em; }
 }

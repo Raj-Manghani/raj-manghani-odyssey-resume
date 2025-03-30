@@ -1,25 +1,31 @@
 // src/sections/ContactSection/ContactSection.module.scss
-@import '../../styles/variables'; // Revert
-@import '../../styles/mixins';    // Revert
+@use '../../styles/variables' as var;
+@use '../../styles/mixins' as mix;
+@use "sass:color" as color;
 
 .contactSection {
-    background: linear-gradient(to bottom, rgba($color-background, 0.9), $color-background),
-                radial-gradient(circle at 50% 100%, rgba($color-primary, 0.3), transparent 70%);
-    padding-bottom: $section-padding-vertical * 1.5; // Extra space at the bottom
+    background: linear-gradient(135deg, var.$color-background, rgba(var.$color-primary, 0.3));
+    padding-bottom: var.$section-padding-vertical * 1.5; // Extra space at the bottom
 }
 
 .contentWrapper {
-  @include section-padding;
+  @include mix.section-padding;
+  max-width: 800px; // Limit width for contact form focus
 }
 
 .intro {
    text-align: center;
-   color: $color-text-dark;
-   margin-bottom: 4rem;
-   font-size: 1.1rem;
-   max-width: 700px;
-   margin-left: auto;
-   margin-right: auto;
+   margin-bottom: 3rem;
+
+   h2 {
+       @include mix.apply-glow(var.$color-accent1, 0.8); // Stronger glow for title
+   }
+
+   p {
+       color: var.$color-text-dark; // Slightly darker for intro paragraph
+       font-size: 1.1rem;
+       margin-bottom: 0;
+   }
 }
 
 .contactGrid {
@@ -32,7 +38,7 @@
 // Contact Info Styles
 .contactInfo {
     h3 { // If adding a heading above info items
-       color: $color-accent2;
+       color: var.$color-accent2;
        margin-bottom: 1.5rem;
     }
 }
@@ -50,23 +56,23 @@
     .infoIcon {
         font-size: 1.6rem;
         margin-right: 1rem;
-        color: $color-accent1;
-        text-shadow: $glow-cyan;
+        color: var.$color-accent1;
+        text-shadow: var.$glow-cyan;
         min-width: 30px; // Ensure icons align nicely
         text-align: center;
     }
 
     span:not(.infoIcon) { // The text part
-       color: $color-text-medium;
+       color: var.$color-text-medium;
     }
 
     a {
-        color: $color-accent2; // Gold links
+        color: var.$color-accent2; // Gold links
         word-break: break-word; // Prevent long links overflowing
 
         &:hover {
             text-decoration: underline;
-            color: lighten($color-accent2, 10%); // Use global lighten
+            color: color.adjust(var.$color-accent2, $lightness: 10%);
         }
     }
 }
@@ -74,16 +80,70 @@
 
 // Form Container Styles (Form styles themselves moved to ContactForm.module.scss)
 .formContainer {
-     background-color: rgba($color-primary, 0.1);
-     border: 1px solid rgba($color-accent1, 0.15);
-     padding: 2rem;
+     background-color: rgba(var.$color-primary, 0.2);
+     padding: 2.5rem;
      border-radius: 8px;
+     border: 1px solid rgba(var.$color-accent1, 0.15);
      box-shadow: 0 4px 15px rgba(0,0,0, 0.2);
 
+     @media (max-width: 600px) {
+       padding: 1.5rem;
+     }
+
      h3 {
-         color: $color-accent2;
+         color: var.$color-accent2;
          text-align: center;
          margin-bottom: 1.5rem;
-         @include apply-glow($color-accent2, 0.5);
+         @include mix.apply-glow(var.$color-accent2, 0.5);
      }
 }
+
+.confirmationMessage {
+    text-align: center;
+    padding: 2rem;
+    border: 1px solid var.$color-accent2;
+    border-radius: 5px;
+    background-color: rgba(var.$color-accent2, 0.05);
+    color: var.$color-text-light;
+    box-shadow: 0 0 15px var.$color-shadow-gold;
+
+    p {
+        color: var.$color-text-medium;
+        margin-bottom: 0.5rem;
+        font-size: 1.1rem;
+    }
+
+    .successIcon {
+        color: var.$color-accent2;
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        display: block; // Center icon
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    strong {
+        color: var.$color-accent1;
+        font-weight: bold;
+    }
+}
+
+.errorMessage {
+    color: var.$color-error;
+    background-color: rgba(var.$color-error, 0.1);
+    border: 1px solid var.$color-error;
+    padding: 0.8rem 1rem;
+    margin-top: 1rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+// If you move the form to a separate component, these button styles might move too,
+// but they are kept here for now if ContactForm is just JSX without its own styles.
+// (If ContactForm has its own module.scss, remove the button styles below)
+
+// // Example Submit Button (if not in ContactForm component)
+// .submitButton {
+//     // ... (styles would go here if not moved)
+// }

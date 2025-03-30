@@ -1,13 +1,14 @@
 // src/sections/ProjectsCertsSection/ProjectsCertsSection.module.scss
-@import '../../styles/variables';
-@import '../../styles/mixins';
+@use '../../styles/variables' as var;
+@use '../../styles/mixins' as mix;
+@use "sass:color" as color; // Add sass:color
 
 .projectsCertsSection {
-   background-color: rgba($color-primary, 0.1); // Subtle background tint
+   background-color: rgba(var.$color-primary, 0.1); // Subtle background tint
 }
 
 .contentWrapper {
-  @include section-padding;
+  @include mix.section-padding;
 }
 
 .grid {
@@ -18,19 +19,19 @@
 }
 
 .column {
-    background: linear-gradient(145deg, rgba($color-background, 0.2), rgba($color-primary, 0.15));
-    border: 1px solid rgba($color-accent1, 0.1);
+    background: linear-gradient(145deg, rgba(var.$color-background, 0.2), rgba(var.$color-primary, 0.15));
+    border: 1px solid rgba(var.$color-accent1, 0.1);
     padding: 2rem;
     border-radius: 8px;
     box-shadow: 0 3px 12px rgba(0,0,0, 0.15);
 
     h3 {
-        color: $color-accent2; // Gold heading for columns
+        color: var.$color-accent2; // Gold heading for columns
         margin-bottom: 1.5rem;
         text-align: center;
-        border-bottom: 1px solid rgba($color-accent2, 0.3);
+        border-bottom: 1px solid rgba(var.$color-accent2, 0.3);
         padding-bottom: 0.5rem;
-        @include apply-glow($color-accent2, 0.5);
+        @include mix.apply-glow(var.$color-accent2, 0.5);
     }
 }
 
@@ -46,8 +47,8 @@
     align-items: center;
     margin-bottom: 1.2rem;
     padding-bottom: 0.8rem;
-    border-bottom: 1px dashed rgba($color-text-dark, 0.2);
-    color: $color-text-medium;
+    border-bottom: 1px dashed rgba(var.$color-text-dark, 0.2);
+    color: var.$color-text-medium;
 
     &:last-child {
         border-bottom: none;
@@ -59,8 +60,8 @@
 .certIcon, .projectIcon, .eduIcon {
     font-size: 1.5rem; // Adjust icon size
     margin-right: 1rem;
-    color: $color-accent1; // Cyan icons
-    text-shadow: $glow-cyan;
+    color: var.$color-accent1; // Cyan icons
+    text-shadow: var.$glow-cyan;
 }
 
 .certName, .projectLink {
@@ -69,16 +70,16 @@
 }
 
 .projectLink {
-    color: $color-accent2;
+    color: var.$color-accent2;
     font-weight: 600;
     &:hover {
-        color: lighten($color-accent2, 10%);
+        color: color.adjust(var.$color-accent2, $lightness: 10%);
         text-decoration: underline;
     }
 }
 
 .certYear {
-    color: $color-text-dark;
+    color: var.$color-text-dark;
     font-size: 0.9em;
 }
 
@@ -93,6 +94,6 @@
         line-height: 1.4;
     }
     strong {
-       color: $color-text-light;
+       color: var.$color-text-light;
     }
 }
