@@ -1,0 +1,91 @@
+/* /home/tao/projects/online-resume/raj-manghani-odyssey/src/components/DetailPanel/DetailPanel.css */
+
+.detailPanel {
+    position: fixed; /* Position relative to the viewport */
+    top: 0;
+    right: 0;
+    width: 25%; /* 1/4 of the viewport width */
+    height: 100vh; /* Full viewport height */
+    background-color: rgba(10, 15, 30, 0.9); /* Slightly less transparent */
+    color: #F0F8FF; /* AliceBlue */
+    border-left: 1px solid rgba(0, 255, 255, 0.3); /* Cyan border */
+    backdrop-filter: blur(5px);
+    padding: 60px 25px 25px 25px; /* Add top padding for header/close button */
+    box-sizing: border-box; /* Include padding in width/height */
+    overflow-y: auto; /* Allow scrolling if content overflows */
+    z-index: 100; /* Ensure it's above the canvas */
+    font-size: 0.9rem;
+    line-height: 1.6;
+    display: flex; /* Use flexbox for centering (optional) */
+    flex-direction: column; /* Stack content vertically */
+    /* justify-content: center; */ /* Center vertically if desired */
+    align-items: center; /* Center horizontally */
+    text-align: center; /* Center text */
+    transition: transform 0.3s ease-in-out; /* Optional: Add slide-in animation */
+    /* transform: translateX(0); */ /* Start visible */
+  }
+  
+  /* Optional: Add animation for panel appearing/disappearing */
+  /*
+  .detailPanel.hidden {
+    transform: translateX(100%);
+  }
+  */
+  
+  .detailPanel h3 {
+    color: #FFD700; /* Gold */
+    font-size: 1.4em;
+    margin-bottom: 15px;
+    border-bottom: 1px solid rgba(255, 215, 0, 0.4);
+    padding-bottom: 8px;
+    width: 100%; /* Make underline span full width */
+  }
+  
+  .detailPanel p {
+    margin-bottom: 10px;
+    color: #a8b2d1; /* Light slate */
+    width: 100%; /* Ensure paragraphs take full width */
+  }
+  
+  .detailPanel p:last-child {
+    margin-bottom: 0;
+  }
+  
+  .detailPanel strong {
+    color: #00FFFF; /* Cyan */
+  }
+  
+  .detailPanel em {
+    color: #cccccc; /* Lighter grey */
+    font-style: italic;
+  }
+  
+  .closeButton {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #fff;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    font-size: 20px;
+    line-height: 28px; /* Adjust for vertical centering */
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    padding: 0;
+  }
+  
+  .closeButton:hover {
+    background: rgba(255, 255, 255, 0.3);
+  }
+  
+  /* Optional Placeholder Styling */
+  .detailPanel.placeholder {
+    justify-content: center; /* Center placeholder text */
+    align-items: center;
+    font-style: italic;
+    color: #a8b2d1;
+  }

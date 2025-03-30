@@ -4,8 +4,10 @@
 ├── eslint.config.js
 ├── .git
 │   ├── branches
+│   ├── COMMIT_EDITMSG
 │   ├── config
 │   ├── description
+│   ├── FETCH_HEAD
 │   ├── HEAD
 │   ├── hooks
 │   │   ├── applypatch-msg.sample
@@ -32,21 +34,199 @@
 │   │       │   └── main
 │   │       └── remotes
 │   │           └── origin
-│   │               └── HEAD
+│   │               ├── HEAD
+│   │               └── main
 │   ├── objects
+│   │   ├── 02
+│   │   │   └── decbe31cc181478ed63b978f946cc583db787e
+│   │   ├── 03
+│   │   │   ├── 53d57b74a879fc0016402e6a8eed2f4f2cfea7
+│   │   │   └── d0094c362598f727b55e60a2ddd90ab5150f66
+│   │   ├── 06
+│   │   │   └── 11d47041ed17edbab7f107048b4fb44673a8f2
+│   │   ├── 09
+│   │   │   ├── a804b519686ab695364cd1eba3475bf3353923
+│   │   │   └── f47ab72f249c079f48334270bba5e11ac3ba62
+│   │   ├── 10
+│   │   │   └── 19e23fb772125d41e67273333760abd2836a1b
+│   │   ├── 11
+│   │   │   └── 532c600c1e62781705388938e5143aee9c25dd
+│   │   ├── 15
+│   │   │   └── 493388f870f5471c69c95fe61212122b3fb0c2
+│   │   ├── 16
+│   │   │   └── 86ae98cd9ee807092137e508c8be1e0886215d
+│   │   ├── 19
+│   │   │   ├── 051fcb20a7b9869025252daf9c317c384d0359
+│   │   │   └── a7ac68383b0ac88cc7cabe9563b1669ffa1f85
+│   │   ├── 1d
+│   │   │   └── 1463a97bb84a2f89118c92e7ab73014363a56b
+│   │   ├── 26
+│   │   │   └── 31a03dde01615e29a34d010846f18aa16be956
+│   │   ├── 28
+│   │   │   └── 0f6adc8f0998a69a2692e3ed4caae4785223a6
+│   │   ├── 29
+│   │   │   └── 371a714eead7ff6d4963b3c472784fd394314a
+│   │   ├── 2a
+│   │   │   └── 1ecc67c7fd94914bf8b946e83f3d02c0931f17
+│   │   ├── 30
+│   │   │   ├── 76fe68b92abab2ac4043db4ac23c8dcee154c1
+│   │   │   └── e7ac5540e5afb7d997034f5c51bc44a0d8d321
+│   │   ├── 32
+│   │   │   └── ef3ed6f64dbdaf9752726b612960d1aa662045
+│   │   ├── 34
+│   │   │   └── edb46ea398d5239aa854bbdd4ee942ca1fc82d
+│   │   ├── 36
+│   │   │   └── b910d38132b029279de4f8173ffcfac249e9df
+│   │   ├── 38
+│   │   │   └── 0902c0c55b3f0b2254952b05d0a358b5568337
+│   │   ├── 39
+│   │   │   ├── c21ff9e757b893f9f9bb10e30b09ff16ab6003
+│   │   │   └── d252c9ce320dc490954fbd293f6f21b9aa7aff
+│   │   ├── 43
+│   │   │   └── 4c203856a88dc5e1ca96ab42f4aeb57154d312
+│   │   ├── 4a
+│   │   │   └── f0b40bb981c7b74f736ab66585980587c74900
+│   │   ├── 50
+│   │   │   └── 6502ccbb12fc5aa3cd5b66544f4161de634923
+│   │   ├── 53
+│   │   │   └── 2e811aec82f94c67af5cf30e38bf0939ee7348
+│   │   ├── 58
+│   │   │   └── ed9ca069327155f5ea336aacfadb2fae336df1
+│   │   ├── 5d
+│   │   │   ├── a1a7c8627b8f6b5cc6d975eeec05dc40a26cbb
+│   │   │   └── c930544f34ec24fc8a8063cb06768a71c4d180
+│   │   ├── 5e
+│   │   │   └── 5d900e50b6b789e7568dde3b75315e270eba99
+│   │   ├── 5f
+│   │   │   ├── 3289cf395ac02b80b4d591ae4eac54518335d5
+│   │   │   └── a41c7fb001157f997ef958a7e53f5ca85f353a
+│   │   ├── 60
+│   │   │   └── 2d2f2ffd64662e091864e4b9daf0465794f832
+│   │   ├── 65
+│   │   │   └── 148c180c1599d90aa0cc704950188882652eb2
+│   │   ├── 66
+│   │   │   ├── 867631b88034dcd0ce4f7cf14fa84b28738056
+│   │   │   └── c23b9cd83d9d4143aa008f37b37b3384dfd65a
+│   │   ├── 6c
+│   │   │   └── dcffea631a25e344e4ed68f3028fef1e554870
+│   │   ├── 71
+│   │   │   └── 219f650ec5682e7ca5a76855d739b20845c3dd
+│   │   ├── 73
+│   │   │   ├── c03fb912e507d50751347447e438cd83e0d4cb
+│   │   │   └── cb9692f96aa4b687d069ccff87f5704a673b48
+│   │   ├── 76
+│   │   │   └── e12a4cbf8afb9f16c943b0834c75419b394982
+│   │   ├── 78
+│   │   │   └── 32014a04c50e3d891631c3d22df67b364a5f03
+│   │   ├── 7c
+│   │   │   └── 72d5ecf4681f13feba247400e464d967fe6448
+│   │   ├── 7d
+│   │   │   ├── 3333237051fe12d7e48d1dbae6ded9a87ceae3
+│   │   │   ├── 47d69b633efa84be70efd3be071428ac97bbc0
+│   │   │   └── 5e852b8dfde92718e8e1186486cab10651b806
+│   │   ├── 81
+│   │   │   └── a8a02837cf124efab761c3929c94911be5e141
+│   │   ├── 82
+│   │   │   └── 2c5adcb7b40748111112e2773e428ecb3e3a5e
+│   │   ├── 83
+│   │   │   └── a0a67e603cad56368942ae9c23f9b6db34510f
+│   │   ├── 87
+│   │   │   └── 9dcbc267120bd762d5f814515997fbf7f211de
+│   │   ├── 8a
+│   │   │   ├── 1de866732c0ca71d082e7a0c40bd111c9d0f56
+│   │   │   └── 84271221fa3f66db9e9cb747b6cd3734a14b43
+│   │   ├── 8c
+│   │   │   └── aa797f711f73a4d15a77ec4f6001dde032aa81
+│   │   ├── 96
+│   │   │   └── b0afb2b0b6c3d062aa6c569c463dfb6c37f543
+│   │   ├── 9a
+│   │   │   └── 60aca1333e7f08e13aa4d9f4b0e482f5dabf41
+│   │   ├── 9b
+│   │   │   ├── 41e680d3edba973043b75f0e2df8bfbafe8e3a
+│   │   │   └── 7e9192332c6ebf19c212278cff11213db43a17
+│   │   ├── 9d
+│   │   │   └── 787d85bb457aa5d6f1e4cacbd09bb187907e53
+│   │   ├── 9f
+│   │   │   └── 8a99d9d0029ca2164a9b1136a8fd006e1c7638
+│   │   ├── a0
+│   │   │   └── a56e9546830d67025e1f065ca9bb0839cfe5fe
+│   │   ├── a3
+│   │   │   └── e7bba82fe4f64a9a07fd65a55e904beafd17d6
+│   │   ├── a4
+│   │   │   └── 5fa26511f7a2e0a4eddff53933734a924712e5
+│   │   ├── a9
+│   │   │   ├── 1530abd3635ff14fa1356a3bb3b335f08a9b12
+│   │   │   ├── 7f5d7264ff08dca02ecd46b9996d91b4158c1d
+│   │   │   ├── 90f6f9e4fa15dc1e57793c48e0240ce4274bf9
+│   │   │   └── da7dead5e6725cbf7fadb4bf88f19c82ea93bf
+│   │   ├── ad
+│   │   │   └── 20f5dae24c76d50abd1b920230608a0d55fe4b
+│   │   ├── b0
+│   │   │   └── 774f9df473ade647a593d9294e93801e8a1fa0
+│   │   ├── b4
+│   │   │   └── e44f5baaa2528461b64f09fdb537b6158df0bf
+│   │   ├── be
+│   │   │   └── f0eb4d3a419ac705ef8f3826ba2449e7424f23
+│   │   ├── bf
+│   │   │   ├── 2cdade62df0b00342b820100ba2ee377e54328
+│   │   │   └── 303a87a8371eed2f276843c1aba821c28e9f72
+│   │   ├── c1
+│   │   │   ├── 31d6538d984c86dc66ff194f1ae23279fd663b
+│   │   │   └── f16164f9d589d12f1ebb252259f635ea6e18ec
+│   │   ├── c7
+│   │   │   └── 4b7e47660f5b3f4488ef85693046a3d07718d1
+│   │   ├── c9
+│   │   │   └── 71f70ef1615a637f4b755b5e823bce874d97a2
+│   │   ├── cb
+│   │   │   └── e2d27dec800e5f686ff8403051c9a2cf72f027
+│   │   ├── cc
+│   │   │   └── 0a57048033e44a9d7b7dd99a700fd99cce8bfe
+│   │   ├── ce
+│   │   │   └── c3a238ccb4badb24ce62f9b38bfc29972a26e9
+│   │   ├── d0
+│   │   │   ├── abf4c1c95315a3168f5342712a8dfd3357160d
+│   │   │   └── c3cf2115c548903a0b056a2388d7b35be50615
+│   │   ├── d3
+│   │   │   └── 05f302d057c8d0cb213370d5257e844c2ffada
+│   │   ├── d4
+│   │   │   └── 9645ea94f7f3274d56b13324aaed0ee4bba43f
+│   │   ├── d7
+│   │   │   └── 74f1232bc78a4bf047b8b62416a3d094004438
+│   │   ├── dc
+│   │   │   └── 5b9ea804a838ebcc57148c45f3d4f2c8c12608
+│   │   ├── de
+│   │   │   └── d3679ebccdb97d064ed2e7532d36b683fabe77
+│   │   ├── e1
+│   │   │   ├── 7a0cb33d7683bf4b8029e221d898779bbe2328
+│   │   │   └── c00bc9ab4458477d8e6bf15f7b91f11e5efc7f
+│   │   ├── e8
+│   │   │   ├── 232bcf62b4d37f3e81e0793c2899e4669e76ed
+│   │   │   └── f1f3e894761ff4cfa4dfc8aa37904a3f2834fc
+│   │   ├── ea
+│   │   │   └── e1418893ebd251bce627089a86f465477d30e6
+│   │   ├── f1
+│   │   │   ├── 7e39b3b3996191363e92fcb7b9066867621c10
+│   │   │   └── d7d54f55bbe4cb99bf0f768959a6a0be431449
+│   │   ├── f3
+│   │   │   └── 94c941bdb5d360dcdfba6ff43b27fdd2e284e8
 │   │   ├── info
 │   │   └── pack
 │   │       ├── pack-87bd7555572f7f5cc196116a9f234d0b621191ba.idx
 │   │       ├── pack-87bd7555572f7f5cc196116a9f234d0b621191ba.pack
 │   │       └── pack-87bd7555572f7f5cc196116a9f234d0b621191ba.rev
+│   ├── ORIG_HEAD
 │   ├── packed-refs
 │   └── refs
 │       ├── heads
 │       │   └── main
 │       ├── remotes
 │       │   └── origin
-│       │       └── HEAD
+│       │       ├── HEAD
+│       │       └── main
 │       └── tags
+│           ├── v0.2.0
+│           ├── v0.2.1
+│           └── v0.2.3
 ├── .gitignore
 ├── index.html
 ├── LICENSE
@@ -2505,12 +2685,7 @@
 │   │   │   │       ├── win_utils.cc
 │   │   │   │       └── win_utils.hh
 │   │   │   └── wrapper.js
-│   │   ├── watcher-linux-x64-glibc
-│   │   │   ├── LICENSE
-│   │   │   ├── package.json
-│   │   │   ├── README.md
-│   │   │   └── watcher.node
-│   │   └── watcher-linux-x64-musl
+│   │   └── watcher-linux-x64-glibc
 │   │       ├── LICENSE
 │   │       ├── package.json
 │   │       ├── README.md
@@ -2714,6 +2889,24 @@
 │   │   ├── client.react-server.js
 │   │   ├── index.js
 │   │   ├── LICENSE
+│   │   ├── node_modules
+│   │   │   └── scheduler
+│   │   │       ├── cjs
+│   │   │       │   ├── scheduler.development.js
+│   │   │       │   ├── scheduler.native.development.js
+│   │   │       │   ├── scheduler.native.production.js
+│   │   │       │   ├── scheduler.production.js
+│   │   │       │   ├── scheduler-unstable_mock.development.js
+│   │   │       │   ├── scheduler-unstable_mock.production.js
+│   │   │       │   ├── scheduler-unstable_post_task.development.js
+│   │   │       │   └── scheduler-unstable_post_task.production.js
+│   │   │       ├── index.js
+│   │   │       ├── index.native.js
+│   │   │       ├── LICENSE
+│   │   │       ├── package.json
+│   │   │       ├── README.md
+│   │   │       ├── unstable_mock.js
+│   │   │       └── unstable_post_task.js
 │   │   ├── package.json
 │   │   ├── profiling.js
 │   │   ├── profiling.react-server.js
@@ -3355,14 +3548,10 @@
 │   │   ├── package.json
 │   │   └── readme.md
 │   ├── @rollup
-│   │   ├── rollup-linux-x64-gnu
-│   │   │   ├── package.json
-│   │   │   ├── README.md
-│   │   │   └── rollup.linux-x64-gnu.node
-│   │   └── rollup-linux-x64-musl
+│   │   └── rollup-linux-x64-gnu
 │   │       ├── package.json
 │   │       ├── README.md
-│   │       └── rollup.linux-x64-musl.node
+│   │       └── rollup.linux-x64-gnu.node
 │   ├── rollup
 │   │   ├── dist
 │   │   │   ├── bin
@@ -3394,14 +3583,6 @@
 │   │   │       ├── watch-cli.js
 │   │   │       └── watch.js
 │   │   ├── LICENSE.md
-│   │   ├── node_modules
-│   │   │   └── @types
-│   │   │       └── estree
-│   │   │           ├── flow.d.ts
-│   │   │           ├── index.d.ts
-│   │   │           ├── LICENSE
-│   │   │           ├── package.json
-│   │   │           └── README.md
 │   │   ├── package.json
 │   │   └── README.md
 │   ├── sass
@@ -4733,10 +4914,6 @@
 │   │   │   ├── package.json
 │   │   │   ├── README.md
 │   │   │   └── swc.linux-x64-gnu.node
-│   │   ├── core-linux-x64-musl
-│   │   │   ├── package.json
-│   │   │   ├── README.md
-│   │   │   └── swc.linux-x64-musl.node
 │   │   ├── counter
 │   │   │   ├── CHANGELOG.md
 │   │   │   ├── index.js
@@ -10819,7 +10996,7 @@
 │   │   │   │       │   ├── BoxLineGeometry.d.ts
 │   │   │   │       │   ├── ConvexGeometry.d.ts
 │   │   │   │       │   ├── DecalGeometry.d.ts
-│   │   │   │       │   ├── ParametricGeometries.d.ts
+│   │   │   │       │   ├── ParametricFunctions.d.ts
 │   │   │   │       │   ├── ParametricGeometry.d.ts
 │   │   │   │       │   ├── RoundedBoxGeometry.d.ts
 │   │   │   │       │   ├── TeapotGeometry.d.ts
@@ -11550,6 +11727,7 @@
 │   │   │       │       ├── ArrayElementNode.d.ts
 │   │   │       │       ├── ConvertNode.d.ts
 │   │   │       │       ├── CubeMapNode.d.ts
+│   │   │       │       ├── DebugNode.d.ts
 │   │   │       │       ├── Discard.d.ts
 │   │   │       │       ├── EquirectUVNode.d.ts
 │   │   │       │       ├── FunctionOverloadingNode.d.ts
@@ -11983,22 +12161,18 @@
 │   │   └── deps
 │   │       ├── chunk-2OLFQOK4.js
 │   │       ├── chunk-2OLFQOK4.js.map
+│   │       ├── chunk-DWXYZ74C.js
+│   │       ├── chunk-DWXYZ74C.js.map
 │   │       ├── chunk-G3PMV62Z.js
 │   │       ├── chunk-G3PMV62Z.js.map
-│   │       ├── chunk-HADTWQBZ.js
-│   │       ├── chunk-HADTWQBZ.js.map
-│   │       ├── chunk-LJ7ACCLW.js
-│   │       ├── chunk-LJ7ACCLW.js.map
-│   │       ├── chunk-LZQLY3ZQ.js
-│   │       ├── chunk-LZQLY3ZQ.js.map
-│   │       ├── chunk-Q5B56BVT.js
-│   │       ├── chunk-Q5B56BVT.js.map
+│   │       ├── chunk-MJNCUEZK.js
+│   │       ├── chunk-MJNCUEZK.js.map
+│   │       ├── chunk-R3FYTUUQ.js
+│   │       ├── chunk-R3FYTUUQ.js.map
+│   │       ├── chunk-UGC3UZ7L.js
+│   │       ├── chunk-UGC3UZ7L.js.map
 │   │       ├── chunk-WT3DKMOI.js
 │   │       ├── chunk-WT3DKMOI.js.map
-│   │       ├── chunk-YAO5MN6X.js
-│   │       ├── chunk-YAO5MN6X.js.map
-│   │       ├── chunk-YJYY6GXC.js
-│   │       ├── chunk-YJYY6GXC.js.map
 │   │       ├── gsap.js
 │   │       ├── gsap.js.map
 │   │       ├── gsap_ScrollTrigger.js
@@ -12019,12 +12193,8 @@
 │   │       ├── @react-three_drei.js.map
 │   │       ├── @react-three_fiber.js
 │   │       ├── @react-three_fiber.js.map
-│   │       ├── react-tsparticles.js
-│   │       ├── react-tsparticles.js.map
 │   │       ├── three.js
 │   │       ├── three.js.map
-│   │       ├── tsparticles-slim.js
-│   │       ├── tsparticles-slim.js.map
 │   │       ├── vision_bundle-OMLDC4S3.js
 │   │       └── vision_bundle-OMLDC4S3.js.map
 │   ├── vite
@@ -12220,6 +12390,7 @@
 ├── src
 │   ├── App.jsx
 │   ├── App.jsx.bak
+│   ├── App.jsx.bak.1743195691
 │   ├── assets
 │   │   └── profile-pic.jpg
 │   ├── components
@@ -12266,6 +12437,7 @@
 │       ├── mixins.scss
 │       └── _variables.scss
 ├── update_resume_v2.sh
-└── vite.config.js
+├── vite.config.js
+└── z-script.sh
 
-1619 directories, 10650 files
+1691 directories, 10750 files

@@ -5,11 +5,11 @@ import styles from './TechExpertiseSection.module.scss';
 const expertiseAreas = [
   {
     title: 'Linux',
-    description: 'Extensive experience in server setup, security, networking, storage and troubleshooting. Proficient in system monitoring and management tools like journald and Prometheus.'
+    description: 'Extensive experience in server setup, security, networking, storage, user management and troubleshooting. Proficient in system monitoring and management tools like journald and Prometheus.'
   },
   {
     title: 'Windows OS/Server',
-    description: 'Skilled in provisioning, troubleshooting, Active Directory, Hyper-V management, and server security.'
+    description: 'Skilled in provisioning, networking and troubleshooting servers. Proficient with Active Directory, Hyper-V management, datastore managementand server security.'
   },
   {
     title: 'Virtualization',
@@ -17,11 +17,11 @@ const expertiseAreas = [
   },
   {
     title: 'Containers',
-    description: 'Proficient in Docker, Podman, and Kubernetes for container deployment and management.'
+    description: 'Proficient in Docker, Podman, and Kubernetes for container deployment and management. Well versed in creating and deploying custom container images.'
   },
   {
     title: 'Web Servers',
-    description: 'Skilled in setting up and managing web servers/websites, including DNS configuration and WordPress deployment and administration.'
+    description: 'Skilled in setting up and managing web servers/websites, including DNS configuration and WordPress deployment/administration. Expertise in configuring and managing complex Apache/NGINX deployments (e.g. load balancing, SSL/TLS, multiple server site, etc.).'
   },
   {
     title: 'Security/Disaster Recovery',
@@ -33,7 +33,7 @@ const expertiseAreas = [
   },
   {
     title: 'AI Systems',
-    description: 'Hands-on experience deploying AI models and improving their performance using advanced techniques like Retrieval-Augmented Generation (RAG).'
+    description: 'Hands-on experience deploying AI models and improving their performance using advanced techniques like Retrieval-Augmented Generation (RAG). Expert at leveraging end-user AI to enhance productivity and efficiency.'
   },
 ];
 

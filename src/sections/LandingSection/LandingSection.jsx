@@ -12,7 +12,8 @@ const LandingSection = ({ id }) => {
   const picRef = useRef(null); // Ref for the picture
   const nameRef = useRef(null);
   const taglineRef = useRef(null);
-  const summaryRef = useRef(null);
+  const summaryRef = useRef(null); // Ref for the FIRST summary
+  const summaryRef2 = useRef(null); // New ref for the SECOND summary
 
   useEffect(() => {
     // Animate content and picture together
@@ -30,12 +31,14 @@ const LandingSection = ({ id }) => {
 
         // Optional: Animate elements within the content block if needed (might conflict with above)
         // Animate Name, Tagline, Summary individually *after* the block fades in
-        if (nameRef.current && taglineRef.current && summaryRef.current) {
-            tl.fromTo([nameRef.current, taglineRef.current, summaryRef.current],
+        if (nameRef.current && taglineRef.current && summaryRef.current && summaryRef2.current) {
+            tl.fromTo([nameRef.current, taglineRef.current, summaryRef.current, summaryRef2.current],
                 { y: 20, autoAlpha: 0 }, // autoAlpha handles opacity and visibility
                 { y: 0, autoAlpha: 1, duration: 0.6, stagger: 0.15 },
                 "-=0.5" // Start this sequence slightly before the block finishes fading in
             );
+        } else {
+            console.warn("LandingSection: One or more text element refs not found for animation.");
         }
     }
   }, []);
@@ -60,13 +63,11 @@ const LandingSection = ({ id }) => {
                 Lifelong Tech Enthusiast | Architect of Digital Solutions
               </p>
               <p ref={summaryRef} className={styles.summary}>
-                I am a lifelong tech enthusiast with a love for learning...
-                {/* Keep the summary concise here if needed, or show full */}
-                 seeking a position that leverages my diverse skills and fosters continuous
-                growth. I am well-versed in technical support, computer hardware,
-                virtualization, infrastructure management, and cloud environments.
-                I bring demonstrated expertise in managing both Linux and Windows
+              Hello and thank you for visiting my digital profile. Everything on this site was created and developed by yours truly, using React, SCSS, and JavaScript. This page is being served from my personal on-premises server which is tunneled through a VPN to an AWS cloud web server.
                 OS/servers.
+              </p>
+              <p ref={summaryRef2} className={styles.summary}>
+                You will notice the button in the top righthand corner "Explore Solar System". Click on this button to interact with the distance-scaled model of our beautiful 3D solar system. I created this model using React-Three-Fiber. You can click on the planets and moons to learn more about them and get some fun facts. The model was created using the Three.js library and the React-Three-Fiber library. The model textures were downloaded from www.solarsystemscope.com/. It was a lot of fun to create this model and I hope you enjoy it.
               </p>
            </div>
        </div>
