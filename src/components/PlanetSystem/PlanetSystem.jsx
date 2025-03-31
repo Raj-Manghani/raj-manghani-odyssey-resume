@@ -26,8 +26,8 @@ const PlanetSystem = ({
   onPlanetClick
 }) => {
   const planetRef = useRef();
-  const moonOrbitRefs = useMemo(() => moons.map(() => React.createRef()), [moons.length]);
-  const [isHovered, setIsHovered] = useState(false);
+  const moonOrbitRefs = useMemo(() => moons.map(() => React.createRef()), [moons.length]); // Keep refs for orbit animation
+  const [hoveredBody, setHoveredBody] = useState(null); // Track hovered planet OR moon key
 
   useFrame((state, delta) => {
     if (planetRef.current) {
@@ -52,17 +52,24 @@ const PlanetSystem = ({
         console.error("[PlanetSystem] onPlanetClick prop is missing!");
     }
   };
-  // --- End Change ---
 
-  const handlePointerOver = (e) => {
+  // --- Updated Hover Handlers ---
+  const handlePointerOver = (e, key) => {
     e.stopPropagation();
-    setIsHovered(true);
+    setHoveredBody(key);
     document.body.style.cursor = 'pointer';
   };
   const handlePointerOut = (e) => {
     e.stopPropagation();
-    setIsHovered(false);
-    document.body.style.cursor = 'default';
+    // Only reset if the mouse is truly leaving the interactive area
+    // This basic check might need refinement depending on event bubbling details
+    if (e.relatedTarget && !e.currentTarget.contains(e.relatedTarget)) {
+        setHoveredBody(null);
+        document.body.style.cursor = 'default';
+    } else if (!e.relatedTarget) { // Handle cases where relatedTarget is null (e.g., moving off window)
+        setHoveredBody(null);
+        document.body.style.cursor = 'default';
+    }
   };
 
   const finalRingInnerRadius = ringInnerRadius ?? planetSize * 1.2;
@@ -70,23 +77,24 @@ const PlanetSystem = ({
 
   return (
     <group position={position}>
+      {/* --- Planet Group --- */}
       <group
         onClick={(e) => handleBodyClick(e, planetKey)}
-        onPointerOver={handlePointerOver}
-        onPointerOut={handlePointerOut}
+        onPointerOver={(e) => handlePointerOver(e, planetKey)}
+        onPointerOut={handlePointerOut} // Keep simple out handler for the group
       >
         <Planet
-          rotationRef={planetRef}
+          rotationRef={planetRef} // Keep for planet's self-rotation
           size={planetSize}
           textureUrl={planetTextureUrl}
           emissiveColor={emissiveColor}
           emissiveIntensity={emissiveIntensity}
           axialTilt={planetAxialTilt}
         />
-        {isHovered && (
+        {hoveredBody === planetKey && ( // Show label if this planet is hovered
           <Html position={[0, planetSize * 1.5 + 0.2, 0]} center className="nameLabel">
             <div>
-                {name} {/* Display capitalized name */}
+                {name} {/* Display planet name */}
                 <span className="clickPrompt">(Click for Details)</span>
             </div>
           </Html>
@@ -102,17 +110,31 @@ const PlanetSystem = ({
          />
       )}
 
+      {/* --- Moons Group --- */}
       {moons.map((moon, index) => (
-        <group
-          key={moon.name || index}
-          ref={moonOrbitRefs[index]}
-        >
-          <Moon
-            position={[moon.orbitRadius, 0, 0]}
-            size={moon.size}
-            textureUrl={moon.textureUrl}
-            // onClick={(e) => handleBodyClick(e, `${planetKey}-${moon.name}`)} // Example for future moon click
-          />
+        // This outer group handles the moon's orbit around the planet
+        <group key={moon.key} ref={moonOrbitRefs[index]}>
+          {/* This inner group handles clicking and hovering on the moon itself */}
+          <group
+            position={[moon.orbitRadius, 0, 0]} // Position moon relative to its orbit center
+            onClick={(e) => handleBodyClick(e, moon.key)} // Use moon's unique key
+            onPointerOver={(e) => handlePointerOver(e, moon.key)} // Track hover by moon key
+            onPointerOut={handlePointerOut} // Use same out handler
+          >
+            <Moon
+              // No position prop needed here as parent group handles it
+              size={moon.size}
+              textureUrl={moon.textureUrl}
+            />
+            {hoveredBody === moon.key && ( // Show label if this moon is hovered
+              <Html position={[0, moon.size * 1.5 + 0.1, 0]} center className="nameLabel">
+                 <div>
+                    {moon.name} {/* Display moon name */}
+                    <span className="clickPrompt">(Click for Details)</span>
+                 </div>
+              </Html>
+            )}
+          </group>
         </group>
       ))}
     </group>

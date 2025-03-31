@@ -29,13 +29,10 @@ import './infoBox.scss'; // Import the SCSS file instead
 
 gsap.registerPlugin(ScrollTrigger);
 
-// Removed inline Skybox component definition
-// Removed inline SolarSystemGroup component definition
-
 // --- Main App Component ---
 function App() {
   const [showResume, setShowResume] = useState(true);
-  const [activeInfo, setActiveInfo] = useState(null);
+  const [activeInfo, setActiveInfo] = useState(null); // Stores the key of the active planet OR moon
   const mainRef = useRef();
 
   // useEffect for GSAP & Visibility (Unchanged)
@@ -81,12 +78,12 @@ function App() {
     }
   };
 
-  // Planet click handler (Receives lowercase key now)
-  const handlePlanetClick = (planetKey) => {
-      console.log(`[App] handlePlanetClick received: ${planetKey}`);
+  // Click handler for Planets AND Moons
+  const handleBodyClick = (key) => { // Renamed from handlePlanetClick for clarity
+      console.log(`[App] handleBodyClick received: ${key}`);
       console.log(`[App] Current activeInfo BEFORE update: ${activeInfo}`);
       setActiveInfo(current => {
-          const nextState = current === planetKey ? null : planetKey;
+          const nextState = current === key ? null : key;
           console.log(`[App] Setting activeInfo to: ${nextState}`);
           return nextState;
       });
@@ -96,17 +93,40 @@ function App() {
   const handleClosePanel = () => {
       console.log("[App] handleClosePanel called.");
       setActiveInfo(null);
-  };
+   };
 
-  // Get the data object for the active planet/body (Uses imported PLANET_DATA)
-  const activePlanetData = activeInfo ? PLANET_DATA[activeInfo] : null;
+   // --- Function to get data object for active planet OR moon ---
+   const getActiveBodyData = (key) => {
+       if (!key) return null;
 
-  // Logging for rendering (Unchanged)
-  console.log(`[App] Rendering - activeInfo: ${activeInfo}`);
-  console.log(`[App] Rendering - activePlanetData found: ${!!activePlanetData}`);
-  if (activePlanetData) {
-      // console.log("[App] activePlanetData contents:", activePlanetData);
-  }
+       // Check if it's a top-level planet/sun key
+       if (PLANET_DATA[key]) {
+           return PLANET_DATA[key];
+       }
+
+       // Check if it's a moon key (e.g., "jupiter_io")
+       for (const planetKey in PLANET_DATA) {
+           const planet = PLANET_DATA[planetKey];
+           if (planet.moons && planet.moons.length > 0) {
+               const foundMoon = planet.moons.find(moon => moon.key === key);
+               if (foundMoon) {
+                   // Return the found moon data
+                   return foundMoon;
+               }
+           }
+       }
+
+       console.warn(`[App] Data not found for key: ${key}`);
+       return null; // Key not found
+   };
+
+   // Get the data for the currently active body (planet or moon)
+   const activeBodyData = getActiveBodyData(activeInfo);
+   // --- End Update ---
+
+   // Logging for rendering
+   console.log(`[App] Rendering - activeInfo: ${activeInfo}`);
+   console.log(`[App] Rendering - activeBodyData found: ${!!activeBodyData}`);
 
   return (
     <div className="app-container">
@@ -131,8 +151,8 @@ function App() {
             </div>
         )}
 
-        {/* --- Render DetailPanel (Unchanged) --- */}
-        <DetailPanel data={activePlanetData} onClose={handleClosePanel} />
+        {/* --- Render DetailPanel (Passes data for planet OR moon) --- */}
+        <DetailPanel data={activeBodyData} onClose={handleClosePanel} />
 
         <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', zIndex: 0 }}> {/* Unchanged */}
             <Canvas shadows camera={{ position: [0, 0, 60], fov: 50 }}>
@@ -145,10 +165,10 @@ function App() {
                     <TwinklingStars count={200} />
                     <AsteroidField count={60} />
                     <FlyingObjects count={3} />
-                    {/* Use imported SolarSystemGroup */}
+                    {/* Pass the updated click handler */}
                     <SolarSystemGroup
                         activeInfo={activeInfo}
-                        handlePlanetClick={handlePlanetClick}
+                        handlePlanetClick={handleBodyClick} // Pass the correct handler
                     />
                 </Suspense>
             </Canvas>
