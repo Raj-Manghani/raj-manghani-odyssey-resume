@@ -1,0 +1,52 @@
+/* src/components/Terminal/Terminal.module.scss */
+
+.terminalContainer {
+  position: fixed; // Position relative to the viewport
+  bottom: 20px;    // Distance from bottom
+  left: 20px;     // Distance from left
+  width: 450px;   // Adjust width as needed
+  height: 280px;  // Adjust height as needed
+  border: 1px solid #555;
+  border-radius: 4px;
+  overflow: hidden; // Ensure content stays within bounds
+  background-color: #1e1e1e; // Match xterm background
+  z-index: 10; // Ensure it's above the canvas but below modals if any
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  opacity: 0.9; // Slightly transparent
+  transition: opacity 0.3s ease-in-out;
+
+  &:hover {
+    opacity: 1; // Fully opaque on hover
+  }
+
+  /* Style the xterm container itself if needed,
+     though most styling is via the theme option */
+  :global(.xterm) {
+    height: calc(100% - 18px); // Adjust height to leave space for status
+    padding: 5px;
+  }
+  :global(.xterm .xterm-viewport) {
+     /* Prevent scrollbar if content fits */
+    overflow-y: auto;
+  }
+}
+
+.statusIndicator {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 1px 5px;
+  font-size: 0.7rem;
+  text-align: right;
+  color: #ccc;
+  background-color: rgba(0, 0, 0, 0.3);
+
+  &.connected {
+    color: #0dbc79; // Green for connected
+  }
+
+  &.disconnected {
+    color: #cd3131; // Red for disconnected
+  }
+}

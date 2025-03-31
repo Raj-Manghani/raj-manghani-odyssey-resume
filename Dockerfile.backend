@@ -1,0 +1,21 @@
+FROM node:20-alpine
+WORKDIR /app
+
+# Copy backend package files and install dependencies
+COPY terminal-backend/package.json terminal-backend/package-lock.json ./terminal-backend/
+RUN cd terminal-backend && npm install --omit=dev
+
+# Copy backend server code and shared data
+COPY terminal-backend/server.js ./terminal-backend/
+COPY src/data/solarSystemData.json ./src/data/
+
+# Set the application root directory environment variable
+# This path needs to match where the code is copied within the container
+ENV APP_ROOT_DIR=/app
+
+# Expose the backend port
+EXPOSE 3001
+
+# Command to run the backend server
+# Use the relative path from the WORKDIR
+CMD ["node", "terminal-backend/server.js"]

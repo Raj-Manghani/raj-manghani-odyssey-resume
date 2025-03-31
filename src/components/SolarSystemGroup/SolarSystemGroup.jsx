@@ -1,7 +1,8 @@
 import React, { useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
 import PlanetSystem from '../PlanetSystem/PlanetSystem';
-import { PLANET_DATA } from '../../constants/solarSystemData'; // Import data
+// import { PLANET_DATA } from '../../constants/solarSystemData'; // Old JS import
+import PLANET_DATA from '../../data/solarSystemData.json'; // Import JSON data
 
 function SolarSystemGroup({ activeInfo, handlePlanetClick }) {
     const orbitRefs = useMemo(() => {
@@ -67,4 +68,4 @@ function SolarSystemGroup({ activeInfo, handlePlanetClick }) {
     );
 }
 
-export default SolarSystemGroup; 
+export default SolarSystemGroup;

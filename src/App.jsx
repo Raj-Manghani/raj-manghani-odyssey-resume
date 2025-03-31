@@ -7,15 +7,17 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 // Data Imports
-import { PLANET_DATA } from './constants/solarSystemData'; // Import planet data
+// import { PLANET_DATA } from './constants/solarSystemData'; // Old JS import
+import PLANET_DATA from './data/solarSystemData.json'; // Import JSON data
 
 // Import components
 import TwinklingStars from './components/TwinklingStars/TwinklingStars';
 import FlyingObjects from './components/FlyingObjects/FlyingObjects';
 import AsteroidField from './components/AsteroidField/AsteroidField';
 import DetailPanel from './components/DetailPanel/DetailPanel'; // Keep this import
-import Skybox from './components/Skybox/Skybox'; // Import extracted component
-import SolarSystemGroup from './components/SolarSystemGroup/SolarSystemGroup'; // Import extracted component
+import Skybox from './components/Skybox/Skybox';
+import SolarSystemGroup from './components/SolarSystemGroup/SolarSystemGroup';
+import TerminalComponent from './components/Terminal/Terminal'; // Import the new Terminal component
 
 // Section Imports
 import LandingSection from './sections/LandingSection/LandingSection';
@@ -99,7 +101,7 @@ function App() {
    const getActiveBodyData = (key) => {
        if (!key) return null;
 
-       // Check if it's a top-level planet/sun key
+       // Check if it's a top-level planet/sun key (using imported JSON data)
        if (PLANET_DATA[key]) {
            return PLANET_DATA[key];
        }
@@ -151,10 +153,13 @@ function App() {
             </div>
         )}
 
+        {/* --- Render Terminal Component (Conditionally) --- */}
+        {!showResume && <TerminalComponent />}
+
         {/* --- Render DetailPanel (Passes data for planet OR moon) --- */}
         <DetailPanel data={activeBodyData} onClose={handleClosePanel} />
 
-        <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', zIndex: 0 }}> {/* Unchanged */}
+        <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', zIndex: 0 }}> {/* Canvas container */}
             <Canvas shadows camera={{ position: [0, 0, 60], fov: 50 }}>
                 <OrbitControls enableDamping dampingFactor={0.1} />
                 {/* Use imported Skybox */}
