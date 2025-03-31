@@ -1,23 +1,31 @@
 // src/components/BackgroundParticles/BackgroundParticles.jsx
 import React, { useCallback } from "react";
-import Particles from "react-tsparticles";
-import { loadSlim } from "tsparticles-slim"; // Load the slim version
+import Particles, { initParticlesEngine } from "@tsparticles/react"; // Updated import
+import { loadSlim } from "@tsparticles/slim"; // Updated import
 
 const BackgroundParticles = () => {
-  // This function loads the tsparticles engine
+  // This function loads the tsparticles engine using the new init method
   const particlesInit = useCallback(async (engine) => {
-    // console.log(engine); // Debugging
-    // Load the 'slim' preset bundle, this contains commonly used features
-    await loadSlim(engine);
+    console.log("Initializing particles engine..."); // Debugging
+    await loadSlim(engine); // Load the slim engine
+    console.log("Slim engine loaded."); // Debugging
   }, []);
 
-  // This function is called when the component is mounted and particles are ready
+  // Initialize the engine once
+  useEffect(() => {
+    initParticlesEngine(particlesInit);
+  }, [particlesInit]);
+
+
+  // This function is called AFTER initParticlesEngine is done and particles are ready
   const particlesLoaded = useCallback(async (container) => {
     // await console.log(container); // Debugging
+    // await console.log("Particles container loaded:", container); // Debugging
   }, []);
 
   // Particle configuration - Customize this!
   // Find more options here: https://particles.js.org/docs/interfaces/Options_Interfaces_IOptions.IOptions.html
+  // Note: Structure might be slightly different in v3, check docs if needed.
   const particleOptions = {
     background: {
       color: {
@@ -110,12 +118,21 @@ const BackgroundParticles = () => {
   };
 
 
+  // The new Particles component doesn't need init prop if using initParticlesEngine
   return (
     <Particles
       id="tsparticles" // Important for targeting with CSS
-      init={particlesInit}
+      // init={particlesInit} // No longer needed here
       loaded={particlesLoaded}
       options={particleOptions}
+      style={{
+        position: 'absolute', // Ensure it covers the background
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        zIndex: -1 // Place it behind other content
+      }}
     />
   );
 };
