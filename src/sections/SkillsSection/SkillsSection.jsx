@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './SkillsSection.module.scss';
+import PowerCell from '../../components/PowerCell/PowerCell';
 
 // Updated Data - reflecting the backup content
 const skillCategories = [
@@ -72,15 +73,6 @@ const skillCategories = [
   }
 ];
 
-// Simple component for rendering proficiency dots
-const ProficiencyDots = ({ level }) => (
-  <span className={styles.dots}>
-    {[...Array(5)].map((_, i) => (
-      <span key={i} className={i < level ? styles.dotFilled : styles.dotEmpty}>●</span>
-    ))}
-  </span>
-);
-
 const SkillsSection = ({ id }) => {
   return (
     <section id={id} className={`${styles.skillsSection} section-fade-in`}>
@@ -95,14 +87,14 @@ const SkillsSection = ({ id }) => {
                 {category.skills.map(skill => (
                   <li key={skill.name}>
                     <span>{skill.name}</span>
-                    <ProficiencyDots level={skill.level} />
+                    <PowerCell level={skill.level} />
                   </li>
                 ))}
               </ul>
             </div>
           ))}
         </div>
-        <p className={styles.placeholder}>[Interactive 3D visualization planned for future iteration]</p>
+        <p className={styles.placeholder}>[The list of skills is not exhaustive.]</p>
       </div>
     </section>
   );

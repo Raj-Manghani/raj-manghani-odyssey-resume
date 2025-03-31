@@ -57,31 +57,19 @@
         align-items: center;
         margin-bottom: 0.8rem;
         color: var.$color-text-medium;
-        font-size: 0.95rem;
         padding-bottom: 0.5rem;
         border-bottom: 1px dashed rgba(var.$color-text-dark, 0.2);
 
         &:last-child {
             border-bottom: none;
         }
+
+        > span {
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: #f0f0f0;
+        }
     }
-}
-
-.dots {
-   display: flex;
-   gap: 3px; // Space between dots
-   margin-left: 10px; // Space between name and dots
-}
-
-.dotFilled {
-   color: var.$color-accent1; // Cyan filled dots
-   text-shadow: var.$glow-cyan;
-   font-size: 1.1em;
-}
-
-.dotEmpty {
-   color: rgba(var.$color-text-dark, 0.5); // Dim empty dots
-    font-size: 1.1em;
 }
 
 .placeholder {
