@@ -64,10 +64,9 @@ const LandingSection = ({ id }) => {
               </p>
               <p ref={summaryRef} className={styles.summary}>
               Hello and thank you for visiting my digital profile. Everything on this site was created and developed by yours truly, using React, SCSS, and JavaScript. This page is being served from my personal on-premises server which is tunneled through a VPN to an AWS cloud web server.
-                OS/servers.
               </p>
               <p ref={summaryRef2} className={styles.summary}>
-                You will notice the button in the top righthand corner "Explore Solar System". Click on this button to interact with the distance-scaled model of our beautiful 3D solar system. I created this model using React-Three-Fiber. You can click on the planets and moons to learn more about them and get some fun facts. The model was created using the Three.js library and the React-Three-Fiber library. The model textures were downloaded from www.solarsystemscope.com/. It was a lot of fun to create this model and I hope you enjoy it.
+                You will notice the button in the top righthand corner "Explore Solar System". Click on this button to interact with the distance-scaled model of our beautiful 3D Solar System. I created this model using React-Three-Fiber. You can click on the planets and moons to learn more about them and get some fun facts. The model was created using the Three.js library and the React-Three-Fiber library. The model textures were downloaded from www.solarsystemscope.com/. It was a lot of fun to create this model and I hope you enjoy it.
               </p>
            </div>
        </div>

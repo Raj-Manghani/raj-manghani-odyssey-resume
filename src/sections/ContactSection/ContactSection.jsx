@@ -11,7 +11,7 @@ const ContactSection = ({ id }) => {
   return (
     <section id={id} className={`${styles.contactSection} section-fade-in`}>
       <div className={styles.contentWrapper}>
-        <h2>Contact - Transmission Hub</h2>
+        <h2>Transmission Relay: Contact Me</h2>
         <p className={styles.intro}>Ready to connect or discuss opportunities? Reach out through the channels below or send a direct message.</p>
 
         <div className={styles.contactGrid}>

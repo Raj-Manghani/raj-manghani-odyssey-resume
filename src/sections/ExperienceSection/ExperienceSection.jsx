@@ -8,7 +8,7 @@ const ExperienceSection = ({ id }) => {
   return (
     <section id={id} className={`${styles.experienceSection} section-fade-in`}>
       <div className={styles.contentWrapper}>
-        <h2>Work Experience</h2>
+        <h2>Interstellar Missions: Work Experience</h2>
         <div className={styles.timeline}>
           {experiences.map((exp, index) => (
             <div key={index} className={styles.timelineItem}>

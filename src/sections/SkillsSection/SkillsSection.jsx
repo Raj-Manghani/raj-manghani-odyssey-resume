@@ -85,8 +85,8 @@ const SkillsSection = ({ id }) => {
   return (
     <section id={id} className={`${styles.skillsSection} section-fade-in`}>
       <div className={styles.contentWrapper}>
-        <h2>Skills Matrix</h2>
-        <p className={styles.intro}>Exploring the technical constellations of my expertise.</p>
+        <h2>Core Systems & Modules: Skills Matrix</h2>
+        <p className={styles.intro}>Explore the technical constellations of my expertise.</p>
          <div className={styles.skillsGrid}>
           {skillCategories.map(category => (
             <div key={category.title} className={styles.category}>

@@ -8,7 +8,7 @@ const TechExpertiseSection = ({ id }) => {
   return (
     <section id={id} className={`${styles.techExpertiseSection} section-fade-in`}>
       <div className={styles.contentWrapper}>
-        <h2>Technical Expertise - The Engine Room</h2>
+        <h2>The Engine Room: Technical Expertise</h2>
         <p className={styles.intro}>A closer look at the core technologies and systems I command both in the cloud and on-premises.</p>
         <div className={styles.expertiseGrid}>
           {expertiseAreas.map((area, index) => (
