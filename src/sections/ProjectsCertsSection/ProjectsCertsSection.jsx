@@ -27,7 +27,7 @@ const ProjectsCertsSection = ({ id }) => {
 
              {/* Personal Projects & Education Column */}
             <div className={styles.column}>
-                <h3>Personal Projects</h3>
+                <h3 className={styles.personalProjectsHeading}>Personal Projects</h3>
                  <ul className={styles.projectList}>
                     {personalProjects.map((project, index) => (
                          <li key={index} className={styles.projectItem}>

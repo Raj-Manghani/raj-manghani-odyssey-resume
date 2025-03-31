@@ -135,7 +135,7 @@ function App() {
         <DetailPanel data={activePlanetData} onClose={handleClosePanel} />
 
         <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', zIndex: 0 }}> {/* Unchanged */}
-            <Canvas shadows camera={{ position: [0, 40, 120], fov: 50 }}>
+            <Canvas shadows camera={{ position: [0, 0, 60], fov: 50 }}>
                 <OrbitControls enableDamping dampingFactor={0.1} />
                 {/* Use imported Skybox */}
                 <Suspense fallback={null}><Skybox /></Suspense>

@@ -31,4 +31,8 @@ export const expertiseAreas = [
     title: 'AI Systems',
     description: 'Hands-on experience deploying AI models and improving their performance using advanced techniques like Retrieval-Augmented Generation (RAG). Expert at leveraging end-user AI to enhance productivity and efficiency.'
   },
+  {
+    title: 'Team Building',
+    description: 'Has built and led teams that excel at problem-solving and task delegation. Provides leadership to achieve both small and large-scale objectives. Creates a collaborative environment where every voice is heard, fostering teamwork and shared success.'
+  },
 ]; 

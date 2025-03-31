@@ -26,14 +26,21 @@
     box-shadow: 0 3px 12px rgba(0,0,0, 0.15);
 
     h3 {
-        color: var.$color-accent2; // Gold heading for columns
+        color: var.$color-accent2; // Reverted to accent2 (gold)
         margin-bottom: 1.5rem;
         text-align: center;
-        border-bottom: 1px solid rgba(var.$color-accent2, 0.3);
+        border-bottom: 1px solid rgba(var.$color-accent2, 0.3); // Reverted to accent2
         padding-bottom: 0.5rem;
-        @include mix.apply-glow(var.$color-accent2, 0.5);
+        @include mix.apply-glow(var.$color-accent2, 0.5); // Reverted to accent2
     }
 }
+
+// Style for the Personal Projects heading specifically - REMOVED as all headings revert
+/*
+h3.personalProjectsHeading {
+  font-weight: bold; 
+}
+*/
 
 // Certifications List
 .certList, .projectList {
@@ -70,10 +77,12 @@
 }
 
 .projectLink {
-    color: var.$color-accent2;
-    font-weight: 600;
+    color: var.$color-text-medium;
+    font-weight: bold;
+    flex-grow: 1;
+    margin-right: 0.5rem;
     &:hover {
-        color: color.adjust(var.$color-accent2, $lightness: 10%);
+        color: color.adjust(var.$color-text-medium, $lightness: 15%);
         text-decoration: underline;
     }
 }

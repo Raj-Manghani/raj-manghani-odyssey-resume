@@ -4,8 +4,8 @@
 @use "sass:color" as color;
 
 .contactSection {
-    background: linear-gradient(135deg, var.$color-background, rgba(var.$color-primary, 0.3));
-    padding-bottom: var.$section-padding-vertical * 1.5; // Extra space at the bottom
+    // background: linear-gradient(135deg, var.$color-background, rgba(var.$color-primary, 0.3)); // Removed
+    // padding-bottom: var.$section-padding-vertical * 1.5; // Removed - Extra space at the bottom
 }
 
 .contentWrapper {
@@ -37,21 +37,25 @@
 
 // Contact Info Styles
 .contactInfo {
-    h3 { // If adding a heading above info items
-       color: var.$color-accent2;
-       margin-bottom: 1.5rem;
-    }
+    display: grid; // Added for grid layout
+    grid-template-columns: repeat(2, 1fr); // Added for 2 columns
+    gap: 1rem 2rem; // Added row and column gap
+
+    // h3 { // If adding a heading above info items
+    //    color: var.$color-accent2;
+    //    margin-bottom: 1.5rem;
+    // }
 }
 
 .infoItem {
     display: flex;
     align-items: center;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem; // Adjusted margin for grid layout
     font-size: 1.05rem; // Slightly larger contact info
 
-    &:last-child {
-        margin-bottom: 0;
-    }
+    // &:last-child {
+    //     margin-bottom: 0; // Removed, rely on grid gap
+    // }
 
     .infoIcon {
         font-size: 1.6rem;
@@ -78,9 +82,9 @@
 }
 
 
-// Form Container Styles (Form styles themselves moved to ContactForm.module.scss)
-.formContainer {
-     background-color: rgba(var.$color-primary, 0.2);
+// Box container for the contact info grid
+.contactBox {
+     background-color: rgba(var.$color-primary, 0.1);
      padding: 2.5rem;
      border-radius: 8px;
      border: 1px solid rgba(var.$color-accent1, 0.15);
@@ -88,14 +92,13 @@
 
      @media (max-width: 600px) {
        padding: 1.5rem;
+       // Make grid 1 column on small screens
+       .contactInfo {
+           grid-template-columns: 1fr;
+       }
      }
 
-     h3 {
-         color: var.$color-accent2;
-         text-align: center;
-         margin-bottom: 1.5rem;
-         @include mix.apply-glow(var.$color-accent2, 0.5);
-     }
+     // Removed h3 style formerly nested here
 }
 
 .confirmationMessage {

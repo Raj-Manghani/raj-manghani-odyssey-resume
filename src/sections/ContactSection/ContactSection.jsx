@@ -1,7 +1,7 @@
 // src/sections/ContactSection/ContactSection.jsx
 import React from 'react';
 import styles from './ContactSection.module.scss';
-import ContactForm from '../../components/ContactForm/ContactForm'; // Import the extracted form
+// import ContactForm from '../../components/ContactForm/ContactForm'; // Removed import
 
 // Removed inline ContactForm definition
 
@@ -12,14 +12,15 @@ const ContactSection = ({ id }) => {
     <section id={id} className={`${styles.contactSection} section-fade-in`}>
       <div className={styles.contentWrapper}>
         <h2>Transmission Relay: Contact Me</h2>
-        <p className={styles.intro}>Ready to connect or discuss opportunities? Reach out through the channels below or send a direct message.</p>
+        <p className={styles.intro}>Ready to connect or discuss opportunities? Reach out through the channels below:</p>
 
-        <div className={styles.contactGrid}>
-            {/* Contact Info */}
-            <div className={styles.contactInfo}>
+        {/* Removed contactGrid wrapper */}
+        {/* Contact Info Box */}
+        <div className={styles.contactBox}>      {/* Apply contactBox style */}
+            <div className={styles.contactInfo}> {/* Inner grid container */}
                  <div className={styles.infoItem}>
                     <span className={styles.infoIcon}>📍</span>
-                    <span>Encinitas, CA United States 92024</span>
+                    <span>Encinitas, CA United States</span>
                  </div>
                  <div className={styles.infoItem}>
                      <span className={styles.infoIcon}>📧</span>
@@ -37,14 +38,10 @@ const ContactSection = ({ id }) => {
                      <span className={styles.infoIcon}>🔗</span>
                     <a href="https://github.com/Raj-Manghani" target="_blank" rel="noopener noreferrer">github.com/Raj-Manghani</a>
                  </div>
-            </div>
+            </div> {/* Close contactInfo grid container */}
+        </div> {/* Close contactBox */}
 
-            {/* Use imported Contact Form */}
-            <div className={styles.formContainer}>
-                 <h3>Direct Message</h3>
-                 <ContactForm />
-            </div>
-        </div>
+        {/* Form section previously here */}
       </div>
     </section>
   );
