@@ -1,7 +1,7 @@
 export const expertiseAreas = [
   {
     title: 'Linux',
-    description: 'Extensive experience in server setup, security, networking, storage, user management and troubleshooting. Proficient in system monitoring and management tools like journald and Prometheus.'
+    description: 'Extensive experience in server provisioning, security/hardening, networking, storage and troubleshooting. Proficient in system monitoring and management tools like journald and Prometheus. Skilled in shell scripting (Bash, Python) for automating tasks and improving system efficiency. Well-versed in various Linux distributions including Ubuntu, CentOS, Debian, and Red Hat.'
   },
   {
     title: 'Windows OS/Server',
@@ -9,7 +9,7 @@ export const expertiseAreas = [
   },
   {
     title: 'Virtualization',
-    description: 'Expertise in managing VMware (vSphere), Proxmox, and Hyper-V environments, including datastore management, security and disaster recovery.'
+    description: 'Expertise in managing VMware (vSphere), Proxmox, and Hyper-V environments, including datastore management, security and disaster recovery. Proficient in creating and managing virtual machines, snapshots, and backups to ensure high availability and data integrity.'
   },
   {
     title: 'Containers',
