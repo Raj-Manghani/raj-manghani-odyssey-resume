@@ -4,7 +4,15 @@ import { FitAddon } from '@xterm/addon-fit'; // Use official addon
 import '@xterm/xterm/css/xterm.css'; // Import official styles
 import styles from './Terminal.module.scss';
 
-const WS_URL = `ws://${window.location.hostname}:3001`; // Use hostname from browser URL
+// Dynamically determine WebSocket protocol and URL
+const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
+// Assume standard ports (80/443) are used if served over http/https,
+// otherwise use 3001 for local dev or non-standard setups.
+// A reverse proxy handling HTTPS/WSS would typically listen on 443.
+const wsPort = (window.location.protocol === 'https:' || window.location.protocol === 'http:') && (window.location.port === '' || window.location.port === '80' || window.location.port === '443')
+  ? '' // No port needed for standard ports (proxy handles routing)
+  : ':3001'; // Use explicit port for non-standard/dev setups
+const WS_URL = `${protocol}://${window.location.hostname}${wsPort}`;
 
 const TerminalComponent = () => {
   const terminalRef = useRef(null); // Ref for the container div
