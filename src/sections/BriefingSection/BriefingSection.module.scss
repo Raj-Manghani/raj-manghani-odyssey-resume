@@ -1,0 +1,50 @@
+// src/sections/BriefingSection/BriefingSection.module.scss
+@use '../../styles/variables' as var;
+@use '../../styles/mixins' as mix;
+
+.briefingSection {
+  @include mix.section-padding; // Apply padding, width, max-width, margin:auto initially
+  max-width: none; // Override max-width to allow full span
+  // Keep padding from mixin for content spacing:
+  padding-left: var.$section-padding-horizontal;
+  padding-right: var.$section-padding-horizontal;
+  // Vertical padding and bottom margin are already set correctly by mixin and explicit rule
+  text-align: center;
+  margin-bottom: var.$section-padding-vertical;
+
+  // Add any other specific styles if needed
+}
+
+.title {
+  // Define basic title styles directly:
+  color: var.$color-accent2;
+  margin-bottom: 2rem;
+  font-size: clamp(1.8rem, 5vw, 2.5rem);
+  @include mix.apply-glow(var.$color-accent2, 0.7);
+  opacity: 0; // For animation
+  transform: translateY(30px); // For animation
+}
+
+.contentWrapper {
+  // Container for the paragraphs if needed for layout
+  @include mix.flex-center($direction: column);
+  gap: 1.5rem; // Space between paragraphs
+}
+
+// Re-use summary style for consistency
+.summary {
+  color: var.$color-text-medium;
+  font-size: clamp(0.95rem, 2.5vw, 1.1rem);
+  line-height: 1.6;
+  max-width: 600px; // Limit paragraph width
+  margin-left: auto;
+  margin-right: auto;
+  text-align: left; // Align text left within the centered wrapper
+  opacity: 0; // For animation
+  transform: translateY(30px); // For animation
+
+  strong {
+    color: var.$color-text-light; // CORRECTED: Use light text color to make labels stand out
+    font-weight: 600;
+  }
+}

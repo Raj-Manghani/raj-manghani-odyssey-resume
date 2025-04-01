@@ -26,6 +26,7 @@ import ExperienceSection from './sections/ExperienceSection/ExperienceSection';
 import ProjectsCertsSection from './sections/ProjectsCertsSection/ProjectsCertsSection';
 import TechExpertiseSection from './sections/TechExpertiseSection/TechExpertiseSection';
 import ContactSection from './sections/ContactSection/ContactSection';
+import BriefingSection from './sections/BriefingSection/BriefingSection'; // Import the new section
 
 import './infoBox.scss'; // Import the SCSS file instead
 
@@ -37,32 +38,47 @@ function App() {
   const [activeInfo, setActiveInfo] = useState(null); // Stores the key of the active planet OR moon
   const mainRef = useRef();
 
-  // useEffect for GSAP & Visibility (Unchanged)
+  // useEffect for GSAP & Visibility (Restored Original Logic)
   useEffect(() => {
     const mainElement = mainRef.current;
     const sections = mainElement ? gsap.utils.toArray(mainElement.children) : [];
     let triggers = [];
-    gsap.killTweensOf(mainElement);
+    gsap.killTweensOf(mainElement); // Kill any ongoing tweens
+
     if (showResume) {
-        gsap.set(mainElement, { autoAlpha: 1 });
+        gsap.set(mainElement, { autoAlpha: 1 }); // Ensure main container is visible
+        // Initially hide all sections before setting up triggers
         gsap.set(sections, { autoAlpha: 0, y: 30 });
+        // Use a slight delay to ensure layout is stable before creating triggers
         const timer = setTimeout(() => {
             sections.forEach((section) => {
+                // Create a ScrollTrigger for each section to animate it in/out
                 const trigger = ScrollTrigger.create({
-                    trigger: section, start: 'top 85%', end: 'bottom 15%',
+                    trigger: section,
+                    start: 'top 85%', // When top of section hits 85% from top of viewport
+                    end: 'bottom 15%', // When bottom of section leaves 15% from top of viewport
+                    // Animate in on enter
                     onEnter: () => gsap.to(section, { autoAlpha: 1, y: 0, duration: 0.8, ease: 'power3.out', overwrite: 'auto' }),
+                    // Animate out on leave back (scrolling up)
                     onLeaveBack: () => gsap.to(section, { autoAlpha: 0, y: 30, duration: 0.5, ease: 'power3.in', overwrite: 'auto' }),
-                    invalidateOnRefresh: true
+                    invalidateOnRefresh: true // Recalculate on resize/refresh
                 });
-                triggers.push(trigger);
+                triggers.push(trigger); // Keep track of triggers to kill them later
             });
-        }, 100);
-        return () => { clearTimeout(timer); triggers.forEach(trigger => trigger.kill()); };
+        }, 100); // 100ms delay
+
+        // Cleanup function: kill timer and triggers when effect reruns or component unmounts
+        return () => {
+            clearTimeout(timer);
+            triggers.forEach(trigger => trigger.kill());
+        };
     } else {
+        // If hiding the resume view, kill all active ScrollTriggers immediately
         ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+        // Animate the main container out
         gsap.to(mainElement, { autoAlpha: 0, duration: 0.3 });
     }
-  }, [showResume]);
+  }, [showResume]); // Rerun effect if showResume changes
 
   // Menu click handler (Unchanged)
   const handleMenuClick = (e) => {
@@ -135,6 +151,7 @@ function App() {
         <header className="app-header"> {/* Unchanged */}
             <nav>
                 <a href="#about" onClick={handleMenuClick}>About</a>
+                <a href="#briefing" onClick={handleMenuClick}>Briefing</a>
                 <a href="#skills" onClick={handleMenuClick}>Skills</a>
                 <a href="#expertise" onClick={handleMenuClick}>Expertise</a>
                 <a href="#experience" onClick={handleMenuClick}>Experience</a>
@@ -179,8 +196,9 @@ function App() {
             </Canvas>
         </div>
 
-        <main ref={mainRef} className={`main-content ${showResume ? 'visible' : 'hidden'}`}> {/* Unchanged */}
+        <main ref={mainRef} className={`main-content ${showResume ? 'visible' : 'hidden'}`}> {/* Apply visibility class */}
             <LandingSection id="about" />
+            <BriefingSection id="briefing" />
             <SkillsSection id="skills" />
             <TechExpertiseSection id="expertise" />
             <ExperienceSection id="experience" />

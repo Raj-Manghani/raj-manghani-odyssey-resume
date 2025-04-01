@@ -2,78 +2,68 @@
 @use '../../styles/mixins' as mix;
 
 .landingSection {
-  min-height: 80vh; // Adjust if needed, less strict than 100vh now
+  min-height: 80vh;
   @include mix.flex-center;
-  padding-top: var.$section-padding-vertical * 0.8; // Adjust top padding if navbar exists later
+  padding-top: var.$section-padding-vertical * 0.8;
   padding-bottom: var.$section-padding-vertical * 0.8;
-  // opacity: 0; // Initial hide handled by App.jsx ScrollTrigger
-  width: 100%; // Ensure section takes full width
+  width: 100%;
+  // position: relative; // No longer needed
+  overflow: hidden;
 }
 
-// Flex container for Pic + Text
+// Container for Pic + Text (Always stacked)
 .introContainer {
-    @include mix.flex-center($direction: column); // Default: stack on small screens
-    gap: 2rem; // Space between pic and text when stacked
-    width: 90%; // Control width
-    max-width: var.$max-content-width; // Max width from variables
-    margin: 0 auto; // Center container
-
-    @media (min-width: 768px) { // Side-by-side on medium screens and up
-        flex-direction: row;
-        align-items: center; // Align items vertically center
-        gap: 3rem; // More space when side-by-side
-    }
+    @include mix.flex-center($direction: column); // Always column
+    gap: 0.5rem; // Reduced space between pic and text
+    width: 90%;
+    max-width: var.$max-content-width; // Center the container
+    margin: 0 auto;
+    // position: relative; // Not needed
+    // z-index: 1; // Not needed
 }
 
 
 .profilePicContainer {
-    flex-shrink: 0; // Prevent image container from shrinking
     opacity: 0; // Start hidden for GSAP animation
     transform: translateY(30px); // Start slightly down for GSAP
-
-     @media (min-width: 768px) {
-        order: -1; // Optional: Put picture on the left on wider screens
-    }
+    margin-bottom: 0.5rem; // Reduced space below pic to match gap
+    // No media queries needed for positioning changes
 }
 
 .profilePic {
   display: block;
-  width: 180px; // Adjust size as needed
+  width: 180px;
   height: 180px;
-  border-radius: 50%; // Make it circular
-  object-fit: cover; // Ensure image covers the area nicely
-  border: 3px solid var.$color-accent1; // Cyan border
-  box-shadow: 0 0 15px var.$color-shadow-cyan, 0 0 25px var.$color-shadow-cyan; // Enhanced glow
-  filter: brightness(1.1) contrast(1.05); // Slightly enhance image
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var.$color-accent1;
+  box-shadow: 0 0 15px var.$color-shadow-cyan, 0 0 25px var.$color-shadow-cyan;
+  filter: brightness(1.1) contrast(1.05);
 }
 
 .contentWrapper {
-  text-align: center; // Center text when stacked
+  text-align: center; // Always center text
   opacity: 0; // Start hidden for GSAP animation
   transform: translateY(30px); // Start slightly down for GSAP
-
-  @media (min-width: 768px) {
-      text-align: left; // Align left when side-by-side
-  }
 }
 
 .name {
   color: var.$color-accent1;
-  margin-bottom: 0.5rem; // Reduced margin
+  margin-bottom: 0.5rem;
   @include mix.apply-glow(var.$color-accent1, 1);
   opacity: 0; // Start hidden for sub-animation
-  transform: translateY(20px); // Start slightly down
+  transform: translateY(20px);
 }
 
 .tagline {
   color: var.$color-accent2;
-  margin-bottom: 1.5rem; // Reduced margin
+  margin-bottom: 1.5rem;
   font-size: clamp(1rem, 3vw, 1.4rem);
   font-weight: 400;
   letter-spacing: 1px;
   @include mix.apply-glow(var.$color-accent2, 0.6);
    opacity: 0; // Start hidden for sub-animation
-   transform: translateY(20px); // Start slightly down
+   transform: translateY(20px);
 }
 
 .summary {
@@ -81,13 +71,9 @@
   font-size: clamp(0.95rem, 2.5vw, 1.1rem);
   line-height: 1.6;
   max-width: 600px; // Limit summary width
-  margin-left: auto; // Center summary text when stacked
+  margin-left: auto; // Center summary text
   margin-right: auto;
    opacity: 0; // Start hidden for sub-animation
-   transform: translateY(20px); // Start slightly down
-
-  @media (min-width: 768px) {
-      margin-left: 0; // Align left when side-by-side
-      margin-right: 0;
-  }
+   transform: translateY(20px);
+   // No media query needed for margin changes
 }

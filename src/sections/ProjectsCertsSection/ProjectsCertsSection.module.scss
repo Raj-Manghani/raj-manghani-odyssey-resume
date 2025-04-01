@@ -4,7 +4,8 @@
 @use "sass:color" as color; // Add sass:color
 
 .projectsCertsSection {
-   background-color: rgba(var.$color-primary, 0.1); // Subtle background tint
+   // Remove background from the main section container
+   // background-color: rgba(var.$color-primary, 0.1);
 }
 
 .contentWrapper {
@@ -19,11 +20,13 @@
 }
 
 .column {
-    background: linear-gradient(145deg, rgba(var.$color-background, 0.2), rgba(var.$color-primary, 0.15));
-    border: 1px solid rgba(var.$color-accent1, 0.1);
-    padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 3px 12px rgba(0,0,0, 0.15);
+    // Match Experience section's item background and border for clarity
+    background-color: rgba(var.$color-primary, 0.1);
+    border: none; // Remove the faint full border
+    border-left: 4px solid var.$color-accent1; // Add prominent left border
+    padding: 2rem; // Keep padding
+    border-radius: 0 8px 8px 0; // Match border-radius style (optional, adjust if needed)
+    box-shadow: 0 3px 12px rgba(0,0,0, 0.15); // Keep shadow
 
     h3 {
         color: var.$color-accent2; // Reverted to accent2 (gold)

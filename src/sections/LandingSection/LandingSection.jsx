@@ -12,10 +12,14 @@ const LandingSection = ({ id }) => {
   const picRef = useRef(null); // Ref for the picture
   const nameRef = useRef(null);
   const taglineRef = useRef(null);
-  const summaryRef = useRef(null); // Ref for the FIRST summary
-  const summaryRef2 = useRef(null); // New ref for the SECOND summary
-  const techRef = useRef(null); // Ref for the technology showcase
-  const infraRef = useRef(null); // Ref for the infrastructure explanation
+  // New refs for "About Me" paragraphs
+  const aboutMeRef1 = useRef(null);
+  const aboutMeRef2 = useRef(null);
+  const aboutMeRef3 = useRef(null);
+  const aboutMeRef4 = useRef(null);
+  const aboutMeRef5 = useRef(null);
+  const aboutMeRef6 = useRef(null);
+
 
   useEffect(() => {
     // Animate content and picture together
@@ -32,15 +36,17 @@ const LandingSection = ({ id }) => {
         );
 
         // Optional: Animate elements within the content block if needed (might conflict with above)
-        // Animate Name, Tagline, Summaries, Tech Showcase, and Infra explanation individually *after* the block fades in
-        if (nameRef.current && taglineRef.current && summaryRef.current && summaryRef2.current && techRef.current && infraRef.current) {
-            tl.fromTo([nameRef.current, taglineRef.current, summaryRef.current, summaryRef2.current, techRef.current, infraRef.current],
+        // Animate Name, Tagline, and "About Me" paragraphs individually *after* the block fades in
+        const aboutMeRefs = [aboutMeRef1, aboutMeRef2, aboutMeRef3, aboutMeRef4, aboutMeRef5, aboutMeRef6];
+        if (nameRef.current && taglineRef.current && aboutMeRefs.every(ref => ref.current)) {
+            tl.fromTo(
+                [nameRef.current, taglineRef.current, ...aboutMeRefs.map(ref => ref.current)], // Animate all elements
                 { y: 20, autoAlpha: 0 }, // autoAlpha handles opacity and visibility
-                { y: 0, autoAlpha: 1, duration: 0.6, stagger: 0.15 },
+                { y: 0, autoAlpha: 1, duration: 0.6, stagger: 0.1 }, // Adjust stagger if needed
                 "-=0.5" // Start this sequence slightly before the block finishes fading in
             );
         } else {
-            console.warn("LandingSection: One or more text/tech/infra element refs not found for animation.");
+            console.warn("LandingSection: One or more name/tagline/aboutMe refs not found for animation.");
         }
     }
   }, []);
@@ -64,19 +70,24 @@ const LandingSection = ({ id }) => {
               <p ref={taglineRef} className={styles.tagline}>
                 Lifelong Tech Enthusiast | Architect of Digital Solutions
               </p>
-              <p ref={summaryRef} className={styles.summary}>
-              Hello and thank you for visiting my digital resume and portfolio. Everything on this site was created and developed by yours truly.  I figured it is best to show what I can do rather than just typing it on a resume.  This page is being served from my personal on-premises server which is tunneled through a VPN to an AWS cloud web server.  The code for this SPA is public available on GitHub @ https://github.com/Raj-Manghani/raj-manghani-odyssey-resume  
+              {/* New "About Me" Content */}
+              <p ref={aboutMeRef1} className={styles.summary}>
+                My journey with technology began early – I grew up with a computer in the house for as long as I can remember, sparking a fascination that has never faded. From being an early adopter across the waves of PC, internet, mobile, and now AI advancements, I've always been driven to understand not just the surface, but the underlying systems – the infrastructure, the networks, the logic that makes it all connect. This fascination stems from a deep-seated curiosity (I was definitely the kid taking everything apart!), which today extends to tinkering in my homelab and exploring how complex systems are architected and administered.
               </p>
-              <p ref={summaryRef2} className={styles.summary}>
-               You will notice the button in the top righthand corner "Explore Solar System". Click on this button to interact with the distance-scaled model of our beautiful 3D Solar System.  You can click on the planets and moons for more details and fun facts. I created this model using the Three.js library and the React-Three-Fiber library. It was a lot of fun to create this model and I hope you enjoy it.
+              <p ref={aboutMeRef2} className={styles.summary}>
+                That same drive fuels my passion for software engineering. I find genuine reward in untangling complex problems, architecting elegant solutions, and building intricate systems that function seamlessly – this interactive resume, served from my own setup and featuring a live terminal into its backend, is a small testament to that joy of creation. There's nothing quite like the satisfaction of making complex things work beautifully, from the code level right down to the infrastructure it runs on.
               </p>
-              {/* Apply summary style for uniformity */}
-              <p ref={techRef} className={styles.summary}>
-                <strong>Built with:</strong> React, Vite, JavaScript, Three.js, React Three Fiber, Drei, GSAP (ScrollTrigger), react-tsparticles, Sass (SCSS), and CSS Modules.
+              <p ref={aboutMeRef3} className={styles.summary}>
+                My path wasn't strictly linear. While pursuing my business degree, I worked extensively through the temp agency Robert Half International, tackling over 50 different roles at more than 30 companies. This wasn't just about earning tuition; it was an invaluable opportunity to look "under the hood" of diverse businesses, seeing firsthand how different departments, roles (from production lines to tech support to financial analysis at places like CSC and Raytheon), and systems operated. That experience provided incredible insight into business mechanics and honed my ability to navigate complex organizational structures – skills that proved vital when I later ran my own small-to-mid-sized firms and led teams.
               </p>
-              {/* Apply summary style for uniformity */}
-              <p ref={infraRef} className={styles.summary}>
-                <strong>Under the Hood:</strong> Powered by two specialized containers working together! One container acts like a nimble web server, efficiently delivering the visual elements and interactive 3D solar system you see in your browser. The second container runs a dedicated backend service, securely handling the interactive terminal feature (if you're exploring the solar system!). This separation keeps things organized, ensures the main site stays responsive even if the terminal service is busy, and allows for independent updates – a modern approach to building robust web applications!
+              <p ref={aboutMeRef4} className={styles.summary}>
+                While that leadership background gives me a unique perspective, my core passion pulled me firmly back to the technical side. The deep satisfaction comes from the craft of building and understanding technology. It's why I've deliberately steered my career onto this technical road, focusing on where I can contribute most effectively and find the greatest challenge.
+              </p>
+              <p ref={aboutMeRef5} className={styles.summary}>
+                Now, I'm eager to channel my energy, problem-solving skills ("There is nothing I can't accomplish" is the mindset, fueled by passion!), and collaborative spirit into a team tackling meaningful, high-tech challenges, particularly those involving robust infrastructure and innovative systems. I'm looking to contribute technically, learn constantly, and grow alongside driven colleagues.
+              </p>
+              <p ref={aboutMeRef6} className={styles.summary}>
+                Outside of tech, I recharge through surfing, snowboarding, Tai Chi, and cooking (I make a mean steak!) – always exploring, always learning.
               </p>
            </div>
        </div>
