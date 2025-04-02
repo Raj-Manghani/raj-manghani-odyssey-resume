@@ -15,7 +15,7 @@ This is an interactive online resume and portfolio showcasing skills in React, T
 
 *   **Frontend:** React, Vite, JavaScript, Three.js, React Three Fiber, Drei, GSAP, react-tsparticles, Sass (SCSS), CSS Modules
 *   **Backend (Terminal):** Node.js, Express, WebSockets (`ws`)
-*   **Containerization:** Docker, Nginx (for frontend static files)
+*   **Containerization & Proxy:** Docker, Docker Compose, Nginx (as reverse proxy and for frontend static files), Certbot (for SSL)
 
 ## Local Development Setup
 
@@ -47,50 +47,113 @@ This is an interactive online resume and portfolio showcasing skills in React, T
     ```
     *(Note: Use `--host` to make it accessible on your local network if needed. Access via IP address if hostname resolution fails)*
 
-## Running with Docker (using Docker Compose)
+## Running with Docker Compose (HTTP Only - Original Setup)
 
-This application is designed to run as two separate containers managed by Docker Compose.
+This describes the initial Docker Compose setup without the reverse proxy and HTTPS.
 
 1.  **Prerequisites:** Docker and Docker Compose installed.
-2.  **Build and Run:** Navigate to the project root directory in your terminal and run:
+2.  **Build and Run:** Navigate to the project root directory and run:
     ```bash
+    # Ensure you are using an appropriate docker-compose.yml for this setup
     docker compose up --build -d
     ```
     *   `--build`: Builds the images if they don't exist or if the Dockerfiles have changed.
     *   `-d`: Runs the containers in detached mode (in the background).
-3.  **Access:** Open your browser to `http://localhost:8080`. The interactive terminal will connect to the backend container automatically.
+3.  **Access:** Open your browser to `http://localhost:8080` (or the host IP if remote).
 4.  **Stopping:** To stop the containers, run:
     ```bash
     docker compose down
     ```
 
-## Running with Docker (Manual Build/Run)
+## Deployment with HTTPS (Docker Compose & Let's Encrypt)
 
-Alternatively, you can build and run the containers manually:
+This section details deploying the application using the Nginx reverse proxy configuration with automatic SSL certificate generation and renewal via Certbot and Let's Encrypt.
 
-1.  **Prerequisites:** Docker installed.
-2.  **Build the Images:**
+**Prerequisites:**
+
+*   A server with Docker and Docker Compose installed.
+*   A registered domain name (e.g., `yourdomain.com`).
+*   A subdomain pointed via a DNS `A` record to your server's public IP address (e.g., `resume.yourdomain.com` -> `SERVER_IP`). Ensure DNS has propagated.
+*   Ports 80 (for HTTP / ACME challenge) and 443 (for HTTPS) open on your server's firewall (e.g., AWS Security Group, ufw).
+*   You are using the **final versions** of `docker-compose.yml` and `proxy/nginx.conf` which include the `proxy` and `certbot` services and have HTTPS enabled in the Nginx configuration.
+
+**Steps:**
+
+1.  **Prepare Environment:**
+    *   Clone the repository to your server if you haven't already.
+    *   Navigate to the project directory: `cd raj-manghani-odyssey-resume`
+    *   Ensure your DNS `A` record (e.g., `resume.devbyraj.com`) points correctly to your server IP and has propagated (check with `ping resume.devbyraj.com` or online DNS tools).
+    *   Verify ports 80 and 443 are open inbound on your server firewall/security group.
+    *   Modify `proxy/nginx.conf` to replace `resume.devbyraj.com` with **your actual subdomain** in both `server_name` directives.
+
+2.  **Obtain Initial SSL Certificate (IMPORTANT: Do this *before* starting all services with `up -d`):**
+    *   We use `docker-compose run` first because it starts *only* the Certbot container and its dependencies (like the network), allowing Certbot to request the certificate *without* starting the main Nginx proxy. If Nginx started first, it would fail because the certificate files don't exist yet.
+    *   **Run Staging Test:** It's highly recommended to test against the Let's Encrypt staging environment first to avoid rate limits if there's an issue. Replace placeholders with your details.
+        ```bash
+        sudo docker-compose run --rm certbot certonly --webroot -w /var/www/certbot \
+            --email YOUR_EMAIL@example.com \
+            -d resume.yourdomain.com \
+            --agree-tos --no-eff-email \
+            --staging
+        ```
+        *   Replace `YOUR_EMAIL@example.com` with your email.
+        *   Replace `resume.yourdomain.com` with your actual subdomain.
+        *   Look for a "Successfully received certificate" message. If it fails, troubleshoot DNS, firewall, or Nginx challenge location config before proceeding.
+    *   **Run Production Command:** Only if the staging command succeeded, run the same command again *without* the `--staging` flag to get the real, browser-trusted certificate. Use `--force-renewal` if you encountered issues and need to overwrite previous attempts.
+        ```bash
+        sudo docker-compose run --rm certbot certonly --webroot -w /var/www/certbot \
+            --email YOUR_EMAIL@example.com \
+            -d resume.yourdomain.com \
+            --agree-tos --no-eff-email \
+            --force-renewal
+        ```
+        *   Replace placeholders again.
+        *   Look for the "Successfully received certificate" message.
+
+3.  **Start All Services:**
+    *   Now that the production certificates exist in the persistent volume (`certbot_certs`), you can safely start all services, including the Nginx proxy which will load the certificates.
+    *   Ensure your `docker-compose.yml` has the `entrypoint:` line for the `certbot` service **uncommented** for auto-renewal.
+        ```bash
+        sudo docker-compose up -d
+        ```
+
+4.  **Verify:**
+    *   Check container status: `sudo docker ps -a` (All services should be `Up`).
+    *   Open your browser and navigate to `https://resume.yourdomain.com`.
+    *   Verify the padlock icon appears, indicating a secure connection. Test site functionality, including the terminal.
+
+**Optional: Security Hardening (DH Params & SSL Options)**
+
+The `certonly --webroot` method doesn't automatically create recommended SSL parameter files. You can add them manually for enhanced security. This is a one-time setup.
+
+1.  **Find Volume Path:** Locate where Docker stores the cert volume on the host:
     ```bash
-    # Build frontend image (serves static files via Nginx)
-    docker build -f Dockerfile.frontend -t odyssey-resume-frontend .
-
-    # Build backend image (runs the Node.js WebSocket server)
-    docker build -f Dockerfile.backend -t odyssey-resume-backend .
+    sudo docker volume inspect raj-manghani-odyssey-resume_certbot_certs
+    # Note the "Mountpoint" value (e.g., /var/lib/docker/volumes/raj-manghani-odyssey-resume_certbot_certs/_data)
     ```
-3.  **Run the Containers:**
+2.  **Generate DH Params:** Navigate to the `_data` directory from the mountpoint and generate the file (this takes time):
     ```bash
-    # Run backend container
-    docker run -d --name odyssey-backend -p 3001:3001 \
-      -e DEPLOYMENT_MODE=docker \
-      -e APP_ROOT_DIR=/app \
-      odyssey-resume-backend
-
-    # Run frontend container
-    docker run -d --name odyssey-frontend -p 8080:80 \
-      odyssey-resume-frontend
+    # Example: cd /var/lib/docker/volumes/raj-manghani-odyssey-resume_certbot_certs/_data
+    sudo openssl dhparam -out ssl-dhparams.pem 2048
+    sudo chmod 644 ssl-dhparams.pem
     ```
-4.  **Access:** Open your browser to `http://<your-docker-host-ip>:8080`. If running Docker locally, this is usually `http://localhost:8080`. The interactive terminal will connect to the backend container automatically.
+3.  **Download SSL Options:** Download the recommended options file into the same directory:
+    ```bash
+    # Make sure you are in the correct _data directory
+    sudo curl -o options-ssl-nginx.conf https://raw.githubusercontent.com/certbot/certbot/master/certbot-nginx/certbot_nginx/_internal/tls_configs/options-ssl-nginx.conf
+    sudo chmod 644 options-ssl-nginx.conf
+    ```
+4.  **Update Nginx Config:** Edit `proxy/nginx.conf` in your project directory. Uncomment the following two lines within the `server { listen 443... }` block:
+    ```nginx
+    include /etc/letsencrypt/options-ssl-nginx.conf;
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+    ```
+5.  **Restart Nginx:** Apply the changes:
+    ```bash
+    sudo docker-compose restart proxy
+    ```
 
+---
 
 ## Code Repository
 
