@@ -1,0 +1,29 @@
+version: '3.8' # Specify docker-compose version
+
+services:
+  frontend:
+    build:
+      context: . # Use the current directory as context
+      dockerfile: Dockerfile.frontend # Specify the frontend Dockerfile
+    container_name: odyssey-frontend
+    ports:
+      - "8080:80" # Map host port 8080 to container port 80 (Nginx)
+    restart: unless-stopped
+
+  backend:
+    build:
+      context: . # Use the current directory as context
+      dockerfile: Dockerfile.backend # Specify the backend Dockerfile
+    container_name: odyssey-backend
+    ports:
+      - "3001:3001" # Map host port 3001 to container port 3001 (Node.js server)
+    environment:
+      # Set environment variables needed by the backend server
+      - DEPLOYMENT_MODE=docker
+      - APP_ROOT_DIR=/app
+      # - PORT=3001 # Optional: If you want to override the default in server.js
+    restart: unless-stopped
+
+# Note: Docker Compose automatically creates a network for these services.
+# The frontend JavaScript can reach the backend via ws://<host_ip>:3001
+# (or ws://localhost:3001 if accessing frontend via localhost:8080)
