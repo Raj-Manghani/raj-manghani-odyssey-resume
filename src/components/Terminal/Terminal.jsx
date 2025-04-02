@@ -4,15 +4,15 @@ import { FitAddon } from '@xterm/addon-fit'; // Use official addon
 import '@xterm/xterm/css/xterm.css'; // Import official styles
 import styles from './Terminal.module.scss';
 
-// Dynamically determine WebSocket protocol and URL
+// --- CORRECTED WebSocket URL Construction ---
+// Dynamically determine WebSocket protocol ('ws:' or 'wss:')
 const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
-// Assume standard ports (80/443) are used if served over http/https,
-// otherwise use 3001 for local dev or non-standard setups.
-// A reverse proxy handling HTTPS/WSS would typically listen on 443.
-const wsPort = (window.location.protocol === 'https:' || window.location.protocol === 'http:') && (window.location.port === '' || window.location.port === '80' || window.location.port === '443')
-  ? '' // No port needed for standard ports (proxy handles routing)
-  : ':3001'; // Use explicit port for non-standard/dev setups
-const WS_URL = `${protocol}://${window.location.hostname}${wsPort}`;
+
+// Construct the WebSocket URL using the current host (hostname + port if non-standard)
+// AND **append the specific path '/ws/'** that the Nginx proxy is configured to handle.
+const WS_URL = `${protocol}://${window.location.host}/ws/`;
+// --- END CORRECTION ---
+
 
 const TerminalComponent = () => {
   const terminalRef = useRef(null); // Ref for the container div
@@ -26,6 +26,7 @@ const TerminalComponent = () => {
 
   // --- Terminal Initialization Effect ---
   useEffect(() => {
+    // Prevent re-initialization if already initialized
     if (terminalRef.current && !termInstance.current) {
       console.log('[Terminal] Initializing XTerm instance.');
       // Create Terminal instance
@@ -68,10 +69,17 @@ const TerminalComponent = () => {
 
     // --- Resize Handling ---
     const handleResize = () => {
-        try {
-            fitAddon.current.fit();
-        } catch (e) {
-            console.error("[Terminal] Resize FitAddon error:", e);
+        // Only fit if the terminal instance exists
+        if (termInstance.current) {
+            try {
+                fitAddon.current.fit();
+                // Optional: If resizing affects backend layout, notify backend
+                // if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
+                //     wsRef.current.send(JSON.stringify({ type: 'resize', cols: termInstance.current.cols, rows: termInstance.current.rows }));
+                // }
+            } catch (e) {
+                console.error("[Terminal] Resize FitAddon error:", e);
+            }
         }
     };
     window.addEventListener('resize', handleResize);
@@ -79,59 +87,88 @@ const TerminalComponent = () => {
     // --- Cleanup ---
     return () => {
       window.removeEventListener('resize', handleResize);
-      wsRef.current?.close();
-      termInstance.current?.dispose(); // Dispose terminal instance on unmount
-      termInstance.current = null;
+      if (wsRef.current) {
+        wsRef.current.close(); // Close WebSocket connection
+        wsRef.current = null;
+      }
+      if (termInstance.current) {
+        termInstance.current.dispose(); // Dispose terminal instance on unmount
+        termInstance.current = null;
+      }
       console.log('[Terminal] Component unmounted, WebSocket closed, Terminal disposed.');
     };
   }, []); // Run only once on mount
 
-  // --- WebSocket Connection Logic (Moved inside useEffect or called from it) ---
+  // --- WebSocket Connection Logic ---
   const connectWebSocket = () => {
-    if (!termInstance.current) return; // Don't connect if terminal isn't ready
+    // Don't try to connect if the terminal instance doesn't exist anymore (e.g., during unmount cleanup)
+    if (!termInstance.current) {
+        console.log('[Terminal] Skipping WebSocket connection: Terminal instance not available.');
+        return;
+    }
+    // Prevent multiple simultaneous connection attempts
+    if (wsRef.current && wsRef.current.readyState === WebSocket.CONNECTING) {
+        console.log('[Terminal] WebSocket connection attempt already in progress.');
+        return;
+    }
 
-    console.log(`[Terminal] Attempting to connect to WebSocket: ${WS_URL}`);
+    console.log(`[Terminal] Attempting to connect WebSocket to: ${WS_URL}`); // Uses the corrected WS_URL
     wsRef.current = new WebSocket(WS_URL);
 
     wsRef.current.onopen = () => {
       console.log('[Terminal] WebSocket Connected');
       setIsConnected(true);
-      // Initial fit might be needed again if connection was delayed
-      try { fitAddon.current.fit(); } catch(e) { console.error("Fit error on open", e); }
+      // Optional: Fit again on connect if needed
+      if (termInstance.current) {
+          try { fitAddon.current.fit(); } catch(e) { console.error("Fit error on open", e); }
+          // Maybe write a welcome message or prompt
+          // termInstance.current.write('\r\nConnected to server.\r\n$ ');
+      }
     };
 
     wsRef.current.onmessage = (event) => {
-      termInstance.current?.write(event.data); // Write to terminal instance
+      // Only write if the terminal instance still exists
+      if (termInstance.current) {
+          termInstance.current.write(event.data);
+      }
     };
 
     wsRef.current.onerror = (error) => {
       console.error('[Terminal] WebSocket Error:', error);
-      termInstance.current?.write('\r\n\x1b[31mWebSocket connection error.\x1b[0m\r\n$ ');
+      // Only write if the terminal instance still exists
+      if (termInstance.current) {
+          termInstance.current.write('\r\n\x1b[31mWebSocket connection error.\x1b[0m\r\n$ ');
+      }
       setIsConnected(false);
     };
 
-    wsRef.current.onclose = () => {
-      console.log('[Terminal] WebSocket Disconnected');
+    wsRef.current.onclose = (event) => { // Added event parameter
+      console.log(`[Terminal] WebSocket Disconnected. Code: ${event.code}, Reason: ${event.reason}`);
       setIsConnected(false);
-      if (termInstance.current) { // Check if terminal still exists before writing
+      // Only write and schedule reconnect if the component is still mounted/terminal exists
+      if (termInstance.current) {
         termInstance.current.write('\r\n\x1b[31mWebSocket connection closed. Attempting to reconnect...\x1b[0m\r\n');
+        // Optional: Implement reconnection logic only if component is still mounted
+        setTimeout(() => {
+            // Check if component is still mounted before reconnecting
+            // and if there isn't already an open or connecting socket
+            if (terminalRef.current && termInstance.current && (!wsRef.current || wsRef.current.readyState === WebSocket.CLOSED)) {
+                connectWebSocket();
+            }
+        }, 5000); // Reconnect after 5 seconds
       }
-      // Optional: Implement reconnection logic only if component is still mounted
-      setTimeout(() => {
-          // Check if component is still mounted before reconnecting
-          if (terminalRef.current && termInstance.current) {
-              connectWebSocket();
-          }
-      }, 5000);
     };
   };
 
 
-  // --- Terminal Input Handling Logic (Remains mostly the same) ---
+  // --- Terminal Input Handling Logic ---
   const handleData = (data) => {
     const term = termInstance.current; // Use the instance ref
+    // Ensure WebSocket is connected before sending data
     if (!term || !wsRef.current || wsRef.current.readyState !== WebSocket.OPEN) {
-        console.warn('[Terminal] Cannot send data: Terminal or WebSocket not ready.');
+        // Maybe provide feedback to the user in the terminal?
+        // term?.write('\r\n\x1b[33mNot connected to server.\x1b[0m\r\n$ ');
+        console.warn('[Terminal] Cannot send data: WebSocket not connected.');
         return;
     }
 
@@ -139,44 +176,67 @@ const TerminalComponent = () => {
 
     if (code === 13) { // Enter key
       if (currentInput.current.trim()) {
+        // Add to history only if different from last command
         if (commandHistory.current.length === 0 || commandHistory.current[commandHistory.current.length - 1] !== currentInput.current) {
             commandHistory.current.push(currentInput.current);
+            // Optional: Limit history size
+            // if (commandHistory.current.length > 50) {
+            //     commandHistory.current.shift();
+            // }
         }
-        wsRef.current.send(currentInput.current);
+        // Send command to WebSocket server
+        wsRef.current.send(currentInput.current); // Send only the command string
+        // Reset current input and history index
+        currentInput.current = '';
+        historyIndex.current = -1; // Reset history navigation
+        // The server response will likely include the next prompt
+        // If not, uncomment the line below:
+        // term.write('\r\n$ ');
       } else {
-         term.write('\r\n$ ');
+         term.write('\r\n$ '); // Write new prompt if empty line entered
+         currentInput.current = '';
+         historyIndex.current = -1;
       }
-      currentInput.current = '';
-      historyIndex.current = -1;
-    } else if (code === 127 || code === 8) { // Backspace
+    } else if (code === 127 || code === 8) { // Backspace (DEL or ASCII BS)
+      // Handle backspace only if there's input to delete
       if (currentInput.current.length > 0) {
-        term.write('\b \b');
+        term.write('\b \b'); // Move cursor back, write space, move back again
         currentInput.current = currentInput.current.slice(0, -1);
       }
-    } else if (code === 27) { // Escape sequences
+    } else if (code === 27) { // ANSI Escape sequences (like arrows)
+        // Check for specific escape sequences (may need adjustment based on terminal type)
         if (data === '\x1b[A') { // Arrow Up
-            if (historyIndex.current < commandHistory.current.length - 1) {
-                historyIndex.current++;
-                const prevCommand = commandHistory.current[commandHistory.current.length - 1 - historyIndex.current];
-                term.write('\r\x1b[K$ ' + prevCommand);
+            if (commandHistory.current.length > 0) { // Ensure history is not empty
+                if (historyIndex.current < commandHistory.current.length - 1) {
+                    historyIndex.current++;
+                }
+                // Get command based on updated index
+                const prevCommand = commandHistory.current[commandHistory.current.length - 1 - historyIndex.current] || '';
+                term.write('\r\x1b[K$ ' + prevCommand); // Clear line, write prompt + command
                 currentInput.current = prevCommand;
             }
         }
         else if (data === '\x1b[B') { // Arrow Down
-             if (historyIndex.current > 0) {
+             if (historyIndex.current >= 0) { // Ensure we are navigating history
                 historyIndex.current--;
-                const nextCommand = commandHistory.current[commandHistory.current.length - 1 - historyIndex.current];
-                term.write('\r\x1b[K$ ' + nextCommand);
+                let nextCommand = '';
+                if (historyIndex.current >= 0) { // Get previous command if index is valid
+                    nextCommand = commandHistory.current[commandHistory.current.length - 1 - historyIndex.current] || '';
+                }
+                // If index is -1, we are back to a new empty line
+                term.write('\r\x1b[K$ ' + nextCommand); // Clear line, write prompt + command/empty
                 currentInput.current = nextCommand;
-            } else if (historyIndex.current === 0) {
-                 historyIndex.current = -1;
-                 term.write('\r\x1b[K$ ');
-                 currentInput.current = '';
-            }
+             }
         }
-    } else if (code >= 32) { // Printable characters
+        // Ignore other escape sequences (like Arrow Left/Right) for simplicity
+        // else if (data === '\x1b[C') { /* Arrow Right */ }
+        // else if (data === '\x1b[D') { /* Arrow Left */ }
+    } else if (code >= 32 && code <= 255) { // Printable characters (Basic ASCII + Extended)
       currentInput.current += data;
-      term.write(data);
+      term.write(data); // Echo character to the terminal
+    } else {
+      // Log unexpected characters/codes for debugging if needed
+      // console.log('Unhandled data code:', code, 'data:', data);
     }
   };
 
@@ -185,8 +245,9 @@ const TerminalComponent = () => {
     <div className={styles.terminalContainer}>
       {/* Div to host the xterm instance */}
       <div ref={terminalRef} style={{ height: '100%', width: '100%' }} />
+      {/* Connection Status Indicator */}
       <div className={`${styles.statusIndicator} ${isConnected ? styles.connected : styles.disconnected}`}>
-         {isConnected ? 'Connected' : 'Disconnected'}
+         {isConnected ? 'Online' : 'Offline'}
        </div>
     </div>
   );
