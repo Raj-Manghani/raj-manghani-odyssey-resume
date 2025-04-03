@@ -184,9 +184,8 @@ pipeline {
     post {
         // Actions to run after pipeline completes
         always {
-            // cleanWs() needs a node context
-            agent any // Assign an agent to the post action block
-            steps {
+            // Use a node block to get a workspace for cleanWs
+            node {
                 echo 'Pipeline finished.'
                 cleanWs() // Clean up Jenkins workspace
             }
