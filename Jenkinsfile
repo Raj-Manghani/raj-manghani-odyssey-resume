@@ -47,10 +47,9 @@ pipeline {
         }
 
         stage('Lint & Audit') {
-            agent any // TEMPORARY TEST: Run directly on controller node
+            agent { docker { image 'node:20-alpine' } } // Use Node agent again
             steps {
-                // checkout scm // Already checked out in Preparation stage
-                unstash 'source' // Unstash source into this agent's workspace
+                checkout scm // Checkout needed again in this agent's workspace
                 echo "Running Lint & Audit..."
                 echo "Running Lint & Audit..."
                 // Install ALL dependencies (including devDeps like eslint) for the main project
