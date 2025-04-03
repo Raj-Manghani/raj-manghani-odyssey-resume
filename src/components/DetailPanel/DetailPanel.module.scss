@@ -103,4 +103,23 @@ $close-btn-hover-bg: rgba(255, 255, 255, 0.3);
 .detailPanel.hidden {
   transform: translateX(100%);
 }
-*/ 
+*/
+
+// --- Mobile Adjustments ---
+@media (max-width: 768px) {
+  .detailPanel {
+    width: 90%; // Take up most of the screen width
+    max-width: 500px; // But don't get excessively wide on small tablets
+    // Adjust padding if needed for smaller screens
+    padding: 50px 20px 20px 20px;
+    // Center it horizontally if desired, or keep it right-aligned
+    // left: 50%;
+    // transform: translateX(-50%); // If centering
+    // If keeping right-aligned, ensure transform is handled correctly if using slide-in
+  }
+
+  .closeButton {
+    top: 10px;
+    right: 10px;
+  }
+}

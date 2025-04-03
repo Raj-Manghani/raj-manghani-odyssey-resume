@@ -1,0 +1,134 @@
+// src/Header.scss
+@use './styles/variables' as var;
+@use './styles/mixins' as mix;
+@use "sass:color";
+
+// --- Base Header Styles (Mostly from global.scss originally) ---
+.app-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 1rem 2rem;
+  background: linear-gradient(to bottom, rgba(var.$color-background, 0.9), rgba(var.$color-background, 0.7) 80%, transparent);
+  z-index: 50;
+  pointer-events: auto;
+  display: flex; // Use flex for alignment
+  justify-content: center; // Center nav by default on desktop
+  align-items: center;
+  min-height: 60px; // Ensure consistent height
+}
+
+// --- Desktop Navigation Styles ---
+.main-nav {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+
+  a {
+    font-family: var.$font-heading;
+    font-size: 0.9rem;
+    color: var.$color-text-medium;
+    padding: 0.3rem 0.6rem;
+    border-radius: 4px;
+    transition: color 0.3s ease, background-color 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    white-space: nowrap; // Prevent links from wrapping
+
+    &:hover {
+      color: var.$color-accent1;
+      background-color: rgba(var.$color-accent1, 0.1);
+      text-shadow: var.$glow-cyan;
+    }
+  }
+}
+
+// --- Hamburger Button Styles ---
+.hamburger-button {
+  display: none; // Hidden by default on desktop
+  background: none;
+  border: none;
+  padding: 0.5rem;
+  cursor: pointer;
+  z-index: 51; // Ensure it's above the nav background
+  position: absolute; // Position relative to header
+  left: 1.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+
+  .hamburger-bar {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background-color: var.$color-text-light;
+    margin: 5px 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    border-radius: 1px;
+  }
+}
+
+// --- Mobile Styles (using a common breakpoint, adjust as needed) ---
+@media (max-width: 768px) {
+  .app-header {
+    justify-content: flex-start; // Align hamburger to the left
+  }
+
+  .hamburger-button {
+    display: block; // Show hamburger on mobile
+  }
+
+  .main-nav {
+    // display: none; // Hide desktop nav by default - Change approach
+    position: absolute;
+    top: 100%; // Position below the header (adjust if header height changes)
+    left: 0;
+    width: 100%;
+    background-color: rgba(var.$color-background, 0.95);
+    display: flex; // Keep as flex for column layout
+    flex-direction: column;
+    gap: 0;
+    padding: 1rem 0;
+    border-top: 1px solid rgba(var.$color-accent1, 0.1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    transform: translateX(-100%); // Start off-screen to the left
+    transition: transform 0.3s ease-in-out; // Add transition
+
+    a {
+      display: block; // Stack links vertically
+      padding: 1rem;
+      text-align: center;
+      border-bottom: 1px solid rgba(var.$color-text-dark, 0.2);
+      width: 100%;
+      border-radius: 0; // Remove individual link radius
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      &:hover {
+        background-color: rgba(var.$color-accent1, 0.15); // Slightly stronger hover
+      }
+    }
+  }
+
+  // Show mobile nav when open by sliding it in
+  .main-nav.mobile-menu-open {
+    // display: flex; // No longer needed, already flex
+    transform: translateX(0); // Slide into view
+  }
+
+  // Optional: Animate hamburger bars into an 'X' when menu is open
+  .app-header.mobile-menu-active .hamburger-bar:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+  }
+  .app-header.mobile-menu-active .hamburger-bar:nth-child(2) {
+    opacity: 0;
+  }
+  .app-header.mobile-menu-active .hamburger-bar:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+  }
+}
+
+// Adjust breakpoint if needed (e.g., 992px for tablets)
+// @media (max-width: 992px) { ... }
