@@ -80,8 +80,8 @@ pipeline {
                 // Use official Docker image, mount socket to use host's daemon
                 docker {
                     image 'docker:latest'
-                    args '-v /var/run/docker.sock:/var/run/docker.sock'
-                    // Add '-u root' or map GID if socket permissions are an issue
+                    // Add '-u root' to run commands inside agent as root
+                    args '-v /var/run/docker.sock:/var/run/docker.sock -u root'
                 }
             }
             steps {
@@ -93,10 +93,10 @@ pipeline {
         }
 
         stage('Push to Docker Hub') {
-            agent { // Use same Docker agent as build stage
+            agent { // Use same Docker agent as build stage, also run as root
                 docker {
                     image 'docker:latest'
-                    args '-v /var/run/docker.sock:/var/run/docker.sock'
+                    args '-v /var/run/docker.sock:/var/run/docker.sock -u root'
                 }
             }
             steps {
