@@ -140,8 +140,14 @@ pipeline {
                                 # docker login -u ... -p ... ${env.REGISTRY_URL}
                                 docker compose pull # Assumes compose file specifies the correct image names
 
-                                echo 'Stopping and removing old containers...'
-                                docker compose down --remove-orphans # Use --remove-orphans to handle potential leftovers
+                                echo 'Stopping and removing old containers (by name)...'
+                                # Attempt to stop (ignore errors if not running) - should be safe in default shell
+                                docker stop odyssey-frontend odyssey-backend
+                                # Force remove (doesn't error if not present)
+                                docker rm -f odyssey-frontend odyssey-backend
+
+                                echo 'Running docker compose down (to remove network etc.)...'
+                                docker compose down --remove-orphans # Also run down to remove network etc.
 
                                 echo 'Starting new containers...'
                                 docker compose up -d # Starts containers using pulled images & env vars
