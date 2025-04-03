@@ -141,8 +141,10 @@ pipeline {
                                 docker compose pull # Assumes compose file specifies the correct image names
 
                                 echo 'Stopping and removing old containers (by name)...'
-                                docker stop odyssey-frontend odyssey-backend || true
-                                docker rm odyssey-frontend odyssey-backend || true
+                                # Attempt to stop (ignore errors if not running)
+                                docker stop odyssey-frontend odyssey-backend
+                                # Force remove (doesn't error if not present)
+                                docker rm -f odyssey-frontend odyssey-backend
 
                                 echo 'Running docker compose down (to remove network etc.)...'
                                 docker compose down --remove-orphans # Added --remove-orphans just in case
