@@ -26,16 +26,18 @@ import ExperienceSection from './sections/ExperienceSection/ExperienceSection';
 import ProjectsCertsSection from './sections/ProjectsCertsSection/ProjectsCertsSection';
 import TechExpertiseSection from './sections/TechExpertiseSection/TechExpertiseSection';
 import ContactSection from './sections/ContactSection/ContactSection';
-import BriefingSection from './sections/BriefingSection/BriefingSection'; // Import the new section
+import BriefingSection from './sections/BriefingSection/BriefingSection';
 
-import './infoBox.scss'; // Import the SCSS file instead
+import './infoBox.scss';
+import './Header.scss'; // Import new SCSS file for header/menu styles
 
 gsap.registerPlugin(ScrollTrigger);
 
 // --- Main App Component ---
 function App() {
   const [showResume, setShowResume] = useState(true);
-  const [activeInfo, setActiveInfo] = useState(null); // Stores the key of the active planet OR moon
+  const [activeInfo, setActiveInfo] = useState(null);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // State for mobile menu
   const mainRef = useRef();
 
   // useEffect for GSAP & Visibility (Simplified - Let sections handle own entrance)
@@ -72,6 +74,13 @@ function App() {
     } else {
         targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
+    setIsMobileMenuOpen(false); // Close mobile menu on link click
+  };
+
+  // Toggle Mobile Menu
+  const toggleMobileMenu = () => {
+    console.log('Toggling mobile menu. Current state:', isMobileMenuOpen); // Log current state
+    setIsMobileMenuOpen(prevState => !prevState); // Use functional update
   };
 
   // Click handler for Planets AND Moons
@@ -123,11 +132,21 @@ function App() {
    // Logging for rendering
    console.log(`[App] Rendering - activeInfo: ${activeInfo}`);
    console.log(`[App] Rendering - activeBodyData found: ${!!activeBodyData}`);
+   console.log('[App] Rendering - isMobileMenuOpen:', isMobileMenuOpen); // Log menu state on render
 
   return (
     <div className="app-container">
-        <header className="app-header"> {/* Unchanged */}
-            <nav>
+        {/* Add mobile-menu-active class when open */}
+        <header className={`app-header ${isMobileMenuOpen ? 'mobile-menu-active' : ''}`}>
+            {/* Hamburger Button (visible on mobile) */}
+            <button className="hamburger-button" onClick={toggleMobileMenu} aria-label="Toggle menu" aria-expanded={isMobileMenuOpen}>
+                <span className="hamburger-bar"></span>
+                <span className="hamburger-bar"></span>
+                <span className="hamburger-bar"></span>
+            </button>
+
+            {/* Navigation Links (conditionally styled/classed for mobile) */}
+            <nav className={`main-nav ${isMobileMenuOpen ? 'mobile-menu-open' : ''}`}>
                 <a href="#about" onClick={handleMenuClick}>About</a>
                 <a href="#briefing" onClick={handleMenuClick}>Briefing</a>
                 <a href="#skills" onClick={handleMenuClick}>Skills</a>
