@@ -137,9 +137,9 @@ pipeline {
                             // Pull new images using variables
                             sh "${remoteCmd} \"echo 'Pulling new images ${frontendImg} and ${backendImg}...' && cd ${env.AWS_APP_DIR} && ${envPrefix} docker compose pull\""
 
-                            // Stop and remove old containers by name
-                            sh "${remoteCmd} \"echo 'Stopping old containers...' && docker stop odyssey-frontend odyssey-backend || true\""
-                            sh "${remoteCmd} \"echo 'Removing old containers...' && docker rm -f odyssey-frontend odyssey-backend || true\""
+                            // Stop and remove ALL old containers defined in compose by name
+                            sh "${remoteCmd} \"echo 'Stopping old containers...' && docker stop odyssey-frontend odyssey-backend nginx-proxy certbot || true\""
+                            sh "${remoteCmd} \"echo 'Removing old containers...' && docker rm -f odyssey-frontend odyssey-backend nginx-proxy certbot || true\""
 
                             // Run docker compose down
                             sh "${remoteCmd} \"echo 'Running docker compose down...' && cd ${env.AWS_APP_DIR} && docker compose down --remove-orphans\""
