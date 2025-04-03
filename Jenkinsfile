@@ -1,7 +1,12 @@
 // Jenkinsfile (Declarative Pipeline)
 
 pipeline {
-    agent any // Use the default configured agent (ensure it has git, node, npm, docker CLI)
+    agent any // Use the default configured agent (ensure it has git, docker CLI)
+
+    tools {
+        nodejs 'NodeJS-20' // Use the NodeJS installation configured in Jenkins Tools
+                           // Make sure the name 'NodeJS-20' matches exactly what you configure
+    }
 
     environment {
         // Define environment variables for the pipeline
