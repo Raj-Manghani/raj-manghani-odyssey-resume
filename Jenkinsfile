@@ -1,17 +1,17 @@
 // Jenkinsfile (Declarative Pipeline)
 
 pipeline {
-    agent any // Use the default configured agent
+    agent none // Default agent - stages will specify their own
 
-    tools {
-        nodejs 'NodeJS-20' // Use the NodeJS installation configured in Jenkins Tools
-        dockerTool 'DockerTool' // Use the correct tool type 'dockerTool'
-    }
+    // Tools directive is not needed when using specific docker agents for stages
+    // tools {
+    //     nodejs 'NodeJS-20'
+    //     dockerTool 'DockerTool'
+    // }
 
     environment {
         // Define environment variables for the pipeline
-        // Prepend Docker binary path (adjust if 'which docker' gave a different dir)
-        PATH = "/usr/bin:${env.PATH}"
+        // PATH modification no longer needed here
         REGISTRY_CREDENTIALS_ID = 'dockerhub-credentials' // Jenkins Credential ID for Docker Hub
         REGISTRY_URL            = 'docker.io/rajmanghani' // Your Docker Hub username/namespace
         FRONTEND_IMAGE_NAME     = 'raj-manghani-odyssey-frontend'
@@ -44,9 +44,10 @@ pipeline {
         }
 
         stage('Lint & Audit') {
-            // This stage can run in the node:20-alpine agent
+            agent { docker { image 'node:20-alpine' } } // Use Node agent
             steps {
-                unstash 'source'
+                checkout scm // Checkout needed again in this agent's workspace
+                echo "Running Lint & Audit..."
                 echo "Running Lint & Audit..."
                 // Install ALL dependencies (including devDeps like eslint) for the main project
                 sh 'npm install'
@@ -72,9 +73,16 @@ pipeline {
         // }
 
         stage('Build Docker Images') {
-            // Runs on the agent defined globally (agent any)
+            agent {
+                // Use official Docker image, mount socket to use host's daemon
+                docker {
+                    image 'docker:latest'
+                    args '-v /var/run/docker.sock:/var/run/docker.sock'
+                    // Add '-u root' or map GID if socket permissions are an issue
+                }
+            }
             steps {
-                unstash 'source'
+                checkout scm // Checkout needed again
                 echo "Building Docker images with tag: ${env.IMAGE_TAG}"
                 sh "docker build -f Dockerfile.frontend -t ${env.REGISTRY_URL}/${env.FRONTEND_IMAGE_NAME}:${env.IMAGE_TAG} ."
                 sh "docker build -f Dockerfile.backend -t ${env.REGISTRY_URL}/${env.BACKEND_IMAGE_NAME}:${env.IMAGE_TAG} ."
@@ -82,8 +90,14 @@ pipeline {
         }
 
         stage('Push to Docker Hub') {
-            // Runs on the agent defined globally (agent any)
+            agent { // Use same Docker agent as build stage
+                docker {
+                    image 'docker:latest'
+                    args '-v /var/run/docker.sock:/var/run/docker.sock'
+                }
+            }
             steps {
+                checkout scm // Checkout needed again
                 echo "Pushing images to Docker Hub: ${env.REGISTRY_URL}"
                 withCredentials([usernamePassword(credentialsId: env.REGISTRY_CREDENTIALS_ID, usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
                     sh "echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin"
@@ -95,7 +109,7 @@ pipeline {
         }
 
         stage('Deploy to AWS') {
-            // Runs on the agent defined globally (agent any)
+            agent any // Use default agent (built-in node) which has SSH configured
             steps {
                 echo "Deploying tag ${env.IMAGE_TAG} to AWS server ${env.AWS_SERVER_IP}"
                 script {
