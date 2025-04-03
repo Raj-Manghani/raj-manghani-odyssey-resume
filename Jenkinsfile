@@ -5,7 +5,7 @@ pipeline {
 
     tools {
         nodejs 'NodeJS-20' // Use the NodeJS installation configured in Jenkins Tools
-        docker 'DockerTool' // Use the Docker installation configured in Jenkins Tools (Ensure name matches)
+        dockerTool 'DockerTool' // Use the correct tool type 'dockerTool'
     }
 
     environment {
