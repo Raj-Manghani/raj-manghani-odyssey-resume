@@ -46,7 +46,8 @@ pipeline {
             steps {
                 unstash 'source'
                 echo "Running Lint & Audit..."
-                sh 'npm install --omit=dev' // Install deps needed for lint/audit
+                // Install ALL dependencies (including devDeps like eslint) for the main project
+                sh 'npm install'
                 sh 'npm run lint'
                 // Consider failing build on audit warnings: npm audit --audit-level=high
                 sh 'npm audit'
