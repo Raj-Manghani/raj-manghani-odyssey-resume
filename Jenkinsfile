@@ -120,46 +120,27 @@ pipeline {
                     withCredentials([sshUserPrivateKey(credentialsId: env.AWS_SSH_CREDENTIALS_ID, keyFileVariable: 'AWS_SSH_KEY_PATH', usernameVariable: 'AWS_USERNAME')]) {
                         // Use sshagent wrapper for secure key handling
                         sshagent([env.AWS_SSH_CREDENTIALS_ID]) {
-                            // Define the deployment script to run remotely
-                            def remoteScript = """
-                                echo 'Connected to AWS Server: ${env.AWS_SERVER_IP}'
-                                cd ${env.AWS_APP_DIR} || { echo 'Failed to cd to app dir'; exit 1; }
+                            // Define remote host and base command
+                            def sshHost = "${env.AWS_USERNAME}@${env.AWS_SERVER_IP}"
+                            def sshOpts = "-o StrictHostKeyChecking=no"
+                            def remoteCmd = "ssh ${sshOpts} ${sshHost}"
 
-                                # Set environment variables for docker compose from Jenkins env
-                                # Ensure your docker-compose.yml uses these variables e.g. \${FRONTEND_IMAGE_TAG}
-                                export FRONTEND_IMAGE_TAG=${env.IMAGE_TAG}
-                                export BACKEND_IMAGE_TAG=${env.IMAGE_TAG}
-                                export REGISTRY_URL=${env.REGISTRY_URL} # Pass registry URL/user if needed
+                            // Execute commands step-by-step
+                            sh "${remoteCmd} \"echo 'Connected to AWS Server: ${env.AWS_SERVER_IP}'\""
+                            sh "${remoteCmd} \"cd ${env.AWS_APP_DIR} || exit 1\"" // Fail if cd fails
 
-                                echo "Using Frontend Image: ${env.REGISTRY_URL}/${env.FRONTEND_IMAGE_NAME}:${env.FRONTEND_IMAGE_TAG}"
-                                echo "Using Backend Image: ${env.REGISTRY_URL}/${env.BACKEND_IMAGE_NAME}:${env.BACKEND_IMAGE_TAG}"
+                            // Set environment variables for subsequent commands in the same SSH session (might not persist reliably across separate sh steps)
+                            // It's safer to include them in the docker compose command line if possible,
+                            // or ensure the .env file method is used by docker-compose.yml on the server.
+                            // For now, let's export them hoping the session persists for the compose commands.
+                            sh "${remoteCmd} \"export FRONTEND_IMAGE_TAG=${env.IMAGE_TAG}; export BACKEND_IMAGE_TAG=${env.IMAGE_TAG}; export REGISTRY_URL=${env.REGISTRY_URL}; echo Variables exported.\""
 
-                                echo 'Pulling new images...'
-                                # Login to registry on remote host if images are private
-                                # Consider storing docker hub creds securely on AWS server or passing via SSH
-                                # docker login -u ... -p ... ${env.REGISTRY_URL}
-                                docker compose pull # Assumes compose file specifies the correct image names
-
-                                echo 'Stopping and removing old containers (by name)...'
-                                # Attempt to stop (ignore errors if not running) - should be safe in default shell
-                                docker stop odyssey-frontend odyssey-backend
-                                # Force remove (doesn't error if not present)
-                                docker rm -f odyssey-frontend odyssey-backend
-
-                                echo 'Running docker compose down (to remove network etc.)...'
-                                docker compose down --remove-orphans # Also run down to remove network etc.
-
-                                echo 'Starting new containers...'
-                                docker compose up -d # Starts containers using pulled images & env vars
-
-                                # Optional: Prune old images/volumes
-                                # docker image prune -af
-                                # docker volume prune -af
-
-                                echo 'Deployment script finished.'
-                            """
-                            // Execute the script remotely via SSH
-                            sh "ssh -o StrictHostKeyChecking=no ${env.AWS_USERNAME}@${env.AWS_SERVER_IP} '${remoteScript}'"
+                            sh "${remoteCmd} \"echo 'Pulling new images...' && cd ${env.AWS_APP_DIR} && docker compose pull\""
+                            sh "${remoteCmd} \"echo 'Stopping old containers...' && docker stop odyssey-frontend odyssey-backend || true\"" // Use || true here as separate command
+                            sh "${remoteCmd} \"echo 'Removing old containers...' && docker rm -f odyssey-frontend odyssey-backend || true\"" // Use || true here
+                            sh "${remoteCmd} \"echo 'Running docker compose down...' && cd ${env.AWS_APP_DIR} && docker compose down --remove-orphans\""
+                            sh "${remoteCmd} \"echo 'Starting new containers...' && cd ${env.AWS_APP_DIR} && docker compose up -d\""
+                            sh "${remoteCmd} \"echo 'Deployment script finished.'\""
                         }
                     }
                 }
