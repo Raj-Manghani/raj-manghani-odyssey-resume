@@ -1,5 +1,5 @@
 // src/components/FlyingObjects/FlyingObjects.jsx
-import React, { useRef, useMemo } from 'react';
+import { useRef, useMemo } from 'react'; // Removed React
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 
@@ -30,7 +30,7 @@ function FlyingObject({ initialData }) {
   // Store current position separately for lookAt calculation
   const currentPos = useRef(initialData.position.clone());
 
-  useFrame((state, delta) => {
+  useFrame((_, __) => { // Use underscores for unused state and delta
     if (!meshRef.current) return;
 
     // Movement

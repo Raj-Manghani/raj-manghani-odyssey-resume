@@ -1,5 +1,5 @@
 // /home/tao/projects/online-resume/raj-manghani-odyssey/src/components/DetailPanel/DetailPanel.jsx
-import React from 'react';
+// Removed React import
 // import './DetailPanel.css'; // To be replaced
 import styles from './DetailPanel.module.scss'; // Use SCSS module
 

@@ -1,4 +1,4 @@
-import React from 'react';
+// Removed React import
 import styles from './PowerCell.module.scss';
 
 const PowerCell = ({ level, maxLevel = 5 }) => {
@@ -13,4 +13,4 @@ const PowerCell = ({ level, maxLevel = 5 }) => {
   );
 };
 
-export default PowerCell; 
+export default PowerCell;

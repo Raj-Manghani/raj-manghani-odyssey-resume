@@ -1,5 +1,5 @@
 // src/components/PlanetSystem/Rings.jsx
-import React from 'react';
+// Removed React import
 import { useTexture } from '@react-three/drei';
 import * as THREE from 'three'; // Import THREE for DoubleSide
 

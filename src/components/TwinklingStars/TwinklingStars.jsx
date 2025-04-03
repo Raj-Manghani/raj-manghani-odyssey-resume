@@ -1,5 +1,5 @@
 // src/components/TwinklingStars/TwinklingStars.jsx
-import React, { useRef, useMemo } from 'react';
+import { useRef, useMemo } from 'react'; // Removed React
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 

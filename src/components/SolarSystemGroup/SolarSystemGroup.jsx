@@ -4,7 +4,7 @@ import PlanetSystem from '../PlanetSystem/PlanetSystem';
 // import { PLANET_DATA } from '../../constants/solarSystemData'; // Old JS import
 import PLANET_DATA from '../../data/solarSystemData.json'; // Import JSON data
 
-function SolarSystemGroup({ activeInfo, handlePlanetClick }) {
+function SolarSystemGroup({ handlePlanetClick }) { // Removed activeInfo prop
     const orbitRefs = useMemo(() => {
         const refs = {};
         Object.keys(PLANET_DATA).filter(key => key !== 'sun').forEach(key => { refs[key] = React.createRef(); });
@@ -25,7 +25,7 @@ function SolarSystemGroup({ activeInfo, handlePlanetClick }) {
             <PlanetSystem
                 planetKey="sun"
                 name={PLANET_DATA.sun.name}
-                showInfo={activeInfo === 'sun'}
+                // showInfo={activeInfo === 'sun'} // Removed prop
                 onPlanetClick={handlePlanetClick}
                 position={[0, 0, 0]}
                 planetSize={PLANET_DATA.sun.size}
@@ -49,7 +49,7 @@ function SolarSystemGroup({ activeInfo, handlePlanetClick }) {
                         <PlanetSystem
                             planetKey={key}
                             name={data.name}
-                            showInfo={activeInfo === key}
+                            // showInfo={activeInfo === key} // Removed prop
                             onPlanetClick={handlePlanetClick}
                             position={[data.orbitRadius, data.yOffset, 0]}
                             planetSize={data.size}

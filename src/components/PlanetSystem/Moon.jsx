@@ -1,5 +1,5 @@
 // src/components/PlanetSystem/Moon.jsx
-import React from 'react'; // Make sure React is imported if using JSX
+// Removed React import
 import { useTexture } from '@react-three/drei';
 
 // Simple component just for the moon mesh and texture

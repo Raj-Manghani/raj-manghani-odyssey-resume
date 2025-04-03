@@ -1,6 +1,6 @@
-import React, { useEffect, useRef } from 'react'; // Import useEffect, useRef
+import { useEffect, useRef } from 'react'; // Removed React
 import gsap from 'gsap'; // Import gsap
-import { ScrollTrigger } from 'gsap/ScrollTrigger'; // Import ScrollTrigger
+// import { ScrollTrigger } from 'gsap/ScrollTrigger'; // Removed unused ScrollTrigger
 import styles from './SkillsSection.module.scss';
 import PowerCell from '../../components/PowerCell/PowerCell';
 

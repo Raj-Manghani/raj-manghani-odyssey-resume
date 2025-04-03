@@ -1,5 +1,5 @@
 // src/sections/LandingSection/LandingSection.jsx
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react'; // Removed React
 import gsap from 'gsap';
 import styles from './LandingSection.module.scss';
 

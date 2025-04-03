@@ -1,7 +1,7 @@
 // src/sections/ExperienceSection/ExperienceSection.jsx
-import React, { useEffect, useRef } from 'react'; // Import useEffect, useRef
+import { useEffect, useRef } from 'react'; // Removed React
 import gsap from 'gsap'; // Import gsap
-import { ScrollTrigger } from 'gsap/ScrollTrigger'; // Import ScrollTrigger
+// import { ScrollTrigger } from 'gsap/ScrollTrigger'; // Removed unused ScrollTrigger
 import styles from './ExperienceSection.module.scss';
 import { experiences } from '../../data/experienceData'; // Import data
 

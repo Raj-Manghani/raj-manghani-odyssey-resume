@@ -1,17 +1,18 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react'; // Removed React
 import { Terminal } from '@xterm/xterm'; // Use official package
 import { FitAddon } from '@xterm/addon-fit'; // Use official addon
 import '@xterm/xterm/css/xterm.css'; // Import official styles
 import styles from './Terminal.module.scss';
 
-// --- CORRECTED WebSocket URL Construction ---
-// Dynamically determine WebSocket protocol ('ws:' or 'wss:')
+// Dynamically determine WebSocket protocol and URL
 const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
-
-// Construct the WebSocket URL using the current host (hostname + port if non-standard)
-// AND **append the specific path '/ws/'** that the Nginx proxy is configured to handle.
-const WS_URL = `${protocol}://${window.location.host}/ws/`;
-// --- END CORRECTION ---
+// Assume standard ports (80/443) are used if served over http/https,
+// otherwise use 3001 for local dev or non-standard setups.
+// A reverse proxy handling HTTPS/WSS would typically listen on 443.
+const wsPort = (window.location.protocol === 'https:' || window.location.protocol === 'http:') && (window.location.port === '' || window.location.port === '80' || window.location.port === '443')
+  ? '' // No port needed for standard ports (proxy handles routing)
+  : ':3001'; // Use explicit port for non-standard/dev setups
+const WS_URL = `${protocol}://${window.location.hostname}${wsPort}`;
 
 
 const TerminalComponent = () => {
@@ -24,83 +25,8 @@ const TerminalComponent = () => {
   const historyIndex = useRef(-1);
   const currentInput = useRef('');
 
-  // --- Terminal Initialization Effect ---
-  useEffect(() => {
-    // Prevent re-initialization if already initialized
-    if (terminalRef.current && !termInstance.current) {
-      console.log('[Terminal] Initializing XTerm instance.');
-      // Create Terminal instance
-      const term = new Terminal({
-        cursorBlink: true,
-        theme: { // Same theme as before
-            background: '#1e1e1e', foreground: '#d4d4d4', cursor: '#d4d4d4',
-            selectionBackground: '#555555', black: '#000000', red: '#cd3131',
-            green: '#0dbc79', yellow: '#e5e510', blue: '#2472c8',
-            magenta: '#bc3fbc', cyan: '#11a8cd', white: '#e5e5e5',
-            brightBlack: '#666666', brightRed: '#f14c4c', brightGreen: '#23d18b',
-            brightYellow: '#f5f543', brightBlue: '#3b8eea', brightMagenta: '#d670d6',
-            brightCyan: '#29b8db', brightWhite: '#e5e5e5',
-        },
-        fontFamily: '"Cascadia Code", Menlo, Monaco, "Courier New", monospace',
-        fontSize: 14,
-        rows: 15, // Initial rows
-      });
-      termInstance.current = term;
-
-      // Load addons
-      term.loadAddon(fitAddon.current);
-
-      // Open the terminal in the container div
-      term.open(terminalRef.current);
-
-      // Fit the terminal to the container size
-      try {
-        fitAddon.current.fit();
-      } catch (e) {
-        console.error("[Terminal] FitAddon error:", e);
-      }
-
-      // --- Input Handling ---
-      term.onData(handleData); // Attach input handler
-
-      // --- WebSocket Connection ---
-      connectWebSocket(); // Connect WebSocket after terminal is set up
-    }
-
-    // --- Resize Handling ---
-    const handleResize = () => {
-        // Only fit if the terminal instance exists
-        if (termInstance.current) {
-            try {
-                fitAddon.current.fit();
-                // Optional: If resizing affects backend layout, notify backend
-                // if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
-                //     wsRef.current.send(JSON.stringify({ type: 'resize', cols: termInstance.current.cols, rows: termInstance.current.rows }));
-                // }
-            } catch (e) {
-                console.error("[Terminal] Resize FitAddon error:", e);
-            }
-        }
-    };
-    window.addEventListener('resize', handleResize);
-
-    // --- Cleanup ---
-    return () => {
-      window.removeEventListener('resize', handleResize);
-      if (wsRef.current) {
-        wsRef.current.close(); // Close WebSocket connection
-        wsRef.current = null;
-      }
-      if (termInstance.current) {
-        termInstance.current.dispose(); // Dispose terminal instance on unmount
-        termInstance.current = null;
-      }
-      console.log('[Terminal] Component unmounted, WebSocket closed, Terminal disposed.');
-    };
-  }, []); // Run only once on mount
-
-  // --- WebSocket Connection Logic ---
-  const connectWebSocket = () => {
+  // --- WebSocket Connection Logic (Wrapped in useCallback) ---
+  const connectWebSocket = useCallback(() => {
     // Don't try to connect if the terminal instance doesn't exist anymore (e.g., during unmount cleanup)
     if (!termInstance.current) {
         console.log('[Terminal] Skipping WebSocket connection: Terminal instance not available.');
@@ -153,16 +79,15 @@ const TerminalComponent = () => {
             // Check if component is still mounted before reconnecting
             // and if there isn't already an open or connecting socket
             if (terminalRef.current && termInstance.current && (!wsRef.current || wsRef.current.readyState === WebSocket.CLOSED)) {
-                connectWebSocket();
+                connectWebSocket(); // Call the memoized version
             }
         }, 5000); // Reconnect after 5 seconds
       }
     };
-  };
+  }, []); // Empty dependency array for useCallback as it doesn't depend on props/state
 
-
-  // --- Terminal Input Handling Logic ---
-  const handleData = (data) => {
+  // --- Terminal Input Handling Logic (Wrapped in useCallback) ---
+  const handleData = useCallback((data) => {
     const term = termInstance.current; // Use the instance ref
     // Ensure WebSocket is connected before sending data
     if (!term || !wsRef.current || wsRef.current.readyState !== WebSocket.OPEN) {
@@ -238,7 +163,78 @@ const TerminalComponent = () => {
       // Log unexpected characters/codes for debugging if needed
       // console.log('Unhandled data code:', code, 'data:', data);
     }
-  };
+  }, []); // Empty dependency array as it only uses refs
+
+  // --- Terminal Initialization Effect ---
+  useEffect(() => {
+    let dataListener = null; // Store listener disposable
+    // Prevent re-initialization if already initialized
+    if (terminalRef.current && !termInstance.current) {
+      console.log('[Terminal] Initializing XTerm instance.');
+      const term = new Terminal({ // Create Terminal instance
+        cursorBlink: true,
+        theme: { // Same theme as before
+            background: '#1e1e1e', foreground: '#d4d4d4', cursor: '#d4d4d4',
+            selectionBackground: '#555555', black: '#000000', red: '#cd3131',
+            green: '#0dbc79', yellow: '#e5e510', blue: '#2472c8',
+            magenta: '#bc3fbc', cyan: '#11a8cd', white: '#e5e5e5',
+            brightBlack: '#666666', brightRed: '#f14c4c', brightGreen: '#23d18b',
+            brightYellow: '#f5f543', brightBlue: '#3b8eea', brightMagenta: '#d670d6',
+            brightCyan: '#29b8db', brightWhite: '#e5e5e5',
+        },
+        fontFamily: '"Cascadia Code", Menlo, Monaco, "Courier New", monospace',
+        fontSize: 14,
+        rows: 15, // Initial rows
+      });
+      termInstance.current = term;
+
+      // Load addons
+      term.loadAddon(fitAddon.current);
+
+      // Open the terminal in the container div
+      term.open(terminalRef.current);
+
+      // Fit the terminal to the container size
+      try {
+        fitAddon.current.fit();
+      } catch (e) {
+        console.error("[Terminal] FitAddon error:", e);
+      }
+
+      // --- Input Handling ---
+      dataListener = term.onData(handleData); // Attach input handler, store disposable
+
+      // --- WebSocket Connection ---
+      connectWebSocket(); // Connect WebSocket after terminal is set up
+    }
+
+    // --- Resize Handling ---
+    const handleResize = () => {
+        // Only fit if the terminal instance exists
+        if (termInstance.current) {
+            try {
+                fitAddon.current.fit();
+                // Optional: If resizing affects backend layout, notify backend
+                // if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
+                //     wsRef.current.send(JSON.stringify({ type: 'resize', cols: termInstance.current.cols, rows: termInstance.current.rows }));
+                // }
+            } catch (e) {
+                console.error("[Terminal] Resize FitAddon error:", e);
+            }
+        }
+    };
+    window.addEventListener('resize', handleResize);
+
+      // --- Cleanup ---
+      return () => {
+        window.removeEventListener('resize', handleResize);
+        dataListener?.dispose(); // Dispose the onData listener
+        wsRef.current?.close();
+        termInstance.current?.dispose();
+        termInstance.current = null;
+        console.log('[Terminal] Component unmounted, WebSocket closed, Terminal disposed.');
+      };
+  }, [connectWebSocket, handleData]); // Add connectWebSocket and handleData as dependencies
 
   // Render the container div and status indicator
   return (

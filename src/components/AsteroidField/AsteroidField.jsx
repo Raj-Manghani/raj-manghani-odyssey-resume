@@ -1,5 +1,5 @@
 // src/components/AsteroidField/AsteroidField.jsx
-import React, { useRef, useMemo } from 'react';
+import { useRef, useMemo } from 'react'; // Removed React
 import { useFrame } from '@react-three/fiber';
 import { useTexture } from '@react-three/drei'; // <<< Ensure useTexture is imported
 import * as THREE from 'three';
@@ -32,7 +32,7 @@ function Asteroid({ initialData }) {
   // Make sure the image file exists at this path in your public folder
   const texture = useTexture('/textures/asteroid_texture.jpg'); // <<< UPDATE PATH IF NEEDED
 
-  useFrame((state, delta) => {
+  useFrame((_, __) => { // Use underscores for unused state and delta
     if (!meshRef.current) return;
     // Rotation
     meshRef.current.rotateOnAxis(data.current.rotationAxis, data.current.rotationSpeed);

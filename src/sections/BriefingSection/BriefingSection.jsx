@@ -1,7 +1,7 @@
 // src/sections/BriefingSection/BriefingSection.jsx
-import React, { useEffect, useRef } from 'react'; // Restore imports
+import { useEffect, useRef } from 'react'; // Removed React
 import gsap from 'gsap'; // Restore imports
-import { ScrollTrigger } from 'gsap/ScrollTrigger'; // Restore imports
+// import { ScrollTrigger } from 'gsap/ScrollTrigger'; // Removed unused ScrollTrigger
 import styles from './BriefingSection.module.scss';
 
 const BriefingSection = ({ id }) => {

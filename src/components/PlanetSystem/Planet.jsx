@@ -1,5 +1,5 @@
 // src/components/PlanetSystem/Planet.jsx
-import React from 'react'; // Removed useRef as it's passed in
+// Removed React import
 import { useTexture } from '@react-three/drei';
 
 const Planet = ({

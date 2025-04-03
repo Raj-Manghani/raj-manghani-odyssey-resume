@@ -1,5 +1,5 @@
 // src/components/BackgroundParticles/BackgroundParticles.jsx
-import React, { useCallback } from "react";
+import { useCallback, useEffect } from "react"; // Removed React
 import Particles, { initParticlesEngine } from "@tsparticles/react"; // Updated import
 import { loadSlim } from "@tsparticles/slim"; // Updated import
 
@@ -18,9 +18,8 @@ const BackgroundParticles = () => {
 
 
   // This function is called AFTER initParticlesEngine is done and particles are ready
-  const particlesLoaded = useCallback(async (container) => {
-    // await console.log(container); // Debugging
-    // await console.log("Particles container loaded:", container); // Debugging
+  const particlesLoaded = useCallback(async (_container) => { // Use underscore for unused container
+    // await console.log("Particles container loaded:", _container); // Debugging
   }, []);
 
   // Particle configuration - Customize this!

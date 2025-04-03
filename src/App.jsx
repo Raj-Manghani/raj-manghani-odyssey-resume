@@ -1,8 +1,8 @@
 // /home/tao/projects/online-resume/raj-manghani-odyssey/src/App.jsx
-import React, { useEffect, Suspense, useRef, useState, useMemo } from 'react';
+import { useEffect, Suspense, useRef, useState } from 'react'; // Removed React (implicit) and useMemo
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
-import * as THREE from 'three';
+// import * as THREE from 'three'; // Removed THREE
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -167,7 +167,7 @@ function App() {
                     <FlyingObjects count={3} />
                     {/* Pass the updated click handler */}
                     <SolarSystemGroup
-                        activeInfo={activeInfo}
+                        // activeInfo={activeInfo} // No longer needed by SolarSystemGroup
                         handlePlanetClick={handleBodyClick} // Pass the correct handler
                     />
                 </Suspense>

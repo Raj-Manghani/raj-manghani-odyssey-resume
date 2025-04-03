@@ -1,6 +1,5 @@
 // src/sections/LandingSection/__tests__/LandingSection.test.jsx
-import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react'; // Removed React import
 import { describe, test, expect, vi } from 'vitest';
 import LandingSection from '../LandingSection'; // Adjust path as needed
 

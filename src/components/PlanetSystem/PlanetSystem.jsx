@@ -22,11 +22,12 @@ const PlanetSystem = ({
   // Info Props
   name,        // Used for display label
   planetKey,   // Key for click handler
-  showInfo,    // Keep: Used by SolarSystemGroup to determine active state
+  // showInfo, // Prop removed as it's not used internally here
   onPlanetClick
 }) => {
   const planetRef = useRef();
-  const moonOrbitRefs = useMemo(() => moons.map(() => React.createRef()), [moons.length]); // Keep refs for orbit animation
+  // Depend on the moons array itself for useMemo
+  const moonOrbitRefs = useMemo(() => moons.map(() => React.createRef()), [moons]);
   const [hoveredBody, setHoveredBody] = useState(null); // Track hovered planet OR moon key
 
   useFrame((state, delta) => {

@@ -1,7 +1,7 @@
 // src/sections/ProjectsCertsSection/ProjectsCertsSection.jsx
-import React, { useEffect, useRef } from 'react'; // Import useEffect, useRef
+import { useEffect, useRef } from 'react'; // Removed React
 import gsap from 'gsap'; // Import gsap
-import { ScrollTrigger } from 'gsap/ScrollTrigger'; // Import ScrollTrigger
+// import { ScrollTrigger } from 'gsap/ScrollTrigger'; // Removed unused ScrollTrigger
 import styles from './ProjectsCertsSection.module.scss';
 import { certsAndTraining, personalProjects, education } from '../../data/projectsData'; // Import data
 

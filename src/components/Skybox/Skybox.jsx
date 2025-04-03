@@ -1,4 +1,4 @@
-import React from 'react';
+// Removed React import
 import { useTexture } from '@react-three/drei';
 import * as THREE from 'three';
 
@@ -12,4 +12,4 @@ function Skybox() {
     );
 }
 
-export default Skybox; 
+export default Skybox;
