@@ -129,17 +129,24 @@ pipeline {
                             sh "${remoteCmd} \"echo 'Connected to AWS Server: ${env.AWS_SERVER_IP}'\""
                             sh "${remoteCmd} \"cd ${env.AWS_APP_DIR} || exit 1\"" // Fail if cd fails
 
-                            // Set environment variables for subsequent commands in the same SSH session (might not persist reliably across separate sh steps)
-                            // It's safer to include them in the docker compose command line if possible,
-                            // or ensure the .env file method is used by docker-compose.yml on the server.
-                            // For now, let's export them hoping the session persists for the compose commands.
-                            sh "${remoteCmd} \"export FRONTEND_IMAGE_TAG=${env.IMAGE_TAG}; export BACKEND_IMAGE_TAG=${env.IMAGE_TAG}; export REGISTRY_URL=${env.REGISTRY_URL}; echo Variables exported.\""
+                            // Define variables needed for compose commands
+                            def frontendImg = "${env.REGISTRY_URL}/${env.FRONTEND_IMAGE_NAME}:${env.IMAGE_TAG}"
+                            def backendImg = "${env.REGISTRY_URL}/${env.BACKEND_IMAGE_NAME}:${env.IMAGE_TAG}"
+                            def envPrefix = "FRONTEND_IMAGE_TAG=${env.IMAGE_TAG} BACKEND_IMAGE_TAG=${env.IMAGE_TAG} REGISTRY_URL=${env.REGISTRY_URL}"
 
-                            sh "${remoteCmd} \"echo 'Pulling new images...' && cd ${env.AWS_APP_DIR} && docker compose pull\""
-                            sh "${remoteCmd} \"echo 'Stopping old containers...' && docker stop odyssey-frontend odyssey-backend || true\"" // Use || true here as separate command
-                            sh "${remoteCmd} \"echo 'Removing old containers...' && docker rm -f odyssey-frontend odyssey-backend || true\"" // Use || true here
+                            // Pull new images using variables
+                            sh "${remoteCmd} \"echo 'Pulling new images ${frontendImg} and ${backendImg}...' && cd ${env.AWS_APP_DIR} && ${envPrefix} docker compose pull\""
+
+                            // Stop and remove old containers by name
+                            sh "${remoteCmd} \"echo 'Stopping old containers...' && docker stop odyssey-frontend odyssey-backend || true\""
+                            sh "${remoteCmd} \"echo 'Removing old containers...' && docker rm -f odyssey-frontend odyssey-backend || true\""
+
+                            // Run docker compose down
                             sh "${remoteCmd} \"echo 'Running docker compose down...' && cd ${env.AWS_APP_DIR} && docker compose down --remove-orphans\""
-                            sh "${remoteCmd} \"echo 'Starting new containers...' && cd ${env.AWS_APP_DIR} && docker compose up -d\""
+
+                            // Start new containers using variables
+                            sh "${remoteCmd} \"echo 'Starting new containers...' && cd ${env.AWS_APP_DIR} && ${envPrefix} docker compose up -d\""
+
                             sh "${remoteCmd} \"echo 'Deployment script finished.'\""
                         }
                     }
