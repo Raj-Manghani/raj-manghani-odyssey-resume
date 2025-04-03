@@ -7,6 +7,7 @@ import styles from './BriefingSection.module.scss';
 const BriefingSection = ({ id }) => {
   const sectionRef = useRef(null); // Ref for the section element
   const contentRef = useRef(null); // Ref for the main content wrapper
+  const ciCdRef = useRef(null); // Add ref for the new paragraph
 
   // Restore useEffect animation logic
   useEffect(() => {
@@ -43,6 +44,10 @@ const BriefingSection = ({ id }) => {
         </p>
         <p className={styles.summary}>
           <strong>Under the Hood:</strong> This site runs using a modern containerized approach with two distinct services. The frontend service utilizes Nginx to efficiently serve the optimized React application bundle (handling the visuals and 3D rendering) directly to your browser. When exploring the solar system, the interactive terminal connects via WebSockets to a separate backend service built with Node.js and Express, which securely processes commands against a defined API. This decoupled design improves stability, simplifies updates, and allows each component to perform its specific role effectively.
+        </p>
+        {/* Insert new CI/CD paragraph */}
+        <p ref={ciCdRef} className={styles.summary}>
+          <strong>Automated Deployment Systems:</strong> To ensure rapid and reliable updates across the star system, this entire application utilizes a Continuous Integration and Continuous Deployment (CI/CD) pipeline managed by Jenkins. When new code is committed to the central repository, Jenkins automatically initiates a build sequence: linting checks verify code quality, Docker images for both the frontend interface and the backend command processor are constructed, and these fresh images are securely pushed to a Docker Hub registry. Finally, Jenkins remotely commands the AWS deployment server to pull the latest images and seamlessly relaunch the application containers, ensuring you always interact with the most up-to-date version of this digital odyssey with minimal downtime. This automated workflow streamlines development and guarantees consistent deployments.
         </p>
         <p className={styles.summary}>
           <strong>Fueled by:</strong> React, Vite, Node.js, Express, WebSockets (ws), JavaScript, Three.js, React Three Fiber, Drei, GSAP, react-tsparticles, Sass (SCSS), CSS Modules, Docker, Nginx.
