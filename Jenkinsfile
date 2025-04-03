@@ -184,8 +184,9 @@ pipeline {
     post {
         // Actions to run after pipeline completes
         always {
-            // Use a node block to get a workspace for cleanWs
-            node {
+            // Use a node block with a label to get a workspace for cleanWs
+            // 'built-in' is the typical label for the controller node
+            node('built-in') {
                 echo 'Pipeline finished.'
                 cleanWs() // Clean up Jenkins workspace
             }
