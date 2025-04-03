@@ -30,15 +30,18 @@ pipeline {
 
     stages {
         stage('Preparation') {
+            agent any // Run preparation on default agent
             steps {
+                checkout scm // Checkout code first to get env.GIT_COMMIT
                 script {
                     echo "Starting pipeline for commit ${env.GIT_COMMIT}"
                     // Generate a unique tag (using first 7 chars of git commit)
-                    def imageTag = env.GIT_COMMIT.take(7)
+                    // Ensure GIT_COMMIT exists before trying to use take()
+                    def commitHash = env.GIT_COMMIT ?: 'unknown'
+                    def imageTag = commitHash.take(7)
                     env.IMAGE_TAG = imageTag // Store tag in environment for later use
                     echo "Using Image Tag: ${env.IMAGE_TAG}"
                 }
-                checkout scm // Checks out code from the Git repo Jenkins is linked to
                 stash includes: '**/*', name: 'source' // Stash source code for use in later stages/agents
             }
         }
@@ -181,8 +184,12 @@ pipeline {
     post {
         // Actions to run after pipeline completes
         always {
-            echo 'Pipeline finished.'
-            cleanWs() // Clean up Jenkins workspace
+            // cleanWs() needs a node context
+            agent any // Assign an agent to the post action block
+            steps {
+                echo 'Pipeline finished.'
+                cleanWs() // Clean up Jenkins workspace
+            }
         }
         success {
             echo 'Pipeline succeeded!'
