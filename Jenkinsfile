@@ -10,6 +10,8 @@ pipeline {
 
     environment {
         // Define environment variables for the pipeline
+        // Prepend Docker binary path (adjust if 'which docker' gave a different dir)
+        PATH = "/usr/bin:${env.PATH}"
         REGISTRY_CREDENTIALS_ID = 'dockerhub-credentials' // Jenkins Credential ID for Docker Hub
         REGISTRY_URL            = 'docker.io/rajmanghani' // Your Docker Hub username/namespace
         FRONTEND_IMAGE_NAME     = 'raj-manghani-odyssey-frontend'
