@@ -1,16 +1,7 @@
 // Jenkinsfile (Declarative Pipeline)
 
 pipeline {
-    // Agent Configuration: Use Docker for build steps
-    // Assumes Jenkins controller has Docker installed & socket mounted,
-    // OR uses a Docker cloud agent configuration.
-    agent {
-        docker {
-            image 'node:20-alpine' // Use a Node image for npm steps
-            args '-v /var/run/docker.sock:/var/run/docker.sock' // Mount docker socket if needed
-            // Add '-u root' if necessary for permissions, or configure docker group access
-        }
-    }
+    agent any // Use the default configured agent (ensure it has git, node, npm, docker CLI)
 
     environment {
         // Define environment variables for the pipeline
@@ -73,8 +64,7 @@ pipeline {
         // }
 
         stage('Build Docker Images') {
-            // This stage requires Docker access
-            agent any // Use default agent which should have docker socket mounted or be docker itself
+            // Runs on the agent defined globally (agent any)
             steps {
                 unstash 'source'
                 echo "Building Docker images with tag: ${env.IMAGE_TAG}"
@@ -84,8 +74,7 @@ pipeline {
         }
 
         stage('Push to Docker Hub') {
-            // This stage requires Docker access and credentials
-            agent any
+            // Runs on the agent defined globally (agent any)
             steps {
                 echo "Pushing images to Docker Hub: ${env.REGISTRY_URL}"
                 withCredentials([usernamePassword(credentialsId: env.REGISTRY_CREDENTIALS_ID, usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
@@ -98,8 +87,7 @@ pipeline {
         }
 
         stage('Deploy to AWS') {
-            // This stage requires SSH access
-            agent any // Run on controller or agent capable of SSH
+            // Runs on the agent defined globally (agent any)
             steps {
                 echo "Deploying tag ${env.IMAGE_TAG} to AWS server ${env.AWS_SERVER_IP}"
                 script {
