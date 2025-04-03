@@ -1,13 +1,44 @@
 // src/sections/ProjectsCertsSection/ProjectsCertsSection.jsx
-import React from 'react';
+import React, { useEffect, useRef } from 'react'; // Import useEffect, useRef
+import gsap from 'gsap'; // Import gsap
+import { ScrollTrigger } from 'gsap/ScrollTrigger'; // Import ScrollTrigger
 import styles from './ProjectsCertsSection.module.scss';
 import { certsAndTraining, personalProjects, education } from '../../data/projectsData'; // Import data
 
 const ProjectsCertsSection = ({ id }) => {
+  const sectionRef = useRef(null); // Ref for the section element
+  const contentRef = useRef(null); // Ref for the content wrapper
+
+  useEffect(() => {
+    // Skip animations during E2E tests
+    if (window.navigator.webdriver) return;
+
+    // Simple fade-in animation for the content wrapper when section enters viewport
+    if (contentRef.current) {
+      gsap.fromTo(
+        contentRef.current,
+        { y: 30, autoAlpha: 0 },
+        {
+          y: 0,
+          autoAlpha: 1,
+          duration: 0.8,
+          ease: 'power3.out',
+          // Conditionally add ScrollTrigger based on env var
+          scrollTrigger: import.meta.env.VITE_E2E_TESTING === 'true' ? undefined : {
+            trigger: sectionRef.current,
+            start: 'top 85%',
+          }
+        } // This brace closes the 'vars' object for the tween
+      );
+    }
+  }, []);
+
   // TODO: Add interactive elements later (e.g., rotating badges, project previews)
   return (
-    <section id={id} className={`${styles.projectsCertsSection} section-fade-in`}>
-      <div className={styles.contentWrapper}>
+    // Remove static class, apply ref
+    <section id={id} ref={sectionRef} className={styles.projectsCertsSection}>
+      {/* Apply ref to content */}
+      <div ref={contentRef} className={styles.contentWrapper}>
         <h2>Galactic Showcase: Projects & Credentials</h2>
 
         <div className={styles.grid}>

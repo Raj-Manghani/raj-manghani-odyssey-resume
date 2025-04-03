@@ -22,6 +22,9 @@ const LandingSection = ({ id }) => {
 
 
   useEffect(() => {
+    // Skip animations during E2E tests
+    if (window.navigator.webdriver) return;
+
     // Animate content and picture together
     if (contentRef.current && picRef.current) {
         const tl = gsap.timeline({
@@ -41,9 +44,19 @@ const LandingSection = ({ id }) => {
         if (nameRef.current && taglineRef.current && aboutMeRefs.every(ref => ref.current)) {
             tl.fromTo(
                 [nameRef.current, taglineRef.current, ...aboutMeRefs.map(ref => ref.current)], // Animate all elements
-                { y: 20, autoAlpha: 0 }, // autoAlpha handles opacity and visibility
-                { y: 0, autoAlpha: 1, duration: 0.6, stagger: 0.1 }, // Adjust stagger if needed
-                "-=0.5" // Start this sequence slightly before the block finishes fading in
+                { y: 20, autoAlpha: 0 }, // Initial state
+                { // Final state
+                  y: 0,
+                  autoAlpha: 1,
+                  duration: 0.6,
+                  stagger: 0.1,
+                  // Conditionally add ScrollTrigger based on env var
+                  scrollTrigger: import.meta.env.VITE_E2E_TESTING === 'true' ? undefined : {
+                    trigger: sectionRef.current,
+                    start: 'top 85%',
+                  }
+                },
+                "-=0.5"
             );
         } else {
             console.warn("LandingSection: One or more name/tagline/aboutMe refs not found for animation.");

@@ -38,46 +38,24 @@ function App() {
   const [activeInfo, setActiveInfo] = useState(null); // Stores the key of the active planet OR moon
   const mainRef = useRef();
 
-  // useEffect for GSAP & Visibility (Restored Original Logic)
+  // useEffect for GSAP & Visibility (Simplified - Let sections handle own entrance)
   useEffect(() => {
     const mainElement = mainRef.current;
-    const sections = mainElement ? gsap.utils.toArray(mainElement.children) : [];
-    let triggers = [];
-    gsap.killTweensOf(mainElement); // Kill any ongoing tweens
+    gsap.killTweensOf(mainElement); // Kill any ongoing tweens on the main element
 
     if (showResume) {
-        gsap.set(mainElement, { autoAlpha: 1 }); // Ensure main container is visible
-        // Initially hide all sections before setting up triggers
-        gsap.set(sections, { autoAlpha: 0, y: 30 });
-        // Use a slight delay to ensure layout is stable before creating triggers
-        const timer = setTimeout(() => {
-            sections.forEach((section) => {
-                // Create a ScrollTrigger for each section to animate it in/out
-                const trigger = ScrollTrigger.create({
-                    trigger: section,
-                    start: 'top 85%', // When top of section hits 85% from top of viewport
-                    end: 'bottom 15%', // When bottom of section leaves 15% from top of viewport
-                    // Animate in on enter
-                    onEnter: () => gsap.to(section, { autoAlpha: 1, y: 0, duration: 0.8, ease: 'power3.out', overwrite: 'auto' }),
-                    // Animate out on leave back (scrolling up)
-                    onLeaveBack: () => gsap.to(section, { autoAlpha: 0, y: 30, duration: 0.5, ease: 'power3.in', overwrite: 'auto' }),
-                    invalidateOnRefresh: true // Recalculate on resize/refresh
-                });
-                triggers.push(trigger); // Keep track of triggers to kill them later
-            });
-        }, 100); // 100ms delay
-
-        // Cleanup function: kill timer and triggers when effect reruns or component unmounts
-        return () => {
-            clearTimeout(timer);
-            triggers.forEach(trigger => trigger.kill());
-        };
+      // Animate the main container to visible
+      gsap.to(mainElement, { autoAlpha: 1, duration: 0.3 });
+      // Ensure ScrollTrigger is refreshed in case calculations were off while hidden
+      ScrollTrigger.refresh();
     } else {
-        // If hiding the resume view, kill all active ScrollTriggers immediately
-        ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-        // Animate the main container out
-        gsap.to(mainElement, { autoAlpha: 0, duration: 0.3 });
+      // Kill all ScrollTriggers when hiding resume to prevent interference
+      // This is important so section animations don't run while hidden
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+      // Animate the main container to hidden
+      gsap.to(mainElement, { autoAlpha: 0, duration: 0.3 });
     }
+    // No App-level cleanup needed for section triggers
   }, [showResume]); // Rerun effect if showResume changes
 
   // Menu click handler (Unchanged)

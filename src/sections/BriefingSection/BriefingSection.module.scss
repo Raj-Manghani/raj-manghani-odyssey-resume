@@ -2,17 +2,15 @@
 @use '../../styles/variables' as var;
 @use '../../styles/mixins' as mix;
 
+// Style the outer section container (similar to global section, but maybe without background/border if content has it)
 .briefingSection {
-  @include mix.section-padding; // Apply padding, width, max-width, margin:auto initially
-  max-width: none; // Override max-width to allow full span
-  // Keep padding from mixin for content spacing:
-  padding-left: var.$section-padding-horizontal;
-  padding-right: var.$section-padding-horizontal;
-  // Vertical padding and bottom margin are already set correctly by mixin and explicit rule
+  width: 100%;
+  padding-top: var.$section-padding-vertical; // Use explicit vertical padding
+  padding-bottom: var.$section-padding-vertical;
+  margin-bottom: var.$section-padding-vertical; // Keep space below
   text-align: center;
-  margin-bottom: var.$section-padding-vertical;
-
-  // Add any other specific styles if needed
+  position: relative; // Keep for potential absolute children if needed later
+  overflow: hidden; // Keep for potential overflow
 }
 
 .title {
@@ -21,14 +19,14 @@
   margin-bottom: 2rem;
   font-size: clamp(1.8rem, 5vw, 2.5rem);
   @include mix.apply-glow(var.$color-accent2, 0.7);
-  opacity: 0; // For animation
-  transform: translateY(30px); // For animation
+  // Ensure opacity/transform are NOT set here
 }
 
+// Apply padding and max-width constraints to the inner wrapper
 .contentWrapper {
-  // Container for the paragraphs if needed for layout
+  @include mix.section-padding; // Apply padding, width, max-width, margin:auto HERE
   @include mix.flex-center($direction: column);
-  gap: 1.5rem; // Space between paragraphs
+  gap: 1.5rem;
 }
 
 // Re-use summary style for consistency
@@ -40,8 +38,7 @@
   margin-left: auto;
   margin-right: auto;
   text-align: left; // Align text left within the centered wrapper
-  opacity: 0; // For animation
-  transform: translateY(30px); // For animation
+  // Ensure opacity/transform are NOT set here
 
   strong {
     color: var.$color-text-light; // CORRECTED: Use light text color to make labels stand out

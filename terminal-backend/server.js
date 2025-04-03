@@ -324,11 +324,16 @@ function handleCommand(message, ws) {
 
 // --- End Command Definitions ---
 
+// Export for testing purposes
+module.exports = { handleCommand, commands, formatOutput };
 
-// Start the server
-server.listen(PORT, () => {
-  console.log(`[Server] HTTP and WebSocket server listening on port ${PORT}`);
-});
+// Start the server only if this script is run directly (not required by a test)
+if (require.main === module) {
+    server.listen(PORT, () => {
+        console.log(`[Server] HTTP and WebSocket server listening on port ${PORT}`);
+    });
+}
+// Removed duplicate console.log and closing }); here
 
 // Handle graceful shutdown
 process.on('SIGTERM', () => {
