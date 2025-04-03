@@ -12,7 +12,8 @@ const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
 const wsPort = (window.location.protocol === 'https:' || window.location.protocol === 'http:') && (window.location.port === '' || window.location.port === '80' || window.location.port === '443')
   ? '' // No port needed for standard ports (proxy handles routing)
   : ':3001'; // Use explicit port for non-standard/dev setups
-const WS_URL = `${protocol}://${window.location.hostname}${wsPort}`;
+// Append the specific path '/ws/' for the proxy
+const WS_URL = `${protocol}://${window.location.hostname}${wsPort}/ws/`;
 
 
 const TerminalComponent = () => {
