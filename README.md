@@ -164,6 +164,78 @@ This section details deploying the application using the **main `docker-compose.
 
 ---
 
+## CI/CD Pipeline Setup (Jenkins)
+
+This project includes a `Jenkinsfile` for automated building, testing (placeholders), and deployment using Jenkins. To use this pipeline, you need to configure your Jenkins instance as follows:
+
+**1. Required Plugins:**
+
+Ensure the following plugins are installed in Jenkins ("Manage Jenkins" > "Plugins"):
+*   NodeJS Plugin
+*   SSH Agent Plugin
+*   Docker Pipeline (and its dependencies, likely installed automatically)
+*   Credentials Binding Plugin (usually installed by default)
+*   Git Plugin (usually installed by default)
+
+**2. Global Tool Configuration:**
+
+Configure the following in "Manage Jenkins" > "Tools":
+*   **NodeJS installations:**
+    *   Click "Add NodeJS".
+    *   **Name:** `NodeJS-20` (must match `Jenkinsfile`)
+    *   Check "Install automatically".
+    *   Choose "Install from nodejs.org" and select a Node.js 20.x version.
+*   **Docker installations:**
+    *   Click "Add Docker".
+    *   **Name:** `DockerTool` (must match `Jenkinsfile`)
+    *   **Uncheck** "Install automatically".
+    *   **Installation directory:** Enter the path to the Docker installation directory on your Jenkins controller host (e.g., `/usr` if `which docker` outputs `/usr/bin/docker`).
+
+**3. Credentials Configuration:**
+
+Configure the following credentials in Jenkins ("Manage Jenkins" > "Credentials" > "System" > "Global credentials"):
+*   **Docker Hub:**
+    *   **Kind:** Username with password
+    *   **ID:** `dockerhub-credentials` (must match `Jenkinsfile`)
+    *   **Username:** Your Docker Hub username
+    *   **Password:** Your Docker Hub password or Access Token
+*   **AWS Server SSH Key:**
+    *   **Kind:** SSH Username with private key
+    *   **ID:** `aws-server-ssh` (must match `Jenkinsfile`)
+    *   **Username:** `ubuntu` (or your AWS server user)
+    *   **Private Key:** Select "Enter directly" and paste your SSH private key content.
+*   **GitHub Access (for Checkout):**
+    *   **Kind:** Username with password
+    *   **ID:** `github-https-pat` (must match `Jenkinsfile`)
+    *   **Username:** Your GitHub username (`Raj-Manghani`)
+    *   **Password:** Your GitHub Personal Access Token (PAT) with repo access scope.
+
+**4. Global Environment Variables:**
+
+Configure the following in Jenkins ("Manage Jenkins" > "System" > "Global properties"):
+*   Check the "Environment variables" box.
+*   Click "Add".
+*   **Name:** `AWS_SERVER_IP_GLOBAL`
+*   **Value:** Enter the public IP address of your AWS deployment server (e.g., `54.189.185.118`).
+
+**5. Pipeline Job Setup:**
+
+*   Create a "Pipeline" job in Jenkins.
+*   Configure it to use "Pipeline script from SCM".
+*   Set SCM to "Git".
+*   Enter your repository URL (`https://github.com/Raj-Manghani/raj-manghani-odyssey-resume.git`).
+*   Select the `github-https-pat` credential.
+*   Set the branch to `*/main`.
+*   Keep the script path as `Jenkinsfile`.
+
+**6. AWS Server Preparation:**
+
+Ensure the target AWS server is prepared as described in the Jenkinsfile deployment stage comments (Docker, Docker Compose installed, user in `docker` group, `/home/ubuntu/app` directory created, correct `docker-compose.yml` and `proxy/nginx.conf` placed in `/home/ubuntu/app`).
+
+With these configurations in place, the Jenkins pipeline defined in `Jenkinsfile` should run successfully when triggered.
+
+---
+
 ## Code Repository
 
 The source code is publicly available on GitHub:

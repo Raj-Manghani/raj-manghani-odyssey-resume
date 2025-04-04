@@ -55,11 +55,7 @@ const ContactSection = ({ id }) => {
                  </div>
                  <div className={styles.infoItem}>
                      <span className={styles.infoIcon}>📧</span>
-                    <a href="mailto:rajm@wiredcolony.com">rajm@wiredcolony.com</a>
-                 </div>
-                 <div className={styles.infoItem}>
-                     <span className={styles.infoIcon}>📞</span>
-                    <a href="tel:+1-858-461-8016">(858) 461-8016</a>
+                    <a href="mailto:raj@wiredcolony.com">raj@wiredcolony.com</a>
                  </div>
                   <div className={styles.infoItem}>
                      <span className={styles.infoIcon}>🔗</span>

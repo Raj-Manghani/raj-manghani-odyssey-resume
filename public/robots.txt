@@ -1,0 +1,3 @@
+# Disallow all crawlers from indexing any part of the site
+User-agent: *
+Disallow: /
