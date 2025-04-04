@@ -5,7 +5,7 @@ pipeline {
 
     // Tools directive is not needed when using specific docker agents for stages
     // tools {
-    //     nodejs 'NodeJS-20'
+    // js 'NodeJS-20'
     //     dockerTool 'DockerTool'
     // }
 
