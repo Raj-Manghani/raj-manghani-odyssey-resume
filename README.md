@@ -216,7 +216,7 @@ Configure the following in Jenkins ("Manage Jenkins" > "System" > "Global proper
 *   Check the "Environment variables" box.
 *   Click "Add".
 *   **Name:** `AWS_SERVER_IP_GLOBAL`
-*   **Value:** Enter the public IP address of your AWS deployment server (e.g., `54.189.185.118`).
+*   **Value:** Enter the public IP address of your AWS deployment server (e.g., `your_server_public_ip`).
 
 **5. Pipeline Job Setup:**
 
