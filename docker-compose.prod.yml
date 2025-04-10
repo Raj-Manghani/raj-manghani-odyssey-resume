@@ -49,6 +49,11 @@ services:
     entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
 
 # Define named volumes at the TOP LEVEL
+# Mark them as external and specify the existing volume names
 volumes:
   certbot_certs:
+    external: true
+    name: raj-manghani-odyssey-resume_certbot_certs # Use the volume with the actual certs
   certbot_webroot:
+    external: true
+    name: app_certbot_webroot # Assuming this is the correct name, adjust if needed
