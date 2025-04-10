@@ -136,7 +136,7 @@ pipeline {
                             // Ensure proxy directory exists and copy Nginx config and the PROD docker-compose file
                             sh "${remoteCmd} \"echo 'Ensuring proxy directory exists...' && mkdir -p ${env.AWS_APP_DIR}/proxy\""
                             sh "echo 'Copying Nginx configuration...' && scp ${sshOpts} proxy/nginx.conf ${sshHost}:${env.AWS_APP_DIR}/proxy/"
-                            sh "echo 'Copying production docker-compose.yml...' && scp ${sshOpts} docker-compose.prod.yml ${sshHost}:${env.AWS_APP_DIR}/docker-compose.yml" # Removed comment
+                            sh "echo 'Copying production docker-compose.yml...' && scp ${sshOpts} docker-compose.prod.yml ${sshHost}:${env.AWS_APP_DIR}/docker-compose.yml"
 
 
                             // Define variables needed for compose commands
