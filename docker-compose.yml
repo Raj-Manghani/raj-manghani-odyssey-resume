@@ -26,6 +26,7 @@ services:
     ports:
       - "80:80"
       - "443:443"
+    network_mode: host # Add host network mode
     volumes:
       # Use the FINAL Nginx config with HTTPS block uncommented
       - ./proxy/nginx.conf:/etc/nginx/nginx.conf:ro

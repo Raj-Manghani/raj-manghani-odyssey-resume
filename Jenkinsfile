@@ -130,9 +130,11 @@ pipeline {
                             sh "${remoteCmd} \"echo 'Connected to AWS Server: ${env.AWS_SERVER_IP}'\""
                             sh "${remoteCmd} \"cd ${env.AWS_APP_DIR} || exit 1\"" // Fail if cd fails
 
-                            // Ensure proxy directory exists and copy Nginx config
+                            // Ensure proxy directory exists and copy Nginx config and docker-compose.yml
                             sh "${remoteCmd} \"echo 'Ensuring proxy directory exists...' && mkdir -p ${env.AWS_APP_DIR}/proxy\""
                             sh "echo 'Copying Nginx configuration...' && scp ${sshOpts} proxy/nginx.conf ${sshHost}:${env.AWS_APP_DIR}/proxy/"
+                            sh "echo 'Copying docker-compose.yml...' && scp ${sshOpts} docker-compose.yml ${sshHost}:${env.AWS_APP_DIR}/"
+
 
                             // Define variables needed for compose commands
                             def frontendImg = "${env.REGISTRY_URL}/${env.FRONTEND_IMAGE_NAME}:${env.IMAGE_TAG}"
