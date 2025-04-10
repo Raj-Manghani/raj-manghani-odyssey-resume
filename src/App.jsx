@@ -48,12 +48,14 @@ function App() {
     if (showResume) {
       // Animate the main container to visible
       gsap.to(mainElement, { autoAlpha: 1, duration: 0.3 });
+      // Enable all ScrollTriggers
+      ScrollTrigger.getAll().forEach(trigger => trigger.enable());
       // Ensure ScrollTrigger is refreshed in case calculations were off while hidden
       ScrollTrigger.refresh();
     } else {
-      // Kill all ScrollTriggers when hiding resume to prevent interference
+      // Disable all ScrollTriggers when hiding resume to prevent interference
       // This is important so section animations don't run while hidden
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+      ScrollTrigger.getAll().forEach(trigger => trigger.disable(true)); // true resets progress
       // Animate the main container to hidden
       gsap.to(mainElement, { autoAlpha: 0, duration: 0.3 });
     }
@@ -75,6 +77,12 @@ function App() {
         targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
     setIsMobileMenuOpen(false); // Close mobile menu on link click
+  };
+
+  // DevOps Monitor Button Click Handler
+  const handleDevOpsClick = () => {
+    alert("Opening Grafana monitor in a new tab.\nDefault credentials: user / user");
+    window.open('/grafana/', '_blank', 'noopener,noreferrer'); // Open in new tab securely
   };
 
   // Toggle Mobile Menu
@@ -155,10 +163,15 @@ function App() {
                 <a href="#projects" onClick={handleMenuClick}>Projects</a>
                 <a href="#contact" onClick={handleMenuClick}>Contact</a>
             </nav>
+            {/* DevOps Monitor Button */}
         </header>
 
         <button className="toggle-view-button" onClick={() => setShowResume(!showResume)}> {/* Unchanged */}
             {showResume ? 'Explore Solar System' : 'Show Resume'}
+        </button>
+        {/* DevOps Monitor Button - Moved and styled like toggle button */}
+        <button className="toggle-view-button devops-monitor-button-spacing" onClick={handleDevOpsClick}>
+            View DevOps Monitor
         </button>
 
         {!showResume && ( /* Unchanged */

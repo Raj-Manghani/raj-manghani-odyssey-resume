@@ -125,6 +125,12 @@ section {
     &:active { transform: translateY(0); }
 }
 
+// Position the DevOps button below the toggle button
+.devops-monitor-button-spacing {
+    top: 125px; // Position explicitly below the first button (75px + ~40px height + 10px margin)
+    // Inherits all other styles from .toggle-view-button
+}
+
 // --- Controls Info Overlay ---
 .controls-info {
     position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 50;
