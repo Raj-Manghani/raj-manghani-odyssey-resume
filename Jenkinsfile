@@ -156,7 +156,8 @@ pipeline {
                             // Adding a longer sleep to ensure the container/nginx process is fully ready after 'up -d'
                             echo "Waiting for Nginx container to stabilize..."
                             sleep 10 // Sleep for 10 seconds
-                            sh "${remoteCmd} \"echo 'Reloading Nginx configuration...' && docker compose exec nginx-proxy nginx -s reload\""
+                            // Use the SERVICE name 'proxy' instead of the container_name 'nginx-proxy' for exec
+                            sh "${remoteCmd} \"echo 'Reloading Nginx configuration...' && docker compose exec proxy nginx -s reload\""
 
                             sh "${remoteCmd} \"echo 'Deployment script finished.'\""
                         }
