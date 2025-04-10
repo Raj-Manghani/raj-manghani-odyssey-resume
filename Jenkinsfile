@@ -130,6 +130,9 @@ pipeline {
                             sh "${remoteCmd} \"echo 'Connected to AWS Server: ${env.AWS_SERVER_IP}'\""
                             sh "${remoteCmd} \"cd ${env.AWS_APP_DIR} || exit 1\"" // Fail if cd fails
 
+                            // Set ownership of the app directory to the deploy user to ensure scp works
+                            sh "${remoteCmd} \"echo 'Setting ownership...' && sudo chown -R ${AWS_DEPLOY_USER}:${AWS_DEPLOY_USER} ${AWS_APP_DIR}\""
+
                             // Ensure proxy directory exists and copy Nginx config and docker-compose.yml
                             sh "${remoteCmd} \"echo 'Ensuring proxy directory exists...' && mkdir -p ${env.AWS_APP_DIR}/proxy\""
                             sh "echo 'Copying Nginx configuration...' && scp ${sshOpts} proxy/nginx.conf ${sshHost}:${env.AWS_APP_DIR}/proxy/"
