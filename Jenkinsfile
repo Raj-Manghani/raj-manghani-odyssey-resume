@@ -153,8 +153,9 @@ pipeline {
                             sh "${remoteCmd} \"echo 'Starting new containers...' && cd ${env.AWS_APP_DIR} && ${envPrefix} docker compose up -d\""
 
                             // Reload Nginx configuration
-                            // Adding a small sleep just in case the container needs a moment to be fully ready after 'up -d'
-                            sleep 3 // Sleep for 3 seconds
+                            // Adding a longer sleep to ensure the container/nginx process is fully ready after 'up -d'
+                            echo "Waiting for Nginx container to stabilize..."
+                            sleep 10 // Sleep for 10 seconds
                             sh "${remoteCmd} \"echo 'Reloading Nginx configuration...' && docker compose exec nginx-proxy nginx -s reload\""
 
                             sh "${remoteCmd} \"echo 'Deployment script finished.'\""
