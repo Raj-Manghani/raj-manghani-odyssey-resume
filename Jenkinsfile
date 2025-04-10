@@ -130,6 +130,10 @@ pipeline {
                             sh "${remoteCmd} \"echo 'Connected to AWS Server: ${env.AWS_SERVER_IP}'\""
                             sh "${remoteCmd} \"cd ${env.AWS_APP_DIR} || exit 1\"" // Fail if cd fails
 
+                            // Ensure proxy directory exists and copy Nginx config
+                            sh "${remoteCmd} \"echo 'Ensuring proxy directory exists...' && mkdir -p ${env.AWS_APP_DIR}/proxy\""
+                            sh "echo 'Copying Nginx configuration...' && scp ${sshOpts} proxy/nginx.conf ${sshHost}:${env.AWS_APP_DIR}/proxy/"
+
                             // Define variables needed for compose commands
                             def frontendImg = "${env.REGISTRY_URL}/${env.FRONTEND_IMAGE_NAME}:${env.IMAGE_TAG}"
                             def backendImg = "${env.REGISTRY_URL}/${env.BACKEND_IMAGE_NAME}:${env.IMAGE_TAG}"
@@ -147,6 +151,11 @@ pipeline {
 
                             // Start new containers using variables
                             sh "${remoteCmd} \"echo 'Starting new containers...' && cd ${env.AWS_APP_DIR} && ${envPrefix} docker compose up -d\""
+
+                            // Reload Nginx configuration
+                            // Adding a small sleep just in case the container needs a moment to be fully ready after 'up -d'
+                            sleep 3 // Sleep for 3 seconds
+                            sh "${remoteCmd} \"echo 'Reloading Nginx configuration...' && docker compose exec nginx-proxy nginx -s reload\""
 
                             sh "${remoteCmd} \"echo 'Deployment script finished.'\""
                         }
