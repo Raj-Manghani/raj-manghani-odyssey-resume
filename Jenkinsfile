@@ -152,12 +152,8 @@ pipeline {
                             // Start new containers using variables
                             sh "${remoteCmd} \"echo 'Starting new containers...' && cd ${env.AWS_APP_DIR} && ${envPrefix} docker compose up -d\""
 
-                            // Reload Nginx configuration
-                            // Adding a longer sleep to ensure the container/nginx process is fully ready after 'up -d'
-                            echo "Waiting for Nginx container to stabilize..."
-                            sleep 10 // Sleep for 10 seconds
-                            // Use the SERVICE name 'proxy' instead of the container_name 'nginx-proxy' for exec
-                            sh "${remoteCmd} \"echo 'Reloading Nginx configuration...' && docker compose exec proxy nginx -s reload\""
+                            // Nginx reload is not needed here, as 'docker compose up' starts the container
+                            // with the newly copied and mounted configuration file.
 
                             sh "${remoteCmd} \"echo 'Deployment script finished.'\""
                         }
