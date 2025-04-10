@@ -133,10 +133,10 @@ pipeline {
                             // Set ownership of the app directory to the deploy user to ensure scp works
                             sh "${remoteCmd} \"echo 'Setting ownership...' && sudo chown -R ${AWS_DEPLOY_USER}:${AWS_DEPLOY_USER} ${AWS_APP_DIR}\""
 
-                            // Ensure proxy directory exists and copy Nginx config and docker-compose.yml
+                            // Ensure proxy directory exists and copy Nginx config and the PROD docker-compose file
                             sh "${remoteCmd} \"echo 'Ensuring proxy directory exists...' && mkdir -p ${env.AWS_APP_DIR}/proxy\""
                             sh "echo 'Copying Nginx configuration...' && scp ${sshOpts} proxy/nginx.conf ${sshHost}:${env.AWS_APP_DIR}/proxy/"
-                            sh "echo 'Copying docker-compose.yml...' && scp ${sshOpts} docker-compose.yml ${sshHost}:${env.AWS_APP_DIR}/"
+                            sh "echo 'Copying production docker-compose.yml...' && scp ${sshOpts} docker-compose.prod.yml ${sshHost}:${env.AWS_APP_DIR}/docker-compose.yml" # Copy prod file and rename on target
 
 
                             // Define variables needed for compose commands
