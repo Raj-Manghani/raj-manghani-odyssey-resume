@@ -3,12 +3,6 @@
 pipeline {
     agent none // Default agent - stages will specify their own
 
-    // Tools directive is not needed when using specific docker agents for stages
-    // tools {
-    // js 'NodeJS-20'
-    //     dockerTool 'DockerTool'
-    // }
-
     environment {
         // Define environment variables for the pipeline
         // PATH modification no longer needed here
@@ -62,19 +56,6 @@ pipeline {
                 sh '(cd terminal-backend && npm install --omit=dev && npm audit || true)' // Run in subshell
             }
         }
-
-        // --- Placeholder for Unit/Component Tests ---
-        // stage('Unit Tests (Vitest)') {
-        //     // This stage can run in the node:20-alpine agent
-        //     steps {
-        //         unstash 'source'
-        //         echo "Running Unit/Component Tests..."
-        //         sh 'npm install' // Need full devDeps for Vitest
-        //         sh 'npm test' // Runs 'vitest run'
-        //         // Also run backend tests
-        //         sh 'cd terminal-backend && npm install && npm test && cd ..'
-        //     }
-        // }
 
         stage('Build Docker Images') {
             agent {
@@ -166,26 +147,6 @@ pipeline {
                 }
             }
         }
-
-        // --- Placeholder for E2E Tests ---
-        // stage('E2E Tests (Playwright)') {
-        //     // This stage needs a browser environment
-        //     agent {
-        //         docker {
-        //             image 'mcr.microsoft.com/playwright:v1.51.1-jammy' // Official Playwright image
-        //             // Mount workspace if needed, or unstash source
-        //         }
-        //     }
-        //     steps {
-        //         unstash 'source'
-        //         echo "Running E2E Tests..."
-        //         sh 'npm install' // Install all deps
-        //         // Need to start the application first (maybe using docker compose up?)
-        //         // Or run against a deployed staging environment
-        //         // sh 'npm run test:e2e' // This needs the app running
-        //         echo "E2E Test stage needs refinement based on test strategy"
-        //     }
-        // }
     }
 
     post {

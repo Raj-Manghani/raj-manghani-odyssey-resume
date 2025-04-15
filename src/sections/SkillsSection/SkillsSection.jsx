@@ -7,21 +7,22 @@ import PowerCell from '../../components/PowerCell/PowerCell';
 // Updated Data - reflecting the backup content
 const skillCategories = [
   {
-    title: 'Cloud / AI', // Updated title from backup
+    title: 'Cloud / AI / DevOps', // Updated title from backup
     skills: [
       // Added/updated skills from backup, mapped to name/level format
-      { name: 'Gemini AI Studio', level: 5 },
-      { name: 'Copilot', level: 5 },
-      { name: 'Grok', level: 5 },
-      { name: 'Perplexity', level: 5 },
-      { name: 'Ollama', level: 4 },
+      { name: 'Vibe Coding', level: 5 },
+      { name: 'VSCode', level: 5 },
+      { name: 'Cline', level: 5 },
+      { name: 'Openrouter', level: 5 },
+      { name: 'Gemini Suite', level: 5 },
+      { name: 'Roo', level: 5 },
+      { name: 'Jenkins', level: 5 },
+      { name: 'GitHub Actions', level: 5 },
+      { name: 'Playright', level: 5 },
+      { name: 'Ollama', level: 5 },
       { name: 'AWS', level: 4 },
-      { name: 'Azure', level: 3 },
+      { name: 'Azure', level: 4 },
       { name: 'GCP', level: 3 },
-      { name: 'Anthropic', level: 3 },
-      { name: 'Render', level: 3 },
-      { name: 'Cloudflare', level: 3 },
-      { name: 'Digital Ocean', level: 3 },
       { name: 'Linode', level: 3 },
     ]
   },
@@ -29,48 +30,50 @@ const skillCategories = [
     title: 'Platforms / Apps', // Updated title from backup
     skills: [
       // Added/updated skills from backup
-      { name: 'Linux', level: 5 },
+      { name: 'Linux Debian/RHEL', level: 5 },
       { name: 'Windows 7/10/11', level: 5 },
-      { name: 'Docker', level: 5 },
-      { name: 'GitHub', level: 5 },
+      { name: 'Docker/Podman', level: 5 },
+      { name: 'Git', level: 5 },
       { name: 'MS Office Suite', level: 5 },
       { name: 'iOS', level: 5 },
       { name: 'VMware vSphere', level: 5 },
       { name: 'Proxmox', level: 5 },
+      { name: 'Apache/NGINX', level: 5 },
       { name: 'Quickbase CRM', level: 5 },
-      { name: 'Wordpress', level: 4 },
-      { name: 'Apache', level: 3 }, // Adjusted level based on backup dots
-      { name: 'Windows Server 20XX', level: 3 }, // Adjusted level based on backup dots
-      { name: 'MacOS', level: 3 }, // Adjusted level based on backup dots
-      { name: 'Kubernetes', level: 3 },
+      { name: 'Wordpress', level: 5 },
+      { name: 'Kubernetes', level: 4 },
+      { name: 'Windows Server 20XX', level: 4 }, 
+      { name: 'MacOS', level: 3 }, 
     ]
   },
   {
-    title: 'Coding / Automation', // Updated title from backup
+    title: 'Languages / Automation', // Updated title from backup
     skills: [
       // Added/updated skills from backup
       { name: 'Ansible', level: 5 },
       { name: 'Yaml/json/php/xml', level: 5 },
-      { name: 'Terraform', level: 5 }, // Adjusted level based on backup dots
+      { name: 'Terraform', level: 5 },
       { name: 'Bash', level: 5 },
-      { name: 'Python', level: 5 }, // Adjusted level based on backup dots
-      { name: 'Powershell', level: 5 }, // Adjusted level based on backup dots
-      { name: 'JupyterLab/Notebook', level: 5 },
-      { name: 'API debug', level: 3 }, // Adjusted level based on backup dots
+      { name: 'Python', level: 5 }, 
+      { name: 'JavaScript', level: 5 },
+      { name: 'Powershell', level: 5 }, 
+      { name: 'Jupyter', level: 5 },
+      { name: 'NPM', level: 5 },
+      { name: 'API debug', level: 4 },
     ]
   },
   {
-    title: 'Networking / Security / Monitoring', // Title matches backup
+    title: 'Networking / Security / Monitoring', 
     skills: [
       // Added/updated skills from backup
        { name: 'TCP/IP/DNS', level: 5 },
-       { name: 'Encryption/Certificates', level: 5 },
+       { name: 'Encrypt/Certs', level: 5 },
        { name: 'Firewalls', level: 5 },
        { name: 'SELinux/AppArmor', level: 5 },
        { name: 'ACLs/Perm', level: 5 },
-       { name: 'Active Directory/GPO', level: 5 },
-       { name: 'Prometheus', level: 4 }, // Adjusted level based on backup dots
-       { name: 'ELK Stack', level: 3 },
+       { name: 'Prometheus/Grafana', level: 5 }, 
+       { name: 'Active Directory/GPO', level: 4 },
+       { name: 'ELK Stack', level: 4 },
     ]
   }
 ];

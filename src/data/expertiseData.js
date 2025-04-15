@@ -5,7 +5,7 @@ export const expertiseAreas = [
   },
   {
     title: 'Windows OS/Server',
-    description: 'Skilled in provisioning, networking and troubleshooting servers. Proficient with Active Directory, Hyper-V management, datastore managementand server security.'
+    description: 'Skilled in provisioning, networking and troubleshooting servers. Proficient with Active Directory, Hyper-V management, datastore management and server security.'
   },
   {
     title: 'Virtualization',
@@ -30,6 +30,10 @@ export const expertiseAreas = [
   {
     title: 'AI Systems',
     description: 'Hands-on experience deploying AI models and improving their performance using advanced techniques like Retrieval-Augmented Generation (RAG). Expert at leveraging end-user AI to enhance productivity and efficiency.'
+  },
+  {
+    title: 'DevOps',
+    description: 'Experienced in managing hardware and virtual infrastructure, setting up CICD pipelines, troubleshooting, and utilizing Jenkins, Git, and GitHub Actions. Skilled in running tests with Playwright, Selenium, JUnit, and Cypress, ensuring streamlined deployment processes and robust system performance. Adaptable in integrating tools and automating workflows to enhance development and operations efficiency.'
   },
   {
     title: 'Team Building',
