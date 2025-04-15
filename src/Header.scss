@@ -74,6 +74,11 @@
     justify-content: flex-start; // Align hamburger to the left
   }
 
+  // Increase header z-index ONLY when mobile menu is open
+  .app-header.mobile-menu-active {
+    z-index: 101; // Make header itself stack above buttons (z-index: 100) when menu is open
+  }
+
   .hamburger-button {
     display: block; // Show hamburger on mobile
   }
@@ -93,6 +98,7 @@
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     transform: translateX(-100%); // Start off-screen to the left
     transition: transform 0.3s ease-in-out; // Add transition
+    z-index: 101; // Ensure mobile menu is above the toggle buttons (z-index: 100)
 
     a {
       display: block; // Stack links vertically
