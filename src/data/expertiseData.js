@@ -33,7 +33,7 @@ export const expertiseAreas = [
   },
   {
     title: 'DevOps',
-    description: 'Experienced in managing hardware and virtual infrastructure, setting up CICD pipelines, troubleshooting, and utilizing Jenkins, Git, and GitHub Actions. Skilled in running tests with Playwright, Selenium, JUnit, and Cypress, ensuring streamlined deployment processes and robust system performance. Adaptable in integrating tools and automating workflows to enhance development and operations efficiency.'
+    description: 'Experienced in managing hardware and virtual infrastructure, provisioning/managing CICD pipelines, troubleshooting CICD/tests, and utilizing CICD tools such as Jenkins, Git, and GitHub Actions. Skilled in deploying various code tests, ensuring streamlined deployment processes and secured system performance.'
   },
   {
     title: 'Team Building',
