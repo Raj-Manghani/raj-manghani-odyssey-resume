@@ -38,7 +38,8 @@ const BriefingSection = ({ id }) => {
     <section id={id} ref={sectionRef} className={styles.briefingSection}>
       {/* Apply contentRef to the wrapper */}
       <div ref={contentRef} className={styles.contentWrapper}>
-        <h2 className={styles.title}>Mission Briefing</h2>
+        {/* Changed h2 to h1 to match LandingSection name */}
+        <h1 className={styles.title}>Mission Briefing</h1>
         <p className={styles.summary}>
           You will notice the button in the top righthand corner "Explore Solar System". Click on this button to interact with the distance-scaled model of our beautiful 3D Solar System. You can click on the planets and moons for more details and fun facts. I created this model using the Three.js library and the React-Three-Fiber library. It was a lot of fun to create this model and I hope you enjoy it. While exploring, you'll also find an interactive terminal in the corner. This isn't just for show – it connects to the live backend service! You can use the limited set of commands (type `help` in the terminal to see them) to get a peek at the application's environment, like resource usage or file structure, further showcasing the infrastructure behind this resume.
         </p>

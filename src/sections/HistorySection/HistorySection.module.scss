@@ -1,0 +1,43 @@
+// src/sections/HistorySection/HistorySection.module.scss
+@use '../../styles/variables' as var;
+@use '../../styles/mixins' as mix;
+
+// Removed duplicate @use
+
+.historySection {
+  // Inherit background, border, padding, margin-bottom from global 'section' styles
+  // No width, max-width, or specific margins needed here for the section itself
+  position: relative; // Keep for potential absolute children
+  overflow: hidden; // Keep for potential overflow
+}
+
+// Add content wrapper to center content block, like Landing/Briefing
+.contentWrapper {
+  padding-left: var.$section-padding-horizontal; // Add horizontal padding
+  padding-right: var.$section-padding-horizontal;
+  width: 90%; // Match introContainer width
+  max-width: var.$max-content-width; // Match introContainer max-width
+  margin-left: auto; // Center the wrapper
+  margin-right: auto;
+  @include mix.flex-center($direction: column); // Add flex centering like Briefing
+  gap: 1.5rem; // Add gap like Briefing
+  text-align: left; // Ensure content within wrapper is left-aligned
+}
+
+.summary {
+  // Style for the history paragraphs
+  margin-bottom: 1rem;
+  color: var.$color-text-medium;
+  font-size: clamp(0.95rem, 2.5vw, 1.1rem); // Add explicit font-size matching Briefing
+  max-width: 75ch; // Consistent max width for readability
+  // margin-left: auto; // Remove auto margins, rely on wrapper for centering
+  // margin-right: auto;
+  line-height: 1.6; // Match Briefing section line-height
+  text-align: left; // Keep text within the paragraph left-aligned
+}
+
+// Standard h2 styling
+h2 {
+    // margin-bottom will be inherited from global h2 style
+    text-align: center; // Center the History title within the contentWrapper
+}

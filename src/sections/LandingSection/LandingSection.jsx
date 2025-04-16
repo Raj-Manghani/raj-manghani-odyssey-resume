@@ -3,47 +3,46 @@ import { useEffect, useRef } from 'react'; // Removed React
 import gsap from 'gsap';
 import styles from './LandingSection.module.scss';
 
-// Import the profile picture
-import profilePic from '../../assets/profile-pic.jpg'; // Adjust filename if needed
+// Re-import the profile picture
+import profilePic from '../../assets/profile-pic.jpg';
 
 const LandingSection = ({ id }) => {
   const sectionRef = useRef(null);
   const contentRef = useRef(null); // Ref for the content block
-  const picRef = useRef(null); // Ref for the picture
+  const picRef = useRef(null); // Re-add picRef
   const nameRef = useRef(null);
   const taglineRef = useRef(null);
-  // New refs for "About Me" paragraphs
-  const aboutMeRef1 = useRef(null);
-  const aboutMeRef2 = useRef(null);
-  const aboutMeRef3 = useRef(null);
-  const aboutMeRef4 = useRef(null);
-  const aboutMeRef5 = useRef(null);
-  const aboutMeRef6 = useRef(null);
+  // Refs for new "Welcome" paragraphs
+  const welcomeRef1 = useRef(null);
+  const welcomeRef2 = useRef(null);
+  const welcomeRef3 = useRef(null);
+  const welcomeRef4 = useRef(null);
+  // Removed aboutMe refs
 
 
   useEffect(() => {
     // Skip animations during E2E tests
     if (window.navigator.webdriver) return;
 
-    // Animate content and picture together
+    // Animate content block, picture, and children
+    // Check for picRef as well
     if (contentRef.current && picRef.current) {
         const tl = gsap.timeline({
             delay: 0.5, // Delay slightly
             defaults: { duration: 0.8, ease: 'power3.out', opacity: 0 } // Default animation properties
         });
 
-        // Fade in picture and text content block
+        // Fade in picture and text content block together
         tl.fromTo([picRef.current, contentRef.current],
             { y: 30 },
             { y: 0, opacity: 1, stagger: 0.2 } // Stagger animation slightly
         );
 
-        // Optional: Animate elements within the content block if needed (might conflict with above)
-        // Animate Name, Tagline, and "About Me" paragraphs individually *after* the block fades in
-        const aboutMeRefs = [aboutMeRef1, aboutMeRef2, aboutMeRef3, aboutMeRef4, aboutMeRef5, aboutMeRef6];
-        if (nameRef.current && taglineRef.current && aboutMeRefs.every(ref => ref.current)) {
+        // Animate Name, Tagline, and "Welcome" paragraphs individually *after* the block/pic fades in
+        const welcomeRefs = [welcomeRef1, welcomeRef2, welcomeRef3, welcomeRef4];
+        if (nameRef.current && taglineRef.current && welcomeRefs.every(ref => ref.current)) {
             tl.fromTo(
-                [nameRef.current, taglineRef.current, ...aboutMeRefs.map(ref => ref.current)], // Animate all elements
+                [nameRef.current, taglineRef.current, ...welcomeRefs.map(ref => ref.current)], // Animate all elements
                 { y: 20, autoAlpha: 0 }, // Initial state
                 { // Final state
                   y: 0,
@@ -56,19 +55,20 @@ const LandingSection = ({ id }) => {
                     start: 'top 85%',
                   }
                 },
-                "-=0.5"
+                "-=0.5" // Start slightly earlier than the block fade-in finishes
             );
         } else {
-            console.warn("LandingSection: One or more name/tagline/aboutMe refs not found for animation.");
+            console.warn("LandingSection: One or more name/tagline/welcome refs not found for animation.");
         }
     }
   }, []);
 
   return (
+    // Keep section ID as 'about' for the landing/welcome section
     <section id={id} ref={sectionRef} className={styles.landingSection}>
-       {/* Flex container for picture and text */}
+       {/* Restore Flex container for picture and text */}
        <div className={styles.introContainer}>
-            {/* Profile Picture */}
+            {/* Restore Profile Picture Container */}
             <div ref={picRef} className={styles.profilePicContainer}>
                 <img
                     src={profilePic}
@@ -83,25 +83,20 @@ const LandingSection = ({ id }) => {
               <p ref={taglineRef} className={styles.tagline}>
                 Lifelong Tech Enthusiast | Architect of Digital Solutions
               </p>
-              {/* New "About Me" Content */}
-              <p ref={aboutMeRef1} className={styles.summary}>
-                My journey with technology began early – I grew up with a computer in the house for as long as I can remember, sparking a fascination that has never faded. From being an early adopter across the waves of PC, internet, mobile, and now AI advancements, I've always been driven to understand not just the surface, but the underlying systems – the infrastructure, the networks, the logic that makes it all connect. This fascination stems from a deep-seated curiosity (I was definitely the kid taking everything apart!), which today extends to tinkering in my homelab and exploring how complex systems are architected and administered.
+              {/* New "Welcome" Content */}
+              <p ref={welcomeRef1} className={styles.summary}>
+                Welcome! I'm a dedicated technologist with a deep passion for building, managing, and optimizing digital infrastructure. I'm actively seeking challenging roles in <strong>DevOps, MLOps, System Administration, or Technical Support Engineering</strong> where I can leverage my skills to create state-of-the-art solutions.
               </p>
-              <p ref={aboutMeRef2} className={styles.summary}>
-                That same drive fuels my passion for software engineering. I find genuine reward in untangling complex problems, architecting elegant solutions, and building intricate systems that function seamlessly – this interactive resume, served from my own setup and featuring a live terminal into its backend, is a small testament to that joy of creation. There's nothing quite like the satisfaction of making complex things work beautifully, from the code level right down to the infrastructure it runs on.
+              <p ref={welcomeRef2} className={styles.summary}>
+                This interactive resume is more than just a document – it's a demonstration of some of my technical skills. Feel free to explore the detailed sections below, or click the <strong>"Explore Solar System"</strong> button to view a distance-scaled 3D model of our solar system, built using React Three Fiber, showcasing interactive elements and 3D rendering techniques. Click on the planets & moons to reveal vital statistics and a fun fact or two. There is also an interactive terminal that simulates a Linux environment, where you can run various commands on the server host.
               </p>
-              <p ref={aboutMeRef3} className={styles.summary}>
-                My path wasn't strictly linear. While pursuing my business degree, I worked extensively through the temp agency Robert Half International, tackling over 50 different roles at more than 30 companies. This wasn't just about earning tuition; it was an invaluable opportunity to look "under the hood" of diverse businesses, seeing firsthand how different departments, roles (from production lines to tech support to financial analysis at places like CSC and Raytheon), and systems operated. That experience provided incredible insight into business mechanics and honed my ability to navigate complex organizational structures – skills that proved vital when I later ran my own small-to-mid-sized firms and led teams.
+              <p ref={welcomeRef3} className={styles.summary}>
+                Curious about the engine behind this site? It's deployed using a <strong>Jenkins CI/CD pipeline</strong> creating, managing & testing containerized microservices using <strong>Docker </strong>, running across both <strong>AWS</strong> cloud infrastructure and my personal <strong>homelab servers (Ubuntu & RHEL)</strong>. You can even peek at the live monitoring <strong>(Promethues/Grafana/Loki)</strong> via the <strong>"View DevOps Monitor"</strong> button.
               </p>
-              <p ref={aboutMeRef4} className={styles.summary}>
-                While that leadership background gives me a unique perspective, my core passion pulled me firmly back to the technical side. The deep satisfaction comes from the craft of building and understanding technology. It's why I've deliberately steered my career onto this technical road, focusing on where I can contribute most effectively and find the greatest challenge.
+              <p ref={welcomeRef4} className={styles.summary}>
+                Dive in to discover how my blend of technical expertise with infrastructure, frontend/backend development, system monitoring and troubleshooting can benefit your team.
               </p>
-              <p ref={aboutMeRef5} className={styles.summary}>
-                Now, I'm eager to channel my energy, problem-solving skills ("There is nothing I can't accomplish" is the mindset, fueled by passion!), and collaborative spirit into a team tackling meaningful, high-tech challenges, particularly those involving robust infrastructure and innovative systems. I'm looking to contribute technically, learn constantly, and grow alongside driven colleagues.
-              </p>
-              <p ref={aboutMeRef6} className={styles.summary}>
-                Outside of tech, I recharge through surfing, snowboarding, Tai Chi, and cooking (I make a mean steak!) – always exploring, always learning.
-              </p>
+              {/* Removed old "About Me" paragraphs */}
            </div>
        </div>
     </section>

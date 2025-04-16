@@ -14,7 +14,9 @@
 // Container for Pic + Text (Always stacked)
 .introContainer {
     @include mix.flex-center($direction: column); // Always column
-    gap: 0.5rem; // Reduced space between pic and text
+    gap: 1.5rem; // Match Briefing/History gap
+    padding-left: var.$section-padding-horizontal; // Add horizontal padding like Briefing/History
+    padding-right: var.$section-padding-horizontal;
     width: 90%;
     max-width: var.$max-content-width; // Center the container
     margin: 0 auto;
@@ -42,7 +44,7 @@
 }
 
 .contentWrapper {
-  text-align: center; // Always center text
+  text-align: left; // Align text to the left
   opacity: 0; // Restore initial hidden state
   transform: translateY(30px); // Restore initial hidden state
 }
@@ -51,6 +53,7 @@
   color: var.$color-accent1;
   margin-bottom: 0.5rem;
   @include mix.apply-glow(var.$color-accent1, 1);
+  text-align: center; // Center the name
   opacity: 0; // Restore initial hidden state
   transform: translateY(20px); // Restore initial hidden state
 }
@@ -62,6 +65,7 @@
   font-weight: 400;
   letter-spacing: 1px;
   @include mix.apply-glow(var.$color-accent2, 0.6);
+  text-align: center; // Center the tagline
    opacity: 0; // Restore initial hidden state
    transform: translateY(20px); // Restore initial hidden state
 }
@@ -70,10 +74,10 @@
   color: var.$color-text-medium;
   font-size: clamp(0.95rem, 2.5vw, 1.1rem);
   line-height: 1.6;
-  max-width: 600px; // Limit summary width
-  margin-left: auto; // Center summary text
-  margin-right: auto;
-   opacity: 0; // Restore initial hidden state
-   transform: translateY(20px); // Restore initial hidden state
+  max-width: 75ch; // Use character unit for better readability width, consistent with History
+  // Removed margin-left/right auto to allow left alignment within the wrapper
+  // Remove animation styles, handled by useEffect/GSAP
+  // opacity: 0;
+  // transform: translateY(20px);
    // No media query needed for margin changes
  }

@@ -21,6 +21,7 @@ import TerminalComponent from './components/Terminal/Terminal'; // Import the ne
 
 // Section Imports
 import LandingSection from './sections/LandingSection/LandingSection';
+import HistorySection from './sections/HistorySection/HistorySection'; // Import the new History section
 import SkillsSection from './sections/SkillsSection/SkillsSection';
 import ExperienceSection from './sections/ExperienceSection/ExperienceSection';
 import ProjectsCertsSection from './sections/ProjectsCertsSection/ProjectsCertsSection';
@@ -155,7 +156,8 @@ function App() {
 
             {/* Navigation Links (conditionally styled/classed for mobile) */}
             <nav className={`main-nav ${isMobileMenuOpen ? 'mobile-menu-open' : ''}`}>
-                <a href="#about" onClick={handleMenuClick}>About</a>
+                <a href="#about" onClick={handleMenuClick}>About</a> {/* Landing section is still 'about' */}
+                <a href="#history" onClick={handleMenuClick}>History</a> {/* Add History link */}
                 <a href="#briefing" onClick={handleMenuClick}>Briefing</a>
                 <a href="#skills" onClick={handleMenuClick}>Skills</a>
                 <a href="#expertise" onClick={handleMenuClick}>Expertise</a>
@@ -207,7 +209,8 @@ function App() {
         </div>
 
         <main ref={mainRef} className={`main-content ${showResume ? 'visible' : 'hidden'}`}> {/* Apply visibility class */}
-            <LandingSection id="about" />
+            <LandingSection id="about" /> {/* Keep LandingSection with id="about" */}
+            <HistorySection id="history" /> {/* Add HistorySection */}
             <BriefingSection id="briefing" />
             <SkillsSection id="skills" />
             <TechExpertiseSection id="expertise" />

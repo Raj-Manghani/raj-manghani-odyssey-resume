@@ -5,28 +5,36 @@
 // Style the outer section container (similar to global section, but maybe without background/border if content has it)
 .briefingSection {
   width: 100%;
-  padding-top: var.$section-padding-vertical; // Use explicit vertical padding
+  padding-top: var.$section-padding-vertical; // Keep vertical padding
   padding-bottom: var.$section-padding-vertical;
-  margin-bottom: var.$section-padding-vertical; // Keep space below
-  text-align: center;
-  position: relative; // Keep for potential absolute children if needed later
-  overflow: hidden; // Keep for potential overflow
+  // margin-bottom will be inherited from global section style (3rem)
+  // text-align: center; // Remove text-align center from outer container
+  position: relative;
+  overflow: hidden;
 }
 
 .title {
-  // Define basic title styles directly:
-  color: var.$color-accent2;
-  margin-bottom: 2rem;
-  font-size: clamp(1.8rem, 5vw, 2.5rem);
-  @include mix.apply-glow(var.$color-accent2, 0.7);
-  // Ensure opacity/transform are NOT set here
+  // Match LandingSection .name styles
+  color: var.$color-accent1; // Use cyan color
+  margin-bottom: 1.5rem; // Use standard h2 margin-bottom from global.scss
+  font-size: clamp(1.8rem, 5vw, 2.8rem); // Match h2 font size
+  @include mix.apply-glow(var.$color-accent1, 0.7); // Use standard h2 glow from global.scss
+  text-align: center; // Center the title within the contentWrapper
+  // Ensure opacity/transform are NOT set here for animation consistency
 }
 
-// Apply padding and max-width constraints to the inner wrapper
+// Apply padding and max-width constraints to the inner wrapper, matching Landing/History
 .contentWrapper {
-  @include mix.section-padding; // Apply padding, width, max-width, margin:auto HERE
-  @include mix.flex-center($direction: column);
+  // @include mix.section-padding; // Remove mixin if overriding
+  padding-left: var.$section-padding-horizontal; // Apply horizontal padding
+  padding-right: var.$section-padding-horizontal;
+  width: 90%; // Match introContainer width
+  max-width: var.$max-content-width; // Match introContainer max-width
+  margin-left: auto; // Center the wrapper
+  margin-right: auto;
+  @include mix.flex-center($direction: column); // Keep flex centering for items inside
   gap: 1.5rem;
+  text-align: left; // Ensure content within wrapper is left-aligned
 }
 
 // Re-use summary style for consistency
@@ -34,10 +42,10 @@
   color: var.$color-text-medium;
   font-size: clamp(0.95rem, 2.5vw, 1.1rem);
   line-height: 1.6;
-  max-width: 600px; // Limit paragraph width
-  margin-left: auto;
-  margin-right: auto;
-  text-align: left; // Align text left within the centered wrapper
+  max-width: 75ch; // Use consistent character unit width
+  // margin-left: auto; // Remove auto margins from paragraph itself
+  // margin-right: auto;
+  text-align: left; // Keep left alignment
   // Ensure opacity/transform are NOT set here
 
   strong {
