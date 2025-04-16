@@ -162,6 +162,53 @@ This section details deploying the application using the **main `docker-compose.
 
 **(Optional: Security Hardening instructions remain the same)**
 
+## Deployment with Pre-Built Images (Production - docker-compose.prod.yml)
+
+This method uses the `docker-compose.prod.yml` file and is intended for deploying the application using **pre-built Docker images** that have already been pushed to a container registry (like Docker Hub). This is typically used in conjunction with a CI/CD pipeline (like the Jenkins setup described below) which handles the image building and pushing, or for manual deployments after images are available in the registry.
+
+**Prerequisites:**
+
+*   A server with Docker and Docker Compose installed.
+*   The required Docker images (frontend and backend) already exist in your container registry.
+*   The necessary environment variables are set on the deployment server:
+    *   `REGISTRY_URL`: The URL of your container registry (e.g., `docker.io/yourusername`). Defaults to `docker.io/rajmanghani` if not set.
+    *   `FRONTEND_IMAGE_NAME`: Name of the frontend image. Defaults to `raj-manghani-odyssey-frontend` if not set.
+    *   `BACKEND_IMAGE_NAME`: Name of the backend image. Defaults to `raj-manghani-odyssey-backend` if not set.
+    *   `FRONTEND_IMAGE_TAG`: The specific tag for the frontend image to deploy (e.g., `latest` or a commit hash like `a1b2c3d`). Defaults to `latest` if not set.
+    *   `BACKEND_IMAGE_TAG`: The specific tag for the backend image to deploy. Defaults to `latest` if not set.
+*   **Initial HTTPS Setup Completed:** The steps described in the previous section ("Deployment with HTTPS (Docker Compose & Let's Encrypt)") for obtaining the *initial* SSL certificates using `docker-compose run --rm certbot ...` must have been completed successfully on this server at least once. This ensures:
+    *   The necessary Certbot volumes (`certbot_certs`, `certbot_webroot`) exist and contain valid certificates.
+    *   Ports 80 and 443 are open.
+    *   A domain/subdomain is pointing to the server IP.
+    *   `proxy/nginx.conf` is correctly configured for your domain and points to the certificate paths within the container (`/etc/letsencrypt/...`).
+
+**Steps:**
+
+1.  **Prepare Environment:**
+    *   Clone the repository or ensure the necessary files (`docker-compose.prod.yml`, `proxy/nginx.conf`) are on the server.
+    *   Ensure the required environment variables listed above are set in your server's environment (e.g., via an `.env` file sourced by the system, or exported manually). If not set, the defaults specified in the compose file will be used.
+    *   Verify the Certbot volumes exist. The `docker-compose.prod.yml` file expects these volumes to be named `raj-manghani-odyssey-resume_certbot_certs` and `app_certbot_webroot` respectively (adjust the `external.name` in the compose file if your volume names differ).
+    *   Verify `proxy/nginx.conf` is correctly configured.
+
+2.  **Start Services:**
+    ```bash
+    # Ensure environment variables are set first if you want to override defaults!
+    # Make sure you are in the directory containing docker-compose.prod.yml
+    sudo docker compose -f docker-compose.prod.yml up -d
+    ```
+    *   This command will pull the specified image tags (or defaults) from the registry and start the frontend, backend, proxy, and certbot containers using the existing certificate volumes.
+
+3.  **Verify:**
+    *   Check container status: `sudo docker ps -a`.
+    *   Access your site via HTTPS (`https://your.domain.com`) and verify functionality.
+
+4.  **Stopping:**
+    ```bash
+    sudo docker compose -f docker-compose.prod.yml down
+    ```
+
+**(Note:** This deployment method relies on the **initial certificate generation and volume creation** performed using the steps outlined in the "Deployment with HTTPS (Docker Compose & Let's Encrypt)" section, which uses `docker-compose.yml` temporarily for the `docker-compose run certbot` command. The `certbot` service in `docker-compose.prod.yml` primarily handles *renewals* using the certificates in the existing volumes.)
+
 ---
 
 ## CI/CD Pipeline Setup (Jenkins)
