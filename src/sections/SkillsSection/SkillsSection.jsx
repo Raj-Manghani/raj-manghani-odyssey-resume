@@ -39,7 +39,7 @@ const skillCategories = [
       { name: 'VMware vSphere', level: 5 },
       { name: 'Proxmox', level: 5 },
       { name: 'Apache/NGINX', level: 5 },
-      { name: 'Quickbase CRM', level: 5 },
+      { name: 'SQL/CRM Mngmt', level: 5 },
       { name: 'Wordpress', level: 5 },
       { name: 'Kubernetes', level: 4 },
       { name: 'Windows Server 20XX', level: 4 }, 

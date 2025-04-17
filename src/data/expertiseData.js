@@ -36,7 +36,11 @@ export const expertiseAreas = [
     description: 'Experienced in managing hardware and virtual infrastructure, provisioning/managing CICD pipelines, troubleshooting CICD/tests, and utilizing CICD tools such as Jenkins, Git, and GitHub Actions. Skilled in deploying various code tests, ensuring streamlined deployment processes and secured system performance.'
   },
   {
+    title: 'SQL Management',
+    description: 'Proficient in creating, managing, and optimizing SQL databases, with experience utilizing Quickbase CRM to generate detailed reports by combining and analyzing data across Customer, Payments, and Interactions tables, while delivering actionable insights and streamlining workflows to support efficient, data-driven decision-making.'
+  },
+  {
     title: 'Team Building',
     description: 'Has built and led teams that excel at problem-solving and task delegation. Provides leadership to achieve both small and large-scale objectives. Creates a collaborative environment where every voice is heard, fostering teamwork and shared success.'
   },
-]; 
+];
