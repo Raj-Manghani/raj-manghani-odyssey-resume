@@ -8,7 +8,6 @@ export const certsAndTraining = [
 
 export const personalProjects = [
     { name: 'Personal Website/Articles', url: 'https://wiredcolony.com', description: 'Blog and technical articles.' },
-    { name: 'Ollama AI Deployment', url: 'https://wcai.wiredcolony.com', description: 'Demonstration of local AI deployment.' },
     { name: 'Github Projects', url: 'https://github.com/Raj-Manghani', description: 'Collection of personal coding projects.' }
 ];
 

@@ -28,8 +28,8 @@ export const expertiseAreas = [
     description: 'Proficient in BIOS, troubleshooting, repairing, and assembling computer hardware, including diagnosing and resolving component-level issues to optimize system performance.'
   },
   {
-    title: 'AI Systems',
-    description: 'Hands-on experience deploying AI models and improving their performance using advanced techniques like Retrieval-Augmented Generation (RAG). Expert at leveraging end-user AI to enhance productivity and efficiency.'
+    title: 'Artificial Intelligence',
+    description: 'Hands-on experience deploying AI models and improving their performance using advanced techniques like Retrieval-Augmented Generation (RAG). Expert at leveraging end-user AI (Copilot & Google Gemini) to enhance productivity and efficiency.'
   },
   {
     title: 'DevOps',

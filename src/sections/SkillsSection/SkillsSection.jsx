@@ -13,7 +13,7 @@ const skillCategories = [
       { name: 'Vibe Coding', level: 5 },
       { name: 'VSCode', level: 5 },
       { name: 'Cline', level: 5 },
-      { name: 'Openrouter', level: 5 },
+      { name: 'Copilot', level: 5 },
       { name: 'Gemini Suite', level: 5 },
       { name: 'Roo', level: 5 },
       { name: 'Jenkins', level: 5 },
