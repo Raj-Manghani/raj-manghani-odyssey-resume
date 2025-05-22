@@ -7,14 +7,13 @@ pipeline {
         // Define environment variables for the pipeline
         // PATH modification no longer needed here
         REGISTRY_CREDENTIALS_ID = 'dockerhub-credentials' // Jenkins Credential ID for Docker Hub
-        REGISTRY_URL            = 'docker.io/rajmanghani' // Your Docker Hub username/namespace
+        REGISTRY_URL            = 'docker.io/rajmanghani' // Your Docker Hub path
         FRONTEND_IMAGE_NAME     = 'raj-manghani-odyssey-frontend'
         BACKEND_IMAGE_NAME      = 'raj-manghani-odyssey-backend'
-        AWS_SSH_CREDENTIALS_ID  = 'aws-server-ssh' // Jenkins Credential ID for AWS SSH Key
-        // AWS_SERVER_IP           = '54.189.185.118' // IP will be sourced from Jenkins Global Env Var now
+        AWS_SSH_CREDENTIALS_ID  = 'aws-server-ssh' // Jenkins Credential
         AWS_SERVER_IP           = "${env.AWS_SERVER_IP_GLOBAL}" // Use Jenkins Global Environment Variable
-        AWS_DEPLOY_USER         = 'ubuntu' // Changed from bitnami
-        AWS_APP_DIR             = '/home/ubuntu/app' // Assumed deployment directory on AWS
+        AWS_DEPLOY_USER         = 'ubuntu' // Example user name for deployment server
+        AWS_APP_DIR             = '/home/ubuntu/app' // Deployment directory
     }
 
     options {
