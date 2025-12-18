@@ -34,6 +34,8 @@ import './Header.scss'; // Import new SCSS file for header/menu styles
 
 gsap.registerPlugin(ScrollTrigger);
 
+const APP_VERSION = '1.00.2';
+
 // --- Main App Component ---
 function App() {
   const [showResume, setShowResume] = useState(true);
@@ -165,6 +167,9 @@ function App() {
                 <a href="#projects" onClick={handleMenuClick}>Projects</a>
                 <a href="#contact" onClick={handleMenuClick}>Contact</a>
             </nav>
+            <div className="version-badge" aria-label={`Application version ${APP_VERSION}`}>
+                Version {APP_VERSION}
+            </div>
             {/* DevOps Monitor Button */}
         </header>
 

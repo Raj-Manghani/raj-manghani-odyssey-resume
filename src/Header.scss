@@ -44,6 +44,22 @@
   }
 }
 
+.version-badge {
+  position: absolute;
+  right: 2rem;
+  top: 0.75rem;
+  font-family: var.$font-heading;
+  font-size: 0.75rem;
+  color: var.$color-text-light;
+  background: rgba(var.$color-background, 0.85);
+  padding: 0.25rem 0.75rem;
+  border: 1px solid rgba(var.$color-accent1, 0.3);
+  border-radius: 999px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  z-index: 52;
+}
+
 // --- Hamburger Button Styles ---
 .hamburger-button {
   display: none; // Hidden by default on desktop
@@ -72,6 +88,12 @@
 @media (max-width: 768px) {
   .app-header {
     justify-content: flex-start; // Align hamburger to the left
+  }
+
+  .version-badge {
+    right: 1rem;
+    top: 0.5rem;
+    font-size: 0.7rem;
   }
 
   // Increase header z-index ONLY when mobile menu is open
