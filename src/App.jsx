@@ -34,7 +34,7 @@ import './Header.scss'; // Import new SCSS file for header/menu styles
 
 gsap.registerPlugin(ScrollTrigger);
 
-const APP_VERSION = '1.00.2';
+const APP_VERSION = '1.00.3';
 
 // --- Main App Component ---
 function App() {
@@ -85,7 +85,7 @@ function App() {
   // DevOps Monitor Button Click Handler
   const handleDevOpsClick = () => {
     alert("Opening Grafana monitor in a new tab.\nDefault credentials: user / user");
-    window.open('/grafana/', '_blank', 'noopener,noreferrer'); // Open in new tab securely
+    window.open('https://grafana.devbyraj.com/', '_blank', 'noopener,noreferrer'); // Open in new tab securely
   };
 
   // Toggle Mobile Menu
